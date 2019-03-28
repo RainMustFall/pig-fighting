@@ -4,10 +4,6 @@
 #include <QMainWindow>
 #include "gameobject.h"
 
-namespace Ui {
-class MainWindow;
-}
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
