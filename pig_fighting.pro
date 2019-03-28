@@ -27,11 +27,15 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    gameobject.cpp
+    gameobject.cpp \
+    ground.cpp \
+    person.cpp
 
 HEADERS += \
         mainwindow.h \
-    gameobject.h
+    gameobject.h \
+    ground.h \
+    person.h
 
 FORMS += \
         mainwindow.ui

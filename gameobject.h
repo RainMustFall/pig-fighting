@@ -23,15 +23,12 @@ public:
     // Конструктор
     GameObject(int x, int y, int width, int height);
     void Draw(QPainter& painter) const;
-    void UpdatePosition();
     // Геттеры (вдруг пригодятся)
     int Width() const;
     int Height() const;
     int xPos() const;
     int yPos() const;
 
-    // Проверка на столкновение с другим объектом
-    bool Hits(const GameObject& obj) const;
 protected:
     Point position_;
     BoundingBox bBox_;
