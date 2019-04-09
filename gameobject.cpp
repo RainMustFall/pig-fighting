@@ -4,7 +4,8 @@
 GameObject::GameObject(int x, int y, int height, int width)
     : position_{x, y},
       moveVector_{0, 0},
-      bBox_{height, width}
+      bBox_{height, width},
+      is_moving_{0}
 
 {
     qDebug() << "MAIN CONSTRUCTOR!";

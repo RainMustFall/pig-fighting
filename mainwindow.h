@@ -18,7 +18,7 @@ public:
 
 private:
     GameObject player = {0, 0, 50, 20};
-    std::vector<GameObject>ground = {{0, 200, 50, 500}, {600, 300, 50, 500}};
+    std::vector<GameObject>ground = {{0, 200, 50, 500}, {600, 300, 50, 500}, {0, 530, 100, 980}, {965, 0, 550, 0}};
 };
 
 #endif // MAINWINDOW_H
