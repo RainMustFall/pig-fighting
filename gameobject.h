@@ -29,10 +29,16 @@ public:
     int xPos() const;
     int yPos() const;
 
+    bool Hits(const GameObject& obj) const;
+    void UpdatePosition();
 protected:
     Point position_;
     BoundingBox bBox_;
-
+    bool is_moving_ = 0; //кажется, что-то такое нужно чтобы запрещать прыжки в падении
+                         // заодно, можно с помощью такой штуки каждый тик таймера
+                         // обновлять полет запущенной свинюшки. то есть, после ее броска мы ставим
+                         // этот флажок в 1, придаем константную скорость и забываем про ее движение.
+    bool force_move_;
     Point moveVector_;
 };
 
