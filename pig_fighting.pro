@@ -30,13 +30,16 @@ SOURCES += \
         mainwindow.cpp \
     gameobject.cpp \
     ground.cpp \
-    person.cpp
+    person.cpp \
+    movingobject.cpp
 
 HEADERS += \
         mainwindow.h \
     gameobject.h \
     ground.h \
-    person.h
+    person.h \
+    constants.h \
+    movingobject.h
 
 FORMS += \
         mainwindow.ui

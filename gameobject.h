@@ -4,8 +4,8 @@
 #include <QMouseEvent>
 
 struct Point {
-    int x;
-    int y;
+    double x;
+    double y;
 };
 
 struct BoundingBox {
@@ -22,7 +22,7 @@ public:
 
     // Конструктор
     GameObject(int x, int y, int width, int height);
-    void Draw(QPainter& painter) const;
+    virtual void Draw(QPainter& painter) const;
     // Геттеры (вдруг пригодятся)
     int Width() const;
     int Height() const;
@@ -34,12 +34,6 @@ public:
 protected:
     Point position_;
     BoundingBox bBox_;
-    bool is_moving_ = 0; //кажется, что-то такое нужно чтобы запрещать прыжки в падении
-                         // заодно, можно с помощью такой штуки каждый тик таймера
-                         // обновлять полет запущенной свинюшки. то есть, после ее броска мы ставим
-                         // этот флажок в 1, придаем константную скорость и забываем про ее движение.
-    bool force_move_;
-    Point moveVector_;
 };
 
 #endif // GAMEOBJECT_H

@@ -11,29 +11,20 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
-    bool hits = false;
-    for (auto& item:ground) {
-        if (player.Hits(item)) {
-            player.position_.y = item.yPos() - player.Height();
-            hits = true;
-            break;
-        }
+    player.ProcessKeyboard();
+    player.current_platform = player.HitsGround(ground);
+
+    if (player.current_platform != nullptr) {
+        player.moveVector_.y = std::min(0.0, player.moveVector_.y);
+    } else {
+        player.moveVector_.y += kGravitation;
     }
-    if ((hits) && (!player.force_move_)) {      // второй проверкой я пытаюсь понять, не была ли нажата кнопка s и не надо ли спускаться вниз
-        player.moveVector_.y = std::min(0, player.moveVector_.y);
-    } else if (!player.force_move_) {
-        player.moveVector_.y ++;
-    }
-    player.UpdatePosition();
-    if (player.force_move_) {
-        player.force_move_ = 0;
-        player.moveVector_.y = 0;
-    }
+
     repaint();
+    player.UpdatePosition();
 }
 
 void MainWindow::paintEvent(QPaintEvent *) {
-    //qDebug() << "HERE3";
     QPainter p;
     p.begin(this);
     player.Draw(p);
@@ -45,39 +36,42 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     switch(event->key()) {
-    case Qt::Key_A: player.moveVector_.x = -5; break;
-    case Qt::Key_D: player.moveVector_.x = 5; break;
-    case Qt::Key_W:
-        for (auto& item:ground) {
-            if (player.Hits(item)) {
-                player.moveVector_.y = -20;
-            }
-        }
+    case Qt::Key_A:
+        player.Left_pressed = true;
         break;
-    case Qt::Key_S: {
-        bool hits = false;
-        for (auto& item:ground) {
-            if (player.Hits(item)) {
-                player.position_.y = item.yPos() - player.Height();
-                hits = true;
-                break;
-            }
-        }
-        if (hits) {
-            player.moveVector_.y = 102; player.force_move_ = 1;
+    case Qt::Key_D:
+        player.Right_pressed = true;
+        break;
+    case Qt::Key_W:
+        player.Up_pressed = true;
+        break;
+    case Qt::Key_S:
+        player.Down_pressed = true;
+
+        if (player.current_platform != nullptr) {
+            player.ignored_platform = player.current_platform;
         } else {
             player.moveVector_.y += 10;
         }
-        break;}
-    default: return;
+
+        break;
     }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     switch(event->key()) {
-    case Qt::Key_A: player.moveVector_.x = 0; break;
-    case Qt::Key_D: player.moveVector_.x = 0; break;
-    default: return;
+    case Qt::Key_A:
+        player.Left_pressed = false;
+        break;
+    case Qt::Key_D:
+        player.Right_pressed = false;
+        break;
+    case Qt::Key_W:
+        player.Up_pressed = false;
+        break;
+    case Qt::Key_S:
+        player.Down_pressed = false;
+        break;
     }
 }
 
