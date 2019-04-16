@@ -1,3 +1,4 @@
+
 #-------------------------------------------------
 #
 # Project created by QtCreator 2019-03-19T18:17:53
@@ -27,17 +28,23 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    gameobject.cpp
+    gameobject.cpp \
+    ground.cpp \
+    person.cpp \
+    movingobject.cpp
 
 HEADERS += \
         mainwindow.h \
-    gameobject.h
+    gameobject.h \
+    ground.h \
+    person.h \
+    constants.h \
+    movingobject.h
 
+FORMS += \
+        mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-FORMS += \
-    mainwindow.ui

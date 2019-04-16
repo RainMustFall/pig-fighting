@@ -4,8 +4,8 @@
 #include <QMouseEvent>
 
 struct Point {
-    int x;
-    int y;
+    double x;
+    double y;
 };
 
 struct BoundingBox {
@@ -22,21 +22,18 @@ public:
 
     // Конструктор
     GameObject(int x, int y, int width, int height);
-    void Draw(QPainter& painter) const;
-    void UpdatePosition();
+    virtual void Draw(QPainter& painter) const;
     // Геттеры (вдруг пригодятся)
     int Width() const;
     int Height() const;
     int xPos() const;
     int yPos() const;
 
-    // Проверка на столкновение с другим объектом
     bool Hits(const GameObject& obj) const;
+    void UpdatePosition();
 protected:
     Point position_;
     BoundingBox bBox_;
-
-    Point moveVector_;
 };
 
 #endif // GAMEOBJECT_H
