@@ -11,5 +11,6 @@ const double kSpeed = 0.5;
 const double kGravitation = 0.4;
 const double kSpeedLimit = 5;
 const double kSpeedReduce = 0.25;
+const double kShotSpeed = 5.5;
 
 #endif // CONSTANTS_H

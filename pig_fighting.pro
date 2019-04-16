@@ -31,7 +31,9 @@ SOURCES += \
     gameobject.cpp \
     ground.cpp \
     person.cpp \
-    movingobject.cpp
+    movingobject.cpp \
+    freepig.cpp \
+    shotpig.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +41,9 @@ HEADERS += \
     ground.h \
     person.h \
     constants.h \
-    movingobject.h
+    movingobject.h \
+    freepig.h \
+    shotpig.h
 
 FORMS += \
         mainwindow.ui

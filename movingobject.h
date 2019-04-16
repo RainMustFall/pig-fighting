@@ -13,6 +13,8 @@ public:
     // Перемещает объект в зависимости от вектора его движения
     void UpdatePosition();
 
+    virtual void ApplyPhysics();
+
     // Для определения, с какой именно стороны объект
     // коснулся земли
     enum class HitType {
@@ -33,6 +35,7 @@ public:
     // стабилизирует его положение. Если ещё и касается сверху,
     // возвращает указатель на платформу, иначе nullptr
     const Ground* HitsGround(const std::vector<Ground>& ground);
+    //virtual bool Hits(const GameObject& obj) const;
 protected:
     // Флажок, показывающий, с какой стороны мы врезались
     // последний раз.

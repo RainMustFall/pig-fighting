@@ -1,5 +1,7 @@
 #include "person.h"
 #include "constants.h"
+#include "freepig.h"
+#include "mainwindow.h"
 #include <QDebug>
 
 Person::Person(int x, int y, int height, int width)
@@ -38,4 +40,14 @@ void Person::ProcessKeyboard() {
             moveVector_.y = kJumpPower;
         }
     }
+}
+
+void Person::CatchPig(FreePig &pig) {
+    armed_ = 1;
+    qDebug() << "got it!";
+}
+
+std::vector<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {
+    //
+    return w.free_pigs.begin();
 }

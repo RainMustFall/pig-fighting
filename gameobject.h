@@ -29,7 +29,7 @@ public:
     int xPos() const;
     int yPos() const;
 
-    bool Hits(const GameObject& obj) const;
+    virtual bool Hits(const GameObject& obj) const;
     void UpdatePosition();
 protected:
     Point position_;

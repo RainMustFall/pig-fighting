@@ -1,4 +1,5 @@
 #include "movingobject.h"
+#include "constants.h"
 #include <QDebug>
 
 MovingObject::MovingObject(int x, int y, int width, int height)
@@ -7,6 +8,14 @@ MovingObject::MovingObject(int x, int y, int width, int height)
 void MovingObject::UpdatePosition() {
     position_.x += moveVector_.x;
     position_.y += moveVector_.y;
+}
+
+void MovingObject::ApplyPhysics() {
+    if (current_platform != nullptr) {
+        moveVector_.y = std::min(0.0, moveVector_.y);
+    } else {
+        moveVector_.y += kGravitation;
+    }
 }
 
 void MovingObject::StabilizePosition(const Ground& ground) {
@@ -74,11 +83,11 @@ const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
 
 // Лучше это не трогать и не вникать...
 MovingObject::HitType MovingObject::CheckHitType(const Ground& ground) {
-    if (fabs(moveVector_.y) < 1e-5) {
+    if (abs(moveVector_.y) < 1e-5) {
         return HitType::UP;
     }
 
-    if (fabs(moveVector_.x) < 1e-5) {
+    if (abs(moveVector_.x) < 1e-5) {
         if (moveVector_.y < 0) {
             return HitType::DOWN;
         } else {

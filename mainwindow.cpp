@@ -13,13 +13,15 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::timerEvent(QTimerEvent *) {
     player.ProcessKeyboard();
     player.current_platform = player.HitsGround(ground);
-
-    if (player.current_platform != nullptr) {
-        player.moveVector_.y = std::min(0.0, player.moveVector_.y);
-    } else {
-        player.moveVector_.y += kGravitation;
+    player.ApplyPhysics();
+    for (FreePig& pig : free_pigs) {
+        pig.current_platform = pig.HitsGround(ground);
+        pig.ApplyPhysics();
+        pig.UpdatePosition();
     }
-
+    for (ShotPig& pig : flying_pigs) {
+        pig.UpdatePosition();
+    }
     repaint();
     player.UpdatePosition();
 }
@@ -29,6 +31,12 @@ void MainWindow::paintEvent(QPaintEvent *) {
     p.begin(this);
     player.Draw(p);
     for (auto& item:ground) {
+        item.Draw(p);
+    }
+    for (FreePig& item: free_pigs) {
+        item.Draw(p);
+    }
+    for (ShotPig& item: flying_pigs) {
         item.Draw(p);
     }
     p.end();
@@ -53,8 +61,26 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         } else {
             player.moveVector_.y += 10;
         }
-
         break;
+    case Qt::Key_C:
+        {
+        auto piggo = player.FindClosestFreePig(*this);
+        player.CatchPig(*piggo);
+        free_pigs.erase(piggo);
+        break;
+    }
+    case Qt::Key_Q :
+    {
+        ShotPig pig1(player.position_.x - 20, player.position_.y + 20, -1);
+        flying_pigs.push_back(pig1);
+        break;
+    }
+    case Qt::Key_E:
+    {
+        ShotPig pig2(player.position_.x + 20, player.position_.y + 20, 1);
+        flying_pigs.push_back(pig2);
+        break;
+    }
     }
 }
 
@@ -74,6 +100,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
         break;
     }
 }
+
 
 MainWindow::~MainWindow()
 {
