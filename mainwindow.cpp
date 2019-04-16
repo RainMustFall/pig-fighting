@@ -19,8 +19,11 @@ void MainWindow::timerEvent(QTimerEvent *) {
         pig.ApplyPhysics();
         pig.UpdatePosition();
     }
-    for (ShotPig& pig : flying_pigs) {
-        pig.UpdatePosition();
+    for (int i = 0; i < flying_pigs.size(); i++) {
+        flying_pigs[i].UpdatePosition();
+        if ((flying_pigs[i].position_.x > 1000) || (flying_pigs[i].position_.x < 0)) {
+            flying_pigs.erase(flying_pigs.begin() + i);
+        }
     }
     repaint();
     player.UpdatePosition();
@@ -70,15 +73,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         break;
     }
     case Qt::Key_Q :
-    {
+        if (player.armed_) {
         ShotPig pig1(player.position_.x - 20, player.position_.y + 20, -1);
         flying_pigs.push_back(pig1);
+        player.armed_ = 0;
         break;
     }
     case Qt::Key_E:
-    {
+        if (player.armed_) {
         ShotPig pig2(player.position_.x + 20, player.position_.y + 20, 1);
         flying_pigs.push_back(pig2);
+        player.armed_ = 0;
         break;
     }
     }
