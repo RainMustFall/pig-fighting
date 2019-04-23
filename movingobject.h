@@ -23,7 +23,10 @@ public:
         LEFT,
         RIGHT
     };
-
+    enum class Side {
+        LEFT,
+        RIGHT
+    };
     // Непосредственно определяет, с какой именно
     // стороны объект коснулся платформы
     HitType CheckHitType(const Ground& ground);
@@ -37,11 +40,16 @@ public:
     const Ground* HitsGround(const std::vector<Ground>& ground);
     //virtual bool Hits(const GameObject& obj) const;
 protected:
+    double GetMoveVectorX() const;
+
     // Флажок, показывающий, с какой стороны мы врезались
     // последний раз.
     HitType last_hit;
 
+    Side current_side = Side::LEFT;
+
     Point moveVector_ = {0, 0};
+
 
     // Суть в том, что какую-то платформу мы временно
     // игнорируем и столкновения с ней не учитываем.

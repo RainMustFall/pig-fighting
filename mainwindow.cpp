@@ -11,28 +11,33 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
-    player.ProcessKeyboard();
-    player.current_platform = player.HitsGround(ground);
-    player.ApplyPhysics();
-    for (FreePig& pig : free_pigs) {
-        pig.current_platform = pig.HitsGround(ground);
-        pig.ApplyPhysics();
-        pig.UpdatePosition();
+    for (Person& player : players) {
+        player.ProcessKeyboard();
+        player.current_platform = player.HitsGround(ground);
+        player.ApplyPhysics();
     }
-    for (int i = 0; i < flying_pigs.size(); i++) {
-        flying_pigs[i].UpdatePosition();
-        if ((flying_pigs[i].position_.x > 1000) || (flying_pigs[i].position_.x < 0)) {
-            flying_pigs.erase(flying_pigs.begin() + i);
+        for (FreePig& pig : free_pigs) {
+            pig.current_platform = pig.HitsGround(ground);
+            pig.ApplyPhysics();
+            pig.UpdatePosition();
         }
+        for (int i = 0; i < flying_pigs.size(); i++) {
+            flying_pigs[i].UpdatePosition();
+            if ((flying_pigs[i].position_.x > 1000) || (flying_pigs[i].position_.x < 0)) {
+                flying_pigs.erase(flying_pigs.begin() + i);
+            }
+        }
+        repaint();
+        for (Person& player : players) {
+            player.UpdatePosition();
     }
-    repaint();
-    player.UpdatePosition();
 }
-
 void MainWindow::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
-    player.Draw(p);
+    for (Person& player : players) {
+        player.Draw(p);
+    }
     for (auto& item:ground) {
         item.Draw(p);
     }
@@ -48,60 +53,100 @@ void MainWindow::paintEvent(QPaintEvent *) {
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     switch(event->key()) {
     case Qt::Key_A:
-        player.Left_pressed = true;
+        players[0].Left_pressed = true;
         break;
     case Qt::Key_D:
-        player.Right_pressed = true;
+        players[0].Right_pressed = true;
         break;
     case Qt::Key_W:
-        player.Up_pressed = true;
+        players[0].Up_pressed = true;
         break;
     case Qt::Key_S:
-        player.Down_pressed = true;
-
-        if (player.current_platform != nullptr) {
-            player.ignored_platform = player.current_platform;
+        players[0].Down_pressed = true;
+        if (players[0].current_platform != nullptr) {
+            players[0].ignored_platform = players[0].current_platform;
         } else {
-            player.moveVector_.y += 10;
+            players[0].moveVector_.y += 10;
         }
         break;
-    case Qt::Key_C:
-        {
-        auto piggo = player.FindClosestFreePig(*this);
-        player.CatchPig(*piggo);
-        free_pigs.erase(piggo);
+//    case Qt::Key_Space :
+//        if (players[0].armed_) {
+//            if (players[0].current_side == MovingObject::Side::LEFT){
+//                ShotPig pig(players[0].position_.x - 20, players[0].position_.y + 20, -1);
+//                flying_pigs.push_back(pig);
+//            } else {
+//                ShotPig pig(players[0].position_.x + 20, players[0].position_.y + 20, 1);
+//                flying_pigs.push_back(pig);
+//            }
+//            players[0].armed_ = 0;
+//        } else {
+//            auto piggo = players[0].FindClosestFreePig(*this);
+//            players[0].CatchPig(*piggo);
+//            free_pigs.erase(piggo);
+//         }
+//        break;
+    case Qt::Key_Left:
+        players[1].Left_pressed = true;
         break;
-    }
-    case Qt::Key_Q :
-        if (player.armed_) {
-        ShotPig pig1(player.position_.x - 20, player.position_.y + 20, -1);
-        flying_pigs.push_back(pig1);
-        player.armed_ = 0;
+    case Qt::Key_Right:
+        players[1].Right_pressed = true;
         break;
-    }
-    case Qt::Key_E:
-        if (player.armed_) {
-        ShotPig pig2(player.position_.x + 20, player.position_.y + 20, 1);
-        flying_pigs.push_back(pig2);
-        player.armed_ = 0;
+    case Qt::Key_Up:
+        players[1].Up_pressed = true;
         break;
-    }
+    case Qt::Key_Down:
+        players[1].Down_pressed = true;
+        if (players[1].current_platform != nullptr) {
+            players[1].ignored_platform = players[1].current_platform;
+        } else {
+            players[1].moveVector_.y += 10;
+        }
+        break;
+    case Qt::Key_Shift:
+        qDebug() << "Shift!";
+        if (players[1].armed_) {
+            if (players[1].current_side == MovingObject::Side::LEFT){
+                ShotPig pig(players[1].position_.x - 20, players[1].position_.y + 20, -1);
+                flying_pigs.push_back(pig);
+            } else {
+                ShotPig pig(players[1].position_.x + 20, players[1].position_.y + 20, 1);
+                flying_pigs.push_back(pig);
+            }
+            players[1].armed_ = 0;
+        } else {
+            auto piggo = players[1].FindClosestFreePig(*this);
+            players[1].CatchPig(*piggo);
+            free_pigs.erase(piggo);
+         }
+        break;
     }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     switch(event->key()) {
     case Qt::Key_A:
-        player.Left_pressed = false;
+        players[0].Left_pressed = false;
         break;
     case Qt::Key_D:
-        player.Right_pressed = false;
+        players[0].Right_pressed = false;
         break;
     case Qt::Key_W:
-        player.Up_pressed = false;
+        players[0].Up_pressed = false;
         break;
     case Qt::Key_S:
-        player.Down_pressed = false;
+        players[0].Down_pressed = false;
+        break;
+    case Qt::Key_Left:
+        players[1].Left_pressed = false;
+        break;
+    case Qt::Key_Right:
+        players[1].Right_pressed = false;
+        break;
+    case Qt::Key_Up:
+        players[1].Up_pressed = false;
+        break;
+    case Qt::Key_Down:
+        players[1].Down_pressed = false;
         break;
     }
 }
