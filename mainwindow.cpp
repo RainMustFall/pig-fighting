@@ -69,22 +69,22 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
             players[0].moveVector_.y += 10;
         }
         break;
-//    case Qt::Key_Space :
-//        if (players[0].armed_) {
-//            if (players[0].current_side == MovingObject::Side::LEFT){
-//                ShotPig pig(players[0].position_.x - 20, players[0].position_.y + 20, -1);
-//                flying_pigs.push_back(pig);
-//            } else {
-//                ShotPig pig(players[0].position_.x + 20, players[0].position_.y + 20, 1);
-//                flying_pigs.push_back(pig);
-//            }
-//            players[0].armed_ = 0;
-//        } else {
-//            auto piggo = players[0].FindClosestFreePig(*this);
-//            players[0].CatchPig(*piggo);
-//            free_pigs.erase(piggo);
-//         }
-//        break;
+    case Qt::Key_Space :
+        if (players[0].armed_) {
+            if (players[0].current_side == MovingObject::Side::LEFT){
+                ShotPig pig(players[0].position_.x - 20, players[0].position_.y + 20, -1);
+                flying_pigs.push_back(pig);
+            } else {
+                ShotPig pig(players[0].position_.x + 20, players[0].position_.y + 20, 1);
+                flying_pigs.push_back(pig);
+            }
+            players[0].armed_ = 0;
+        } else {
+            auto piggo = players[0].FindClosestFreePig(*this);
+            players[0].CatchPig(*piggo);
+            free_pigs.erase(piggo);
+         }
+        break;
     case Qt::Key_Left:
         players[1].Left_pressed = true;
         break;
