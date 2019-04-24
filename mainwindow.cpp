@@ -85,9 +85,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
             }
             players[0].armed_ = 0;
         } else {
-            auto piggo = players[0].FindClosestFreePig(*this);
-            players[0].CatchPig(*piggo);
-            free_pigs.erase(piggo);
+            if (!free_pigs.empty()) {
+                auto piggo = players[0].FindClosestFreePig(*this);
+                players[0].CatchPig(*piggo);
+                free_pigs.erase(piggo);
+            }
          }
         break;
     case Qt::Key_Left:
@@ -119,9 +121,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
             }
             players[1].armed_ = 0;
         } else {
-            auto piggo = players[1].FindClosestFreePig(*this);
-            players[1].CatchPig(*piggo);
-            free_pigs.erase(piggo);
+            if (!free_pigs.empty()) {
+                auto piggo = players[1].FindClosestFreePig(*this);
+                players[1].CatchPig(*piggo);
+                free_pigs.erase(piggo);
+            }
          }
         break;
     }
