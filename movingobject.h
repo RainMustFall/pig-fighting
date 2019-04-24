@@ -23,10 +23,6 @@ public:
         LEFT,
         RIGHT
     };
-    enum class Side {
-        LEFT,
-        RIGHT
-    };
     // Непосредственно определяет, с какой именно
     // стороны объект коснулся платформы
     HitType CheckHitType(const Ground& ground);
@@ -45,6 +41,12 @@ protected:
     // Флажок, показывающий, с какой стороны мы врезались
     // последний раз.
     HitType last_hit;
+
+    //показывает, какая сторона объекта повернута к экрану
+    enum class Side {
+        LEFT,
+        RIGHT
+    };
 
     Side current_side = Side::LEFT;
 

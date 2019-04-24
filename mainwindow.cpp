@@ -22,8 +22,13 @@ void MainWindow::timerEvent(QTimerEvent *) {
             pig.UpdatePosition();
         }
         for (int i = 0; i < flying_pigs.size(); i++) {
+            qDebug() << flying_pigs[i].if_Hits(players, ground);
+            if (!flying_pigs[i].if_Hits(players, ground)) {
             flying_pigs[i].UpdatePosition();
             if ((flying_pigs[i].position_.x > 1000) || (flying_pigs[i].position_.x < 0)) {
+                flying_pigs.erase(flying_pigs.begin() + i);
+            }
+            } else {
                 flying_pigs.erase(flying_pigs.begin() + i);
             }
         }
@@ -72,10 +77,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     case Qt::Key_Space :
         if (players[0].armed_) {
             if (players[0].current_side == MovingObject::Side::LEFT){
-                ShotPig pig(players[0].position_.x - 20, players[0].position_.y + 20, -1);
+                ShotPig pig(players[0].position_.x - 20, players[0].position_.y + 20, -1, &players[0]);
                 flying_pigs.push_back(pig);
             } else {
-                ShotPig pig(players[0].position_.x + 20, players[0].position_.y + 20, 1);
+                ShotPig pig(players[0].position_.x + 20, players[0].position_.y + 20, 1, &players[0]);
                 flying_pigs.push_back(pig);
             }
             players[0].armed_ = 0;
@@ -106,10 +111,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         qDebug() << "Shift!";
         if (players[1].armed_) {
             if (players[1].current_side == MovingObject::Side::LEFT){
-                ShotPig pig(players[1].position_.x - 20, players[1].position_.y + 20, -1);
+                ShotPig pig(players[1].position_.x - 20, players[1].position_.y + 20, -1, &players[1]);
                 flying_pigs.push_back(pig);
             } else {
-                ShotPig pig(players[1].position_.x + 20, players[1].position_.y + 20, 1);
+                ShotPig pig(players[1].position_.x + 20, players[1].position_.y + 20, 1, &players[1]);
                 flying_pigs.push_back(pig);
             }
             players[1].armed_ = 0;

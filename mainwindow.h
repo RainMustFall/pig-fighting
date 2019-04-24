@@ -5,6 +5,7 @@
 #include "constants.h"
 #include "person.h"
 #include "ground.h"
+#include "shotpig.h"
 
 class MainWindow : public QMainWindow
 {
@@ -17,12 +18,13 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
     ~MainWindow() override;
+    FreePig GeneratePig();
 
 //private:
     std::vector<Person> players = {{450, 120, 50, 20},{905, 200, 50, 20}};
-    std::vector<FreePig> free_pigs = {{10, 10}, {400, 10}};
+    std::vector<FreePig> free_pigs = {{100, 10}, {400, 10}};
     std::vector<ShotPig> flying_pigs = {};
-    std::vector<Ground>ground = {{0, 300, 50, 500}, {600, 400, 50, 350}, {0, 530, 150, 980}, {955, 0, 550, 100}};
+    std::vector<Ground>ground = {{0, 300, 50, 500}, {600, 450, 50, 350}, {0, 530, 150, 980}, {955, 0, 550, 100}};
 };
 
 #endif // MAINWINDOW_H

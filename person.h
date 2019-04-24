@@ -3,7 +3,6 @@
 #include "gameobject.h"
 #include "movingobject.h"
 #include "freepig.h"
-#include "shotpig.h"
 
 class MainWindow;
 
