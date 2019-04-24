@@ -22,13 +22,13 @@ void MainWindow::timerEvent(QTimerEvent *) {
             pig.UpdatePosition();
         }
         for (int i = 0; i < flying_pigs.size(); i++) {
-            qDebug() << flying_pigs[i].if_Hits(players, ground);
             if (!flying_pigs[i].if_Hits(players, ground)) {
             flying_pigs[i].UpdatePosition();
             if ((flying_pigs[i].position_.x > 1000) || (flying_pigs[i].position_.x < 0)) {
                 flying_pigs.erase(flying_pigs.begin() + i);
             }
             } else {
+                qDebug() << flying_pigs[i].if_Hits(players, ground);
                 flying_pigs.erase(flying_pigs.begin() + i);
             }
         }
