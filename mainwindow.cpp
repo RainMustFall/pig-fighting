@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include <QPainter>
+#include <chrono>
+#include <cstdlib>
 #include <QMouseEvent>
 #include <QDebug>
 
@@ -84,6 +86,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
                 flying_pigs.push_back(pig);
             }
             players[0].armed_ = 0;
+            free_pigs.push_back(GeneratePig());
         } else {
             if (!free_pigs.empty()) {
                 auto piggo = players[0].FindClosestFreePig(*this);
@@ -120,6 +123,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
                 flying_pigs.push_back(pig);
             }
             players[1].armed_ = 0;
+            free_pigs.push_back(GeneratePig());
         } else {
             if (!free_pigs.empty()) {
                 auto piggo = players[1].FindClosestFreePig(*this);
@@ -160,6 +164,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
+FreePig MainWindow::GeneratePig() {
+    FreePig new_pig(10, 10);
+    new_pig.setX(rand() % geometry().width());
+    new_pig.setY(rand() % geometry().height());
+    return new_pig;
+}
 
 MainWindow::~MainWindow()
 {
