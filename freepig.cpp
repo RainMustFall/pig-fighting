@@ -1,8 +1,9 @@
 #include "freepig.h"
 #include "movingobject.h"
+#include "constants.h"
 
 FreePig::FreePig(int x, int y) :
-    MovingObject(x, y, 20, 20) {};
+    MovingObject(x, y, kPigSize, kPigSize) {};
 void FreePig::setX(double x) {
     position_.x = x;
 }

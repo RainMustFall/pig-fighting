@@ -17,6 +17,7 @@ public:
     void paintEvent(QPaintEvent *) override;
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
+    void ThrowPig(Person& player);
     ~MainWindow() override;
     FreePig GeneratePig();
 

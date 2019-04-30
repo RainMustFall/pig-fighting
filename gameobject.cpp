@@ -1,18 +1,19 @@
 #include "gameobject.h"
+#include "constants.h"
 #include <vector>
 #include <QDebug>
+#include <QPixmap>
 
 GameObject::GameObject(int x, int y, int height, int width)
     : position_{static_cast<double>(x), static_cast<double>(y)},
-      bBox_{height, width}
-
-{
+      bBox_{height, width} {
     qDebug() << "MAIN CONSTRUCTOR!";
 }
 
 void GameObject::Draw(QPainter& painter) const {
+    /*painter.setRenderHint(QPainter::SmoothPixmapTransform);*/
     painter.drawRect(position_.x, position_.y,
-                     bBox_.width_, bBox_.height_);
+                       bBox_.width_, bBox_.height_);
 }
 
 int GameObject::Width() const {

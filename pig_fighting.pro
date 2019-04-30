@@ -33,7 +33,8 @@ SOURCES += \
     person.cpp \
     movingobject.cpp \
     freepig.cpp \
-    shotpig.cpp
+    shotpig.cpp \
+    animation.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
     constants.h \
     movingobject.h \
     freepig.h \
-    shotpig.h
+    shotpig.h \
+    animation.h
 
 FORMS += \
         mainwindow.ui

@@ -6,11 +6,11 @@
 // всё в одном месте.
 
 const double kJumpPower = -12;
-const double kSPower = 10;  // Сила "рывка" вниз по нажатию S
 const double kSpeed = 0.5;
 const double kGravitation = 0.4;
 const double kSpeedLimit = 5;
 const double kSpeedReduce = 0.25;
 const double kShotSpeed = 10.5;
+const int kPigSize = 80;
 
 #endif // CONSTANTS_H

@@ -3,7 +3,8 @@
 #include "person.h"
 
 ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player)
-    : MovingObject(x, y, 20, 20), shooting_player(shooting_player)
+    : MovingObject(x, y, kPigSize, kPigSize),
+      shooting_player(shooting_player)
 {
     moveVector_.x = direction * kShotSpeed;
     moveVector_.y = 0;
