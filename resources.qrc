@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>animations/Fly.png</file>
+        <file>animations/Run.png</file>
+        <file>animations/Stand.png</file>
+    </qresource>
+</RCC>

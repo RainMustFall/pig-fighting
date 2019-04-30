@@ -11,7 +11,7 @@ class Person: public MovingObject
 {
 public:
 
-    Person(int x, int y, int height, int width);
+    Person(int x, int y);
 
     void CatchPressedKey(int key, const int up_key, const int left_key,
                          const int down_key, const int right_key);
@@ -20,6 +20,7 @@ public:
     // Проверяет, какие клавиши нажаты,
     // и обрабатывает все нажатия
     void ProcessKeyboard();
+    void CheckBoundaries();
     void CatchPig(FreePig& pig);
     void UpdateAnimation();
     void Draw(QPainter& painter) const override;
@@ -35,7 +36,31 @@ public:
     bool Down_pressed = false;
 
     // Объекты, отвечающие за проигрывание анимации
-    Animation animation_;
+    Animation run_animation_l;
+    Animation stand_animation_l;
+    Animation fly_animation_l;
+
+    Animation run_animation_r;
+    Animation stand_animation_r;
+    Animation fly_animation_r;
+    
+    enum class State {
+        RUNNING,
+        STANDING,
+        FLYING
+    };
+
+    State state;
+
+protected:
+    void UpdateAnimationUniversal(Animation& run_animation,
+                                  Animation& stand_animation,
+                                  Animation& fly_animation);
+
+    void DrawUniversal(QPainter& painter,
+                               const Animation& run_animation,
+                               const Animation& stand_animation,
+                               const Animation& fly_animation) const;
 };
 
 #endif // PERSON_H

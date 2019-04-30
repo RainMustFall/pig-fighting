@@ -5,7 +5,7 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
     MainWindow w;
-    w.setFixedSize(960, 540);
+    w.setFixedSize(kScreenWidth, kScreenHeight);
     w.show();
     return app.exec();
 }

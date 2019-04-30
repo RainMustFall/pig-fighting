@@ -1,11 +1,20 @@
 #include "animation.h"
 #include "constants.h"
 #include <QDebug>
+#include <QTransform>
+
+Animation Reflect(const Animation& animation) {
+    Animation result = animation;
+    for (auto& frame : result.frames_) {
+        frame = frame.transformed(QTransform().scale(-1, 1));
+    }
+    return result;
+}
 
 Animation::Animation(const char* img_path, int frame_height, int frame_width)
 {
     QPixmap image(img_path);
-    for (int x = 0; x + frame_width < image.width(); x += frame_width) {
+    for (int x = 0; x + frame_width <= image.width(); x += frame_width) {
         QRect rect(x, 0, frame_width, frame_height);
         frames_.insert(frames_.end(), image.copy(rect));
     }

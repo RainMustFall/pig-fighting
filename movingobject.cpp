@@ -8,11 +8,11 @@ MovingObject::MovingObject(int x, int y, int width, int height)
 void MovingObject::UpdatePosition() {
     position_.x += moveVector_.x;
     position_.y += moveVector_.y;
+
     if (moveVector_.x > 0) {
-            current_side = Side::RIGHT;
-    }
-    if (moveVector_.x < 0) {
-    current_side = Side::LEFT;
+        current_side = Side::RIGHT;
+    } else if (moveVector_.x < 0) {
+        current_side = Side::LEFT;
     }
  }
 

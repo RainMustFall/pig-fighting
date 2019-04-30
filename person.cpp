@@ -4,9 +4,14 @@
 #include "mainwindow.h"
 #include <QDebug>
 
-Person::Person(int x, int y, int height, int width)
-    : MovingObject (x, y, height, width),
-      animation_("C:\\Users\\HP\\Desktop\\pig.png", 100, 10)
+Person::Person(int x, int y)
+    : MovingObject (x, y, kPersonHeight, kPersonWidth),
+      run_animation_l(":/resources/animations/Run.png", kPersonHeight, kPersonWidth),
+      stand_animation_l(":/resources/animations/Stand.png", kPersonHeight, kPersonWidth),
+      fly_animation_l(":/resources/animations/Fly.png", kPersonHeight, kPersonWidth),
+      run_animation_r(Reflect(run_animation_l)),
+      stand_animation_r(Reflect(stand_animation_l)),
+      fly_animation_r(Reflect(fly_animation_l))
 {
     qDebug() << "PERSON CONSTRUCTOR!";
 }
@@ -78,14 +83,83 @@ void Person::CatchPig(FreePig &pig) {
     qDebug() << "got it!";
 }
 
-void Person::Draw(QPainter& painter) const {
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter.drawPixmap(position_.x, position_.y,
-                       bBox_.width_, bBox_.height_, animation_.CurrentFrame());
+void Person::CheckBoundaries() {
+    if (position_.x >= kScreenWidth && moveVector_.x > 0) {
+        position_.x = -Width();
+    } else if (position_.x < -Width() && moveVector_.x < 0) {
+        position_.x = kScreenWidth;
+    }
+
+    if (position_.y >= kScreenHeight) {
+        position_.y = -Height();
+    }
+}
+
+void Person::UpdateAnimationUniversal(Animation& run_animation,
+                                      Animation& stand_animation,
+                                      Animation& fly_animation) {
+    switch (state) {
+    case State::RUNNING:
+        run_animation.NextFrame();
+        break;
+    case State::STANDING:
+        stand_animation.NextFrame();
+        break;
+    case State::FLYING:
+        fly_animation.NextFrame();
+        break;
+    }
 }
 
 void Person::UpdateAnimation() {
-    animation_.NextFrame();
+    if (current_platform != nullptr) {
+        if (Left_pressed || Right_pressed) {
+            state = State::RUNNING;
+        } else {
+            state = State::STANDING;
+        }
+    } else {
+        state = State::FLYING;
+    }
+
+    if (current_side == Side::LEFT) {
+        UpdateAnimationUniversal(run_animation_l, stand_animation_l, fly_animation_l);
+    } else {
+        UpdateAnimationUniversal(run_animation_r, stand_animation_r, fly_animation_r);
+    }
+}
+
+void Person::DrawUniversal(QPainter& painter,
+                           const Animation& run_animation,
+                           const Animation& stand_animation,
+                           const Animation& fly_animation) const {
+    switch (state) {
+    case State::RUNNING:
+        painter.drawPixmap(position_.x, position_.y,
+                           bBox_.width_, bBox_.height_,
+                           run_animation.CurrentFrame());
+        break;
+    case State::STANDING:
+        painter.drawPixmap(position_.x, position_.y,
+                           bBox_.width_, bBox_.height_,
+                           stand_animation.CurrentFrame());
+        break;
+    case State::FLYING:
+        painter.drawPixmap(position_.x, position_.y,
+                           bBox_.width_, bBox_.height_,
+                           fly_animation.CurrentFrame());
+        break;
+    }
+}
+
+void Person::Draw(QPainter& painter) const {
+    if (current_side == Side::LEFT) {
+        DrawUniversal(painter, run_animation_l,
+                      stand_animation_l, fly_animation_l);
+    } else {
+        DrawUniversal(painter, run_animation_r,
+                      stand_animation_r, fly_animation_r);
+    }
 }
 
 std::list<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {

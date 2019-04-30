@@ -5,8 +5,6 @@
 #include <vector>
 #include <QPixmap>
 
-const std::vector<QPixmap>ControlVec;
-
 class Animation
 {
 public:
@@ -20,5 +18,7 @@ public:
     std::list<QPixmap>frames_;
     std::list<QPixmap>::iterator cur_frame_;
 };
+
+Animation Reflect(const Animation& animation);
 
 #endif // ANIMATION_H

@@ -5,12 +5,18 @@
 // какие-то параметры, нам не пришлось просматривать весь код, а можно было менять
 // всё в одном месте.
 
-const double kJumpPower = -12;
+const int kScreenWidth = 1440;
+const int kScreenHeight = 810;
+
+const int kPersonHeight = 100;
+const int kPersonWidth = 60;
+const int kPigSize = 70;
+
+const double kJumpPower = -14;
 const double kSpeed = 0.5;
 const double kGravitation = 0.4;
 const double kSpeedLimit = 5;
 const double kSpeedReduce = 0.25;
 const double kShotSpeed = 10.5;
-const int kPigSize = 80;
 
 #endif // CONSTANTS_H

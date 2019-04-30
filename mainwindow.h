@@ -22,10 +22,23 @@ public:
     FreePig GeneratePig();
 
 //private:
-    std::vector<Person> players = {{450, 120, 50, 20},{905, 200, 50, 20}};
-    std::list<FreePig> free_pigs = {{100, 10}, {400, 10}};
+    std::vector<Person> players = {{450, 120},
+                                   {800, 200}};
+
+    std::list<FreePig> free_pigs = {{100, 10},
+                                    {400, 10}};
+
     std::list<ShotPig> flying_pigs = {};
-    std::vector<Ground>ground = {{0, 300, 50, 500}, {600, 450, 50, 350}, {0, 530, 150, 980}, {955, 0, 550, 100}};
+
+    std::vector<Ground>ground = {{-146, 160, 30, 400},
+                                 {223, 46, 115, 30},
+                                 {587, 130, 30, 282},
+                                 {327, 327, 30, 282},
+                                 {935, 327, 30, 282},
+                                 {1193, 160, 30, 282},
+                                 {1068, 476, 30, 282},
+                                 {-52, 486, 30, 282},
+                                 {122, 656, 30, 1190}};
 };
 
 #endif // MAINWINDOW_H

@@ -30,16 +30,18 @@ void MainWindow::timerEvent(QTimerEvent *) {
     for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
         if (!item->if_Hits(players, ground)) {
             item->UpdatePosition();
-            if ((item->position_.x > 1000) || (item->position_.x < 0)) {
+            if ((item->position_.x > kScreenWidth) || (item->position_.x < -item->Width())) {
                 item = flying_pigs.erase(item);
             }
         } else {
             item = flying_pigs.erase(item);
         }
     }
+
     repaint();
     for (Person& player : players) {
         player.UpdatePosition();
+        player.CheckBoundaries();
     }
 }
 
