@@ -51,6 +51,7 @@ void MovingObject::StabilizePosition(const Ground& ground) {
     }
 }
 
+
 const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
     bool hits = false;
     for (const auto& item : ground) {

@@ -43,6 +43,8 @@ public:
     Animation run_animation_r;
     Animation stand_animation_r;
     Animation fly_animation_r;
+
+    std::list<FreePig>::iterator HitsPig(std::list<FreePig>& pigs);
     
     enum class State {
         RUNNING,

@@ -34,6 +34,18 @@ void Person::CatchPressedKey(int key, int up_key, int left_key,
     }
 }
 
+std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
+    for ( std::list<FreePig>::iterator i = pigs.begin(); i != pigs.end(); i++ ) {
+        auto item_obj = dynamic_cast<const GameObject&>(*i);
+
+        if (Hits(item_obj)) {
+            return i;
+                } else {
+                    return pigs.end();
+                }
+            }
+}
+
 void Person::CatchReleasedKey(int key, int up_key, int left_key,
                              int down_key, int right_key) {
     if (key == left_key) {
