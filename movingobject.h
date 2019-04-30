@@ -35,6 +35,7 @@ public:
     // возвращает указатель на платформу, иначе nullptr
     const Ground* HitsGround(const std::vector<Ground>& ground);
     //virtual bool Hits(const GameObject& obj) const;
+    Point moveVector_ = {0, 0};
 protected:
     double GetMoveVectorX() const;
 
@@ -50,7 +51,7 @@ protected:
 
     Side current_side = Side::LEFT;
 
-    Point moveVector_ = {0, 0};
+
 
 
     // Суть в том, что какую-то платформу мы временно

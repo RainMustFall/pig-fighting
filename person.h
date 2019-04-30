@@ -24,7 +24,7 @@ public:
     void UpdateAnimation();
     void Draw(QPainter& painter) const override;
 
-    std::vector<FreePig>::iterator FindClosestFreePig(MainWindow& w);
+    std::list<FreePig>::iterator FindClosestFreePig(MainWindow& w);
 
     bool armed_ = 0;
     // Флаги, показывающие, какие клавиши зажаты

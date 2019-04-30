@@ -9,22 +9,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     qDebug() << "HERE! ";
-    qDebug() << players[0].animation_.cur_frame_ - players[0].animation_.frames_.begin();
-    qDebug() << ControlVec.begin() - players[0].animation_.frames_.begin() << ControlVec.begin() - players[0].animation_.cur_frame_;
 
     startTimer(9);
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
-    //players[0].animation_.cur_frame_ = players[0].animation_.frames_.begin();
-    //players[1].animation_.cur_frame_ = players[1].animation_.frames_.begin();
-
-    qDebug() << players[0].animation_.cur_frame_ - players[0].animation_.frames_.begin();
     for (Person& player : players) {
         player.ProcessKeyboard();
-        qDebug() << "Updating animation";
         player.UpdateAnimation();
-        qDebug() << "Updated animation";
         player.current_platform = player.HitsGround(ground);
         player.ApplyPhysics();
     }
@@ -35,15 +27,14 @@ void MainWindow::timerEvent(QTimerEvent *) {
         pig.UpdatePosition();
     }
 
-    for (int i = 0; i < flying_pigs.size(); i++) {
-        if (!flying_pigs[i].if_Hits(players, ground)) {
-            flying_pigs[i].UpdatePosition();
-            if ((flying_pigs[i].position_.x > 1000) || (flying_pigs[i].position_.x < 0)) {
-                flying_pigs.erase(flying_pigs.begin() + i);
+    for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
+        if (!item->if_Hits(players, ground)) {
+            item->UpdatePosition();
+            if ((item->position_.x > 1000) || (item->position_.x < 0)) {
+                item = flying_pigs.erase(item);
             }
         } else {
-            qDebug() << flying_pigs[i].if_Hits(players, ground);
-            flying_pigs.erase(flying_pigs.begin() + i);
+            item = flying_pigs.erase(item);
         }
     }
     repaint();
@@ -56,9 +47,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
     for (Person& player : players) {
-        qDebug() << "Drawing person";
         player.Draw(p);
-        qDebug() << "Drew person";
     }
     for (auto& item:ground) {
         item.Draw(p);
@@ -75,12 +64,12 @@ void MainWindow::paintEvent(QPaintEvent *) {
 void MainWindow::ThrowPig(Person& player) {
     if (player.armed_) {
         if (player.current_side == MovingObject::Side::LEFT){
-            ShotPig pig(player.position_.x - kPigSize,
-                        player.position_.y - kPigSize, -1, &player);
+            ShotPig pig(player.position_.x - kPigSize - 1,
+                        player.position_.y + player.Height() - kPigSize - 1, -1, &player);
             flying_pigs.push_back(pig);
         } else {
-            ShotPig pig(player.position_.x + kPigSize,
-                        player.position_.y - kPigSize, 1, &player);
+            ShotPig pig(player.position_.x + player.Width() + 1,
+                        player.position_.y + player.Height() - kPigSize - 1, 1, &player);
             flying_pigs.push_back(pig);
         }
         player.armed_ = 0;

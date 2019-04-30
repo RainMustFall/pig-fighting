@@ -11,7 +11,7 @@ ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player)
 }
 
 
-bool ShotPig::if_Hits(const std::vector<Person>& persons,
+bool ShotPig::if_Hits(std::vector<Person>& persons,
                       const std::vector<Ground>& ground) {
     bool hits = false;
     for (const auto& item : ground) {
@@ -21,11 +21,12 @@ bool ShotPig::if_Hits(const std::vector<Person>& persons,
             hits = true;
         }
     }
-    for (const auto& item : persons) {
+    for (auto& item : persons) {
         auto item_obj = dynamic_cast<const GameObject&>(item);
         if (&item != shooting_player){
            if (Hits(item_obj)) {
                 hits = true;
+                item.moveVector_.x += moveVector_.x / 2;
             }
         }
     }

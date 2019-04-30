@@ -11,13 +11,14 @@ class Animation
 {
 public:
     Animation(const char* img_path, int frame_height, int frame_width);
+    Animation(const Animation& lhs);
 
     void NextFrame();
     void PreviousFrame();
     QPixmap CurrentFrame() const;
 //private:
-    std::vector<QPixmap>frames_;
-    std::vector<QPixmap>::iterator cur_frame_;
+    std::list<QPixmap>frames_;
+    std::list<QPixmap>::iterator cur_frame_;
 };
 
 #endif // ANIMATION_H

@@ -6,9 +6,9 @@
 
 Person::Person(int x, int y, int height, int width)
     : MovingObject (x, y, height, width),
-      animation_("C:\\Users\\HP\\Desktop\\pig.png", 10, 10)
+      animation_("C:\\Users\\HP\\Desktop\\pig.png", 100, 10)
 {
-    qDebug() << "PERSON CONSTRUCTOR!" << ControlVec.begin() - animation_.frames_.begin() << ControlVec.begin() - animation_.cur_frame_;
+    qDebug() << "PERSON CONSTRUCTOR!";
 }
 
 void Person::CatchPressedKey(int key, int up_key, int left_key,
@@ -88,7 +88,7 @@ void Person::UpdateAnimation() {
     animation_.NextFrame();
 }
 
-std::vector<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {
+std::list<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {
     //
     return w.free_pigs.begin();
 }
