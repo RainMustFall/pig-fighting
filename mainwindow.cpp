@@ -65,7 +65,6 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
 void MainWindow::ThrowPig(Person& player) {
     if (player.armed_) {
-        qDebug() << "Player touches pig";
         if (player.current_side == MovingObject::Side::LEFT){
             ShotPig pig(player.position_.x - kPigSize - 1,
                         player.position_.y + player.Height() - kPigSize - 1, -1, &player);
@@ -79,8 +78,9 @@ void MainWindow::ThrowPig(Person& player) {
         free_pigs.push_back(GeneratePig());
     } else {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
-
+        qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
         if (current_pig != free_pigs.end()) {
+            qDebug() << "Player touches pig";
 //            auto piggo = player.FindClosestFreePig(*this);
             player.CatchPig(*current_pig);
             free_pigs.erase(current_pig);

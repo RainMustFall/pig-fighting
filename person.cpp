@@ -40,10 +40,10 @@ std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
 
         if (Hits(item_obj)) {
             return i;
-                } else {
-                    return pigs.end();
                 }
             }
+                        return pigs.end();
+
 }
 
 void Person::CatchReleasedKey(int key, int up_key, int left_key,
