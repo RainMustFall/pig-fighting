@@ -94,17 +94,7 @@ void Person::CatchPig(FreePig &pig) {
     qDebug() << "got it!";
 }
 
-//void Person::CheckBoundaries() {
-//    if (position_.x >= kScreenWidth && moveVector_.x > 0) {
-//        position_.x = -Width();
-//    } else if (position_.x < -Width() && moveVector_.x < 0) {
-//        position_.x = kScreenWidth;
-//    }
 
-//    if (position_.y >= kScreenHeight) {
-//        position_.y = -Height();
-//    }
-//}
 
 void Person::UpdateAnimationUniversal(Animation& run_animation,
                                       Animation& stand_animation,

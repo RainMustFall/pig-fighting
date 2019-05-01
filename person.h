@@ -20,7 +20,6 @@ public:
     // Проверяет, какие клавиши нажаты,
     // и обрабатывает все нажатия
     void ProcessKeyboard();
-//    void CheckBoundaries();
     void CatchPig(FreePig& pig);
     void UpdateAnimation();
     void Draw(QPainter& painter) const override;
