@@ -150,3 +150,15 @@ MovingObject::HitType MovingObject::CheckHitType(const Ground& ground) {
 double MovingObject::GetMoveVectorX() const {
     return moveVector_.x;
 }
+
+void MovingObject::CheckBoundaries() {
+    if (position_.x >= kScreenWidth && moveVector_.x > 0) {
+        position_.x = -Width();
+    } else if (position_.x < -Width() && moveVector_.x < 0) {
+        position_.x = kScreenWidth;
+    }
+
+    if (position_.y >= kScreenHeight) {
+        position_.y = -Height();
+    }
+}

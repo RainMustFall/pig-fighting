@@ -39,6 +39,8 @@ public:
 protected:
     double GetMoveVectorX() const;
 
+    void CheckBoundaries();
+
     // Флажок, показывающий, с какой стороны мы врезались
     // последний раз.
     HitType last_hit;

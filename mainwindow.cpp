@@ -22,9 +22,10 @@ void MainWindow::timerEvent(QTimerEvent *) {
     }
 
     for (FreePig& pig : free_pigs) {
+        pig.PositionGenerate();
         pig.current_platform = pig.HitsGround(ground);
         pig.ApplyPhysics();
-        pig.UpdatePosition();
+//        pig.UpdatePosition();
     }
 
     for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
@@ -42,6 +43,10 @@ void MainWindow::timerEvent(QTimerEvent *) {
     for (Person& player : players) {
         player.UpdatePosition();
         player.CheckBoundaries();
+    }
+    for (FreePig& pig : free_pigs) {
+        pig.UpdatePosition();
+        pig.CheckBoundaries();
     }
 }
 
@@ -81,7 +86,6 @@ void MainWindow::ThrowPig(Person& player) {
         qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
         if (current_pig != free_pigs.end()) {
             qDebug() << "Player touches pig";
-//            auto piggo = player.FindClosestFreePig(*this);
             player.CatchPig(*current_pig);
             free_pigs.erase(current_pig);
         }
