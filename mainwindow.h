@@ -21,12 +21,16 @@ public:
     ~MainWindow() override;
     FreePig GeneratePig();
 
-//private:
+    Animation pig_running_l;
+    Animation pig_running_r;
+    Animation pig_flying_l;
+    Animation pig_flying_r;
+
     std::vector<Person> players = {{450, 120},
                                    {800, 200}};
 
-    std::list<FreePig> free_pigs = {{100, 10},
-                                    {400, 10}};
+    std::list<FreePig> free_pigs = {{100, 10, &pig_running_l, &pig_running_r},
+                                    {400, 10, &pig_running_l, &pig_running_r}};
 
     std::list<ShotPig> flying_pigs = {};
 

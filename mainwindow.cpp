@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "constants.h"
 #include <QPainter>
 #include <chrono>
 #include <cstdlib>
@@ -6,7 +7,11 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent),
+    pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
+    pig_running_r(Reflect(pig_running_l)),
+    pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
+    pig_flying_r(Reflect(pig_flying_l))
 {
     qDebug() << "HERE! ";
 
@@ -20,6 +25,9 @@ void MainWindow::timerEvent(QTimerEvent *) {
         player.current_platform = player.HitsGround(ground);
         player.ApplyPhysics();
     }
+
+    pig_running_l.NextFrame();
+    pig_running_r.NextFrame();
 
     for (FreePig& pig : free_pigs) {
         pig.PositionGenerate();
@@ -72,11 +80,13 @@ void MainWindow::ThrowPig(Person& player) {
     if (player.armed_) {
         if (player.current_side == MovingObject::Side::LEFT){
             ShotPig pig(player.position_.x - kPigSize - 1,
-                        player.position_.y + player.Height() - kPigSize - 1, -1, &player);
+                        player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
+                        &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
         } else {
             ShotPig pig(player.position_.x + player.Width() + 1,
-                        player.position_.y + player.Height() - kPigSize - 1, 1, &player);
+                        player.position_.y + player.Height() - kPigSize - kPigHeight, 1,
+                        &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
         }
         player.armed_ = 0;
@@ -114,7 +124,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 }
 
 FreePig MainWindow::GeneratePig() {
-    FreePig new_pig(10, 10);
+    FreePig new_pig(10, 10, &pig_running_l, &pig_running_r);
     new_pig.setX(rand() % geometry().width());
     new_pig.setY(rand() % geometry().height());
     return new_pig;

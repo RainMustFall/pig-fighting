@@ -6,9 +6,9 @@
 
 Person::Person(int x, int y)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
-      run_animation_l(":/resources/animations/Run.png", kPersonHeight, kPersonWidth),
-      stand_animation_l(":/resources/animations/Stand.png", kPersonHeight, kPersonWidth),
-      fly_animation_l(":/resources/animations/Fly.png", kPersonHeight, kPersonWidth),
+      run_animation_l(":/resources/animations/Run.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
+      stand_animation_l(":/resources/animations/Stand.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
+      fly_animation_l(":/resources/animations/Fly.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
       run_animation_r(Reflect(run_animation_l)),
       stand_animation_r(Reflect(stand_animation_l)),
       fly_animation_r(Reflect(fly_animation_l))
@@ -40,9 +40,9 @@ std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
 
         if (Hits(item_obj)) {
             return i;
-                }
-            }
-                        return pigs.end();
+        }
+    }
+    return pigs.end();
 }
 
 void Person::CatchReleasedKey(int key, int up_key, int left_key,
@@ -93,8 +93,6 @@ void Person::CatchPig(FreePig &pig) {
     armed_ = 1;
     qDebug() << "got it!";
 }
-
-
 
 void Person::UpdateAnimationUniversal(Animation& run_animation,
                                       Animation& stand_animation,

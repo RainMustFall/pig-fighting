@@ -3,5 +3,7 @@
         <file>animations/Fly.png</file>
         <file>animations/Run.png</file>
         <file>animations/Stand.png</file>
+        <file>animations/pig_running.png</file>
+        <file>animations/pig_flying.png</file>
     </qresource>
 </RCC>

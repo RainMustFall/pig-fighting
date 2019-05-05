@@ -11,12 +11,14 @@ Animation Reflect(const Animation& animation) {
     return result;
 }
 
-Animation::Animation(const char* img_path, int frame_height, int frame_width)
+Animation::Animation(const char* img_path, int frame_height, int frame_width, int dst_height, int dst_width)
 {
     QPixmap image(img_path);
     for (int x = 0; x + frame_width <= image.width(); x += frame_width) {
         QRect rect(x, 0, frame_width, frame_height);
         frames_.insert(frames_.end(), image.copy(rect));
+        frames_.back() = frames_.back().scaled(dst_height, dst_width,
+                                               Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
     cur_frame_ = frames_.begin();
 }
