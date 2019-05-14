@@ -163,7 +163,9 @@ void Person::Draw(QPainter& painter) const {
 
 
 void Person::DecreaseHealthLevel(){
-    health_level -= kHealthDecrease;
+    if (health_level > 1){
+        health_level -= kHealthDecrease;
+    }
     qDebug() << "down" << health_level;
 }
 

@@ -23,7 +23,7 @@ const double kShotSpeed = 10.5;
 const double kPigHeight = 15;
 
 //снижения здоровья
-const int kHealthDecrease = 5;
+const int kHealthDecrease = 20;
 //время, через которое здоровье снижается
 const int kTimeHealthUp = 500;
 
