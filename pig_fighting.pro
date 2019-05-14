@@ -57,3 +57,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES += \
+    textures/sand/middle_block.png \
+    textures/sand/right_block.png
