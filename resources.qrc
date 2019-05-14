@@ -5,5 +5,9 @@
         <file>animations/Stand.png</file>
         <file>animations/pig_running.png</file>
         <file>animations/pig_flying.png</file>
+        <file>sounds/pig_caught.wav</file>
+        <file>sounds/pig_fly.wav</file>
+        <file>sounds/hit.wav</file>
+        <file>sounds/hit2.wav</file>
     </qresource>
 </RCC>

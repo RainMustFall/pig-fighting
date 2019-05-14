@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QSound>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -33,7 +34,6 @@ void MainWindow::timerEvent(QTimerEvent *) {
         pig.PositionGenerate();
         pig.current_platform = pig.HitsGround(ground);
         pig.ApplyPhysics();
-//        pig.UpdatePosition();
     }
 
     for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
@@ -44,12 +44,14 @@ void MainWindow::timerEvent(QTimerEvent *) {
                 item = flying_pigs.erase(item);
             }
         } else if (dynamic_cast<const Person*>(hitting_object) != nullptr){
+            QSound::play(":/resources/sounds/hit.wav");
             item = flying_pigs.erase(item);
             const Person* hitting_person_const = dynamic_cast<const Person*>(hitting_object);
             Person* hitting_person = const_cast<Person*>(hitting_person_const);
             hitting_person->DecreaseHealthLevel();
 
         } else {
+            QSound::play(":/resources/sounds/hit2.wav");
             item = flying_pigs.erase(item);
         }
     }
@@ -88,6 +90,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
 void MainWindow::ThrowPig(Person& player) {
     if (player.armed_) {
+        QSound::play(":/resources/sounds/pig_fly.wav");
         if (player.current_side == MovingObject::Side::LEFT){
             ShotPig pig(player.position_.x - kPigSize - 1,
                         player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
@@ -105,7 +108,7 @@ void MainWindow::ThrowPig(Person& player) {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
         qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
         if (current_pig != free_pigs.end()) {
-            qDebug() << "Player touches pig";
+            QSound::play(":/resources/sounds/pig_caught.wav");
             player.CatchPig(*current_pig);
             free_pigs.erase(current_pig);
         }
