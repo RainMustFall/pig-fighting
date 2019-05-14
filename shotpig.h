@@ -9,7 +9,7 @@ class ShotPig : public MovingObject
 public:
     ShotPig(int height, int width, int direction, const Person* shooting_player,
             Animation* flying_left, Animation* flying_right);
-    bool if_Hits(std::vector<Person>& persons,
+    const GameObject* Pig_Hits(std::vector<Person>& persons,
                  const std::vector<Ground>& ground);
     const Person* shooting_player;
     void Draw(QPainter& painter) const override;

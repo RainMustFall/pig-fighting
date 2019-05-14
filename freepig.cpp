@@ -23,16 +23,13 @@ void FreePig::PositionGenerate() {
     if (random_number == 0){
         if (GetMoveVectorX() != -2 * kSpeed) { //чтобы свинка не остановилась
         moveVector_.x += 2 * kSpeed;
-        qDebug() << GetMoveVectorX();
         }
     }
     if(random_number == 1){
-        qDebug() << "change direction";
         moveVector_.x *= -1;
     } else if (random_number == 2){
         if (GetMoveVectorX() != 2 * kSpeed){//чтобы свинка не остановилась
         moveVector_.x -= 2 * kSpeed;
-        qDebug() << GetMoveVectorX();
         }
     }
 }

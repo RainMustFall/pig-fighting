@@ -37,7 +37,7 @@ void MainWindow::timerEvent(QTimerEvent *) {
     }
 
     for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
-        if (!item->if_Hits(players, ground)) {
+        if (item->Pig_Hits(players, ground) == nullptr) {
             item->UpdatePosition();
             if ((item->position_.x > kScreenWidth) || (item->position_.x < -item->Width())) {
                 item = flying_pigs.erase(item);
