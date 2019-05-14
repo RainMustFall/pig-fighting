@@ -2,6 +2,7 @@
 #define HEALTH_FIELD_H
 
 #include <QPainter>
+#include <person.h>
 
 struct Point_ {
     double x;
@@ -16,11 +17,13 @@ struct BoundingBox_ {
 class HealthField
 {
 public:
-    HealthField(int x, int y, int level);
+    HealthField(int x, int y, int level, Person* player);
     Point_ position_;
     BoundingBox_ bBox_;
 
-    void Draw(QPainter& painter) const;
+    Person* player_ptr;
+
+    void Draw(QPainter& painter);
 
     int level = 100;
 };

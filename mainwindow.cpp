@@ -48,6 +48,7 @@ void MainWindow::timerEvent(QTimerEvent *) {
             const Person* hitting_person_const = dynamic_cast<const Person*>(hitting_object);
             Person* hitting_person = const_cast<Person*>(hitting_person_const);
             hitting_person->DecreaseHealthLevel();
+
         } else {
             item = flying_pigs.erase(item);
         }

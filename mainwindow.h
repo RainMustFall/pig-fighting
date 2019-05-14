@@ -46,8 +46,8 @@ public:
                                  {122, 656, 30, 1190}};
 
     std::list<HealthField> health_fields = {
-        {10,10,100},
-        {kScreenWidth - 110,10,100}
+        {10,10,100, &players[0]},
+        {kScreenWidth - 110,10,100, &players[1]}
     };
 };
 
