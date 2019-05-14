@@ -20,11 +20,16 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
+    time++;
     for (Person& player : players) {
         player.ProcessKeyboard();
         player.UpdateAnimation();
         player.current_platform = player.HitsGround(ground);
         player.ApplyPhysics();
+        if (time == kTimeHealthUp) {
+            time = 0;
+            player.IncreaseHelthLevel();
+        }
     }
 
     pig_running_l.NextFrame();

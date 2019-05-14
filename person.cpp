@@ -164,7 +164,14 @@ void Person::Draw(QPainter& painter) const {
 
 void Person::DecreaseHealthLevel(){
     health_level -= kHealthDecrease;
-    qDebug() << "Health--";
+    qDebug() << "down" << health_level;
+}
+
+void Person::IncreaseHelthLevel(){
+    if(health_level < 100){
+    health_level += 1;
+    }
+    qDebug() << "up" << health_level;
 }
 
 std::list<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {

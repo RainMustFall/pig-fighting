@@ -49,6 +49,8 @@ public:
         {10,10,100, &players[0]},
         {kScreenWidth - 110,10,100, &players[1]}
     };
+
+    int time = 0;
 };
 
 #endif // MAINWINDOW_H

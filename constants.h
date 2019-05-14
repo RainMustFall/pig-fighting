@@ -24,5 +24,7 @@ const double kPigHeight = 15;
 
 //снижения здоровья
 const int kHealthDecrease = 5;
+//время, через которое здоровье снижается
+const int kTimeHealthUp = 500;
 
 #endif // CONSTANTS_H

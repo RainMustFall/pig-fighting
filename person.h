@@ -48,6 +48,7 @@ public:
     int health_level = 100;
 
     void DecreaseHealthLevel();
+    void IncreaseHelthLevel();
     
     enum class State {
         RUNNING,
