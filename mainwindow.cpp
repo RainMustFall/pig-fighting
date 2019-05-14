@@ -37,11 +37,17 @@ void MainWindow::timerEvent(QTimerEvent *) {
     }
 
     for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
-        if (item->Pig_Hits(players, ground) == nullptr) {
+        const GameObject* hitting_object = item->Pig_Hits(players, ground);
+        if (hitting_object == nullptr) {
             item->UpdatePosition();
             if ((item->position_.x > kScreenWidth) || (item->position_.x < -item->Width())) {
                 item = flying_pigs.erase(item);
             }
+        } else if (dynamic_cast<const Person*>(hitting_object) != nullptr){
+            item = flying_pigs.erase(item);
+            const Person* hitting_person_const = dynamic_cast<const Person*>(hitting_object);
+            Person* hitting_person = const_cast<Person*>(hitting_person_const);
+            hitting_person->DecreaseHealthLevel();
         } else {
             item = flying_pigs.erase(item);
         }
