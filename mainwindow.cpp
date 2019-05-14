@@ -70,6 +70,9 @@ void MainWindow::paintEvent(QPaintEvent *) {
     for (Person& player : players) {
         player.Draw(p);
     }
+    for (HealthField& field : health_fields) {
+        field.Draw(p);
+    }
     for (auto& item:ground) {
         item.Draw(p);
     }

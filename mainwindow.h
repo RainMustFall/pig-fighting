@@ -6,6 +6,7 @@
 #include "person.h"
 #include "ground.h"
 #include "shotpig.h"
+#include "health_field.h"
 
 class MainWindow : public QMainWindow
 {
@@ -43,6 +44,11 @@ public:
                                  {1068, 476, 30, 282},
                                  {-52, 486, 30, 282},
                                  {122, 656, 30, 1190}};
+
+    std::list<HealthField> health_fields = {
+        {10,10,20,200},
+        {kScreenWidth - 210,10,20,200}
+    };
 };
 
 #endif // MAINWINDOW_H

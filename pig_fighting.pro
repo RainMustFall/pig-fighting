@@ -34,7 +34,8 @@ SOURCES += \
     movingobject.cpp \
     freepig.cpp \
     shotpig.cpp \
-    animation.cpp
+    animation.cpp \
+    health_field.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +46,8 @@ HEADERS += \
     movingobject.h \
     freepig.h \
     shotpig.h \
-    animation.h
+    animation.h \
+    health_field.h
 
 FORMS += \
         mainwindow.ui
