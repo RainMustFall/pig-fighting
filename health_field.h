@@ -9,18 +9,20 @@ struct Point_ {
 };
 
 struct BoundingBox_ {
-    int height_;
-    int width_;
+    int height_ = 20;
+    int width_ = 100;
 };
 
 class HealthField
 {
 public:
-    HealthField(int x, int y, int height, int width);
+    HealthField(int x, int y, int level);
     Point_ position_;
     BoundingBox_ bBox_;
 
     void Draw(QPainter& painter) const;
+
+    int level = 100;
 };
 
 #endif // HEALTH_FIELD_H
