@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSoundEffect>
 #include "constants.h"
 #include "person.h"
 #include "ground.h"
@@ -51,6 +52,9 @@ public:
                                  {122, 656, 30, 1200}};
 
     int time = 0;
+
+    QSoundEffect pig_caught;
+
 };
 
 #endif // MAINWINDOW_H

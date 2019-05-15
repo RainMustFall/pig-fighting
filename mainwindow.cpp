@@ -16,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     pig_flying_r(Reflect(pig_flying_l))
 {
     qDebug() << "HERE! ";
-
+    pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
+    pig_caught.setVolume(0.25f);
     startTimer(9);
 }
 
@@ -50,14 +51,14 @@ void MainWindow::timerEvent(QTimerEvent *) {
                 item = flying_pigs.erase(item);
             }
         } else if (dynamic_cast<const Person*>(hitting_object) != nullptr){
-            QSound::play(":/resources/sounds/hit.wav");
+            QSound::play(":/resources/sounds/hit.mp3");
             item = flying_pigs.erase(item);
             const Person* hitting_person_const = dynamic_cast<const Person*>(hitting_object);
             Person* hitting_person = const_cast<Person*>(hitting_person_const);
             hitting_person->DecreaseHealthLevel();
 
         } else {
-            QSound::play(":/resources/sounds/hit2.wav");
+            QSound::play(":/resources/sounds/hit2.mp3");
             item = flying_pigs.erase(item);
         }
     }
@@ -96,7 +97,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
 void MainWindow::ThrowPig(Person& player) {
     if (player.armed_) {
-        QSound::play(":/resources/sounds/pig_fly.wav");
+        QSound::play(":/resources/sounds/pig_fly.mp3");
         if (player.current_side == MovingObject::Side::LEFT){
             ShotPig pig(player.position_.x - kPigSize - 1,
                         player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
@@ -114,7 +115,8 @@ void MainWindow::ThrowPig(Person& player) {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
         qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
         if (current_pig != free_pigs.end()) {
-            QSound::play(":/resources/sounds/pig_caught.wav");
+//            QSound::play(":/resources/sounds/pig_caught.mp3");
+            pig_caught.play();
             player.CatchPig(*current_pig);
             free_pigs.erase(current_pig);
         }
