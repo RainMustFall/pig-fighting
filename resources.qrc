@@ -25,5 +25,7 @@
         <file>animations/player_2/Stand.png</file>
         <file>animations/player_2/Stand_pig.png</file>
         <file>textures/background.png</file>
+        <file>textures/instruction1.png</file>
+        <file>textures/instruction2.png</file>
     </qresource>
 </RCC>

@@ -16,11 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
     pig_flying_r(Reflect(pig_flying_l))
 {
-    QPixmap bkgnd(":/resources/textures/background.png");
-    bkgnd = bkgnd.scaled(1440, 810, Qt::IgnoreAspectRatio);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, bkgnd);
-    this->setPalette(palette);
+    DrawBackground();
 
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
@@ -29,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::SetTimer() {
-    qDebug() << "Set!";
+    is_start = true;
     timer_id = startTimer(9);
 }
 void MainWindow::NewGame(){
@@ -47,6 +43,9 @@ void MainWindow::NewGame(){
 
 void MainWindow::timerEvent(QTimerEvent *) {
     time++;
+    if(time > 200) {
+        is_start = false;
+    }
     for (Person& player : players) {
         player.ProcessKeyboard();
         player.UpdateAnimation();
@@ -107,6 +106,12 @@ void MainWindow::timerEvent(QTimerEvent *) {
 void MainWindow::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
+    if (is_start) {
+        DrawHint(p);
+    } else if (time == 2000){
+       DrawBackground();
+    }
+
     for (Person& player : players) {
         player.Draw(p);
     }
@@ -123,6 +128,27 @@ void MainWindow::paintEvent(QPaintEvent *) {
         item.Draw(p);
     }
     p.end();
+}
+
+void MainWindow::DrawHint(QPainter& painter){
+    const QRectF rectangle2 = {kScreenWidth- 355,kScreenHeight - 130, 345, 122};
+    QImage image2;
+    image2.load(":/resources/textures/instruction2.png");
+    painter.drawImage(rectangle2,
+                      image2);
+    const QRectF rectangle1 = {10,kScreenHeight - 130, 345, 122};
+    QImage image1;
+    image1.load(":/resources/textures/instruction1.png");
+    painter.drawImage(rectangle1,
+                      image1);
+}
+
+void MainWindow::DrawBackground(){
+    QPixmap bkgnd(":/resources/textures/background.png");
+    bkgnd = bkgnd.scaled(1440, 810, Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, bkgnd);
+    this->setPalette(palette);
 }
 
 void MainWindow::ThrowPig(Person& player) {

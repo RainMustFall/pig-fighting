@@ -60,6 +60,10 @@ public:
     void SetTimer();
 
     void NewGame();
+    void DrawBackground();
+    void DrawHint(QPainter& painter);
+
+    bool is_start = true;
 };
 
 #endif // MAINWINDOW_H
