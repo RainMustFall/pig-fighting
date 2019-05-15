@@ -43,6 +43,12 @@ public:
                                  {1068, 476, 30, 282},
                                  {-52, 486, 30, 282},
                                  {122, 656, 30, 1190}};
+    int timer_id;
+    bool isTimerActive = true;
+
+    void SetTimer();
+
+    void NewGame();
 };
 
 #endif // MAINWINDOW_H

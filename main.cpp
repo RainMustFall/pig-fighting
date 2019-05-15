@@ -9,6 +9,5 @@ int main(int argc, char **argv)
     SecondWindow s;
     w.setFixedSize(kScreenWidth, kScreenHeight);
     w.show();
-
     return app.exec();
 }

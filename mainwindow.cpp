@@ -15,8 +15,27 @@ MainWindow::MainWindow(QWidget *parent)
     pig_flying_r(Reflect(pig_flying_l))
 {
     qDebug() << "HERE! ";
+//    SecondWindow window(this);
+//    window.setModal(true);
+//    window.exec();
+    SetTimer();
+}
 
-    startTimer(9);
+void MainWindow::SetTimer() {
+    qDebug() << "Set!";
+    timer_id = startTimer(9);
+}
+void MainWindow::NewGame(){
+    qDebug() <<"new";
+    players.clear();
+    players.push_back({450, 120});
+    players.push_back({800, 200});
+
+    free_pigs.clear();
+    free_pigs.push_back({100, 10, &pig_running_l, &pig_running_r});
+    free_pigs.push_back({400, 10, &pig_running_l, &pig_running_r});
+
+    flying_pigs.clear();
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
@@ -111,9 +130,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     case Qt::Key_Shift:
         ThrowPig(players[1]);
         break;
-    case Qt::Key_Escape: { SecondWindow window;
+    case Qt::Key_Escape: {
+        killTimer(timer_id);
+        SecondWindow window(this);
         window.setModal(true);
         window.exec();
+        SetTimer();
     }
         break;
     default:
