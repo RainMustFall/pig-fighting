@@ -10,10 +10,12 @@ class TheMostMainWindow : public QMainWindow
 public:
     TheMostMainWindow(QWidget *parent = nullptr);
 
-    Ui::MainWindow ui;
+    Ui::MainWindow* ui;
     MainWindow* win;
 private slots:
     void on_new_game_clicked();
+    void on_pause_clicked();
+    void on_exit_clicked();
 };
 
 #endif // THEMOSTMAINWINDOW_H

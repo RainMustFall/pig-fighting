@@ -9,23 +9,47 @@
 #include <QSound>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent),
+    : QMainWindow(parent),
     pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
     pig_running_r(Reflect(pig_running_l)),
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
     pig_flying_r(Reflect(pig_flying_l))
 {
-
+    DrawBackground();
+    setFocus();
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
     pig_caught.setVolume(0.25f);
+    //SetTimer();
+}
 
-    startTimer(9);
+void MainWindow::SetTimer() {
+    is_start = true;
+    timer_id = startTimer(9);
+}
+
+void MainWindow::NewGame(){
+    setFocus();
+    qDebug() <<"new";
+    paused = false;
+    players.clear();
+    players.push_back({450, 120, "player_1"});
+    players.push_back({800, 200, "player_2"});
+
+    free_pigs.clear();
+    free_pigs.push_back({100, 10, &pig_running_l, &pig_running_r});
+    free_pigs.push_back({400, 10, &pig_running_l, &pig_running_r});
+
+    flying_pigs.clear();
+    SetTimer();
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
-    setFocus();
+
     time++;
+    if(time > 200) {
+        is_start = false;
+    }
     for (Person& player : players) {
         player.ProcessKeyboard();
         player.UpdateAnimation();
@@ -86,6 +110,12 @@ void MainWindow::timerEvent(QTimerEvent *) {
 void MainWindow::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
+    if (is_start) {
+        DrawHint(p);
+    } else if (time == 2000){
+       DrawBackground();
+    }
+
     for (Person& player : players) {
         player.Draw(p);
     }
@@ -102,6 +132,29 @@ void MainWindow::paintEvent(QPaintEvent *) {
         item.Draw(p);
     }
     p.end();
+}
+
+void MainWindow::DrawHint(QPainter& painter){
+    const QRectF rectangle2 = {kScreenWidth- 355,kScreenHeight - 130, 345, 122};
+    QImage image2;
+    image2.load(":/resources/textures/instruction2.png");
+    painter.drawImage(rectangle2,
+                      image2);
+    const QRectF rectangle1 = {10,kScreenHeight - 130, 345, 122};
+    QImage image1;
+    image1.load(":/resources/textures/instruction1.png");
+    painter.drawImage(rectangle1,
+                      image1);
+}
+
+void MainWindow::DrawBackground() {
+    qDebug() << "Drawing background";
+    QPixmap bkgnd(":/resources/textures/background.png");
+    bkgnd = bkgnd.scaled(kScreenWidth, kScreenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    QPalette p(palette());
+    p.setBrush(QPalette::Background, bkgnd);
+    setAutoFillBackground(true);
+    setPalette(p);
 }
 
 void MainWindow::ThrowPig(Person& player) {
@@ -139,6 +192,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         break;
     case Qt::Key_Shift:
         ThrowPig(players[1]);
+        break;
+    case Qt::Key_Escape: {
+        paused = true;
+        killTimer(timer_id);
+        //SecondWindow window(this);
+        //window.setModal(true);
+        //window.exec();
+        //SetTimer();
+    }
         break;
     default:
         // Нажатия клавиш для обоих игроков (передаём в качестве аргумента нажатую клавишу
