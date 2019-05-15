@@ -6,7 +6,6 @@
 
 Person::Person(int x, int y, QString animation_dir)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
-<<<<<<< HEAD
       run_animation_r(":/resources/animations/" + animation_dir + "/Run.png", 300, 180, kPersonWidth, kPersonHeight),
       stand_animation_r(":/resources/animations/" + animation_dir + "/Stand.png", 300, 180, kPersonWidth, kPersonHeight),
       fly_animation_r(":/resources/animations/" + animation_dir + "/Fly.png", 300, 180, kPersonWidth, kPersonHeight),
@@ -18,21 +17,13 @@ Person::Person(int x, int y, QString animation_dir)
       fly_animation_r_pig(":/resources/animations/" + animation_dir + "/Fly_pig.png", 300, 180, kPersonWidth, kPersonHeight),
       run_animation_l_pig(Reflect(run_animation_r_pig)),
       stand_animation_l_pig(Reflect(stand_animation_r_pig)),
-      fly_animation_l_pig(Reflect(fly_animation_r_pig))
-=======
-      run_animation_l(":/resources/animations/Run.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
-      stand_animation_l(":/resources/animations/Stand.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
-      fly_animation_l(":/resources/animations/Fly.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
-      run_animation_r(Reflect(run_animation_l)),
-      stand_animation_r(Reflect(stand_animation_l)),
-      fly_animation_r(Reflect(fly_animation_l)),
+      fly_animation_l_pig(Reflect(fly_animation_r_pig)),
       m_player (new QMediaPlayer),
       m_playlist (new QMediaPlaylist),
       h_player (new QMediaPlayer),
       h_playlist (new QMediaPlaylist),
       f_player (new QMediaPlayer),
       f_playlist (new QMediaPlaylist)
->>>>>>> sound
 {
     h_player->setPlaylist(h_playlist);
     h_playlist->addMedia(QUrl("qrc:resources/sounds/hit.mp3"));

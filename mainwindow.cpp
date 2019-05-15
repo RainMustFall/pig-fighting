@@ -171,12 +171,9 @@ void MainWindow::ThrowPig(Person& player) {
              player.PlayMusicFly();
         }
         player.armed_ = 0;
-<<<<<<< HEAD
-        //free_pigs.push_back(GeneratePig());
-=======
+
         player.PlayMusicFly();
         free_pigs.push_back(GeneratePig());
->>>>>>> sound
     } else {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
         qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
