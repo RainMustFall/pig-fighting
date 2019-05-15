@@ -28,11 +28,10 @@ public:
     Animation pig_flying_l;
     Animation pig_flying_r;
 
-    std::vector<Person> players = {{450, 120},
-                                   {800, 200}};
+    std::vector<Person> players = {{450, 120, "player_1"},
+                                   {800, 200, "player_2"}};
 
-    std::list<FreePig> free_pigs = {{100, 10, &pig_running_l, &pig_running_r},
-                                    {400, 10, &pig_running_l, &pig_running_r}};
+    std::list<FreePig> free_pigs;
 
     std::list<ShotPig> flying_pigs = {};
 
@@ -47,7 +46,7 @@ public:
                                  {327, 327, 30, 270},
                                  {935, 327, 30, 270},
                                  {1193, 160, 30, 270},
-                                 {1068, 476, 30, 270},
+                                 {1068, 486, 30, 270},
                                  {-52, 486, 30, 270},
                                  {122, 656, 30, 1200}};
 

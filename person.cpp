@@ -4,14 +4,20 @@
 #include "mainwindow.h"
 #include <QDebug>
 
-Person::Person(int x, int y)
+Person::Person(int x, int y, QString animation_dir)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
-      run_animation_l(":/resources/animations/Run.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
-      stand_animation_l(":/resources/animations/Stand.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
-      fly_animation_l(":/resources/animations/Fly.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
-      run_animation_r(Reflect(run_animation_l)),
-      stand_animation_r(Reflect(stand_animation_l)),
-      fly_animation_r(Reflect(fly_animation_l))
+      run_animation_r(":/resources/animations/" + animation_dir + "/Run.png", 300, 180, kPersonWidth, kPersonHeight),
+      stand_animation_r(":/resources/animations/" + animation_dir + "/Stand.png", 300, 180, kPersonWidth, kPersonHeight),
+      fly_animation_r(":/resources/animations/" + animation_dir + "/Fly.png", 300, 180, kPersonWidth, kPersonHeight),
+      run_animation_l(Reflect(run_animation_r)),
+      stand_animation_l(Reflect(stand_animation_r)),
+      fly_animation_l(Reflect(fly_animation_r)),
+      run_animation_r_pig(":/resources/animations/" + animation_dir + "/Run_pig.png", 300, 180, kPersonWidth, kPersonHeight),
+      stand_animation_r_pig(":/resources/animations/" + animation_dir + "/Stand_pig.png", 300, 180, kPersonWidth, kPersonHeight),
+      fly_animation_r_pig(":/resources/animations/" + animation_dir + "/Fly_pig.png", 300, 180, kPersonWidth, kPersonHeight),
+      run_animation_l_pig(Reflect(run_animation_r_pig)),
+      stand_animation_l_pig(Reflect(stand_animation_r_pig)),
+      fly_animation_l_pig(Reflect(fly_animation_r_pig))
 {
     qDebug() << "PERSON CONSTRUCTOR!";
 }
@@ -115,16 +121,39 @@ void Person::UpdateAnimation() {
         if (Left_pressed || Right_pressed) {
             state = State::RUNNING;
         } else {
-            state = State::STANDING;
+            if (current_side == Side::LEFT) {
+                if (!armed_ && run_animation_l.cur_frame_ == run_animation_l.frames_.begin()) {
+                    state = State::STANDING;
+                }
+                if (armed_ && run_animation_l_pig.cur_frame_ == run_animation_l_pig.frames_.begin()) {
+                    state = State::STANDING;
+                }
+            } else {
+                if (!armed_ && run_animation_r.cur_frame_ == run_animation_r.frames_.begin()) {
+                    state = State::STANDING;
+                }
+                if (armed_ && run_animation_r_pig.cur_frame_ == run_animation_r_pig.frames_.begin()) {
+                    state = State::STANDING;
+                }
+            }
         }
     } else {
+        ResetRunAnimation();
         state = State::FLYING;
     }
 
     if (current_side == Side::LEFT) {
-        UpdateAnimationUniversal(run_animation_l, stand_animation_l, fly_animation_l);
+        if (armed_) {
+            UpdateAnimationUniversal(run_animation_l_pig, stand_animation_l_pig, fly_animation_l_pig);
+        } else {
+            UpdateAnimationUniversal(run_animation_l, stand_animation_l, fly_animation_l);
+        }
     } else {
-        UpdateAnimationUniversal(run_animation_r, stand_animation_r, fly_animation_r);
+        if (armed_) {
+            UpdateAnimationUniversal(run_animation_r_pig, stand_animation_r_pig, fly_animation_r_pig);
+        } else {
+            UpdateAnimationUniversal(run_animation_r, stand_animation_r, fly_animation_r);
+        }
     }
 }
 
@@ -153,11 +182,21 @@ void Person::DrawUniversal(QPainter& painter,
 
 void Person::Draw(QPainter& painter) const {
     if (current_side == Side::LEFT) {
-        DrawUniversal(painter, run_animation_l,
-                      stand_animation_l, fly_animation_l);
+        if (!armed_) {
+            DrawUniversal(painter, run_animation_l,
+                          stand_animation_l, fly_animation_l);
+        } else {
+            DrawUniversal(painter, run_animation_l_pig,
+                          stand_animation_l_pig, fly_animation_l_pig);
+        }
     } else {
-        DrawUniversal(painter, run_animation_r,
-                      stand_animation_r, fly_animation_r);
+        if (!armed_) {
+            DrawUniversal(painter, run_animation_r,
+                          stand_animation_r, fly_animation_r);
+        } else {
+            DrawUniversal(painter, run_animation_r_pig,
+                          stand_animation_r_pig, fly_animation_r_pig);
+        }
     }
 }
 
@@ -167,6 +206,13 @@ void Person::DecreaseHealthLevel(){
         health_level -= kHealthDecrease;
     }
     qDebug() << "down" << health_level;
+}
+
+void Person::ResetRunAnimation() {
+    run_animation_l.cur_frame_ = run_animation_l.frames_.begin();
+    run_animation_r.cur_frame_ = run_animation_r.frames_.begin();
+    run_animation_l_pig.cur_frame_ = run_animation_l_pig.frames_.begin();
+    run_animation_r_pig.cur_frame_ = run_animation_r_pig.frames_.begin();
 }
 
 void Person::IncreaseHelthLevel(){

@@ -11,7 +11,7 @@ Animation Reflect(const Animation& animation) {
     return result;
 }
 
-Animation::Animation(const char* img_path, int frame_height, int frame_width, int dst_height, int dst_width)
+Animation::Animation(QString img_path, int frame_height, int frame_width, int dst_height, int dst_width)
 {
     QPixmap image(img_path);
     for (int x = 0; x + frame_width <= image.width(); x += frame_width) {

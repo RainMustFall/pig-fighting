@@ -8,7 +8,7 @@
 class Animation
 {
 public:
-    Animation(const char* img_path, int frame_height, int frame_width, int dst_height, int dst_width);
+    Animation(QString path, int frame_height, int frame_width, int dst_height, int dst_width);
     Animation(const Animation& lhs);
 
     void NextFrame();

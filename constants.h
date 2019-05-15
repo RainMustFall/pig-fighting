@@ -9,15 +9,17 @@
 const int kScreenWidth = 1440;
 const int kScreenHeight = 810;
 
-const int kPersonHeight = 100;
-const int kPersonWidth = 60;
-const int kPigSize = 70;
+const int kPigCount = 8;
+
+const int kPersonHeight = 110;
+const int kPersonWidth = 66;
+const int kPigSize = 55;
 
 const double kJumpPower = -14;
 const double kSpeed = 0.5;
 const double kGravitation = 0.4;
 const double kSpeedLimit = 5;
-const double kSpeedReduce = 0.25;
+const double kSpeedReduce = 0.125;
 const double kShotSpeed = 10.5;
 // Высота полёта свиньи над уровнем земли
 const double kPigHeight = 15;

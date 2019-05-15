@@ -11,7 +11,7 @@ class Person: public MovingObject
 {
 public:
 
-    Person(int x, int y);
+    Person(int x, int y, QString animation_dir);
 
     void CatchPressedKey(int key, const int up_key, const int left_key,
                          const int down_key, const int right_key);
@@ -35,13 +35,21 @@ public:
     bool Down_pressed = false;
 
     // Объекты, отвечающие за проигрывание анимации
+    Animation run_animation_r;
+    Animation stand_animation_r;
+    Animation fly_animation_r;
+
     Animation run_animation_l;
     Animation stand_animation_l;
     Animation fly_animation_l;
 
-    Animation run_animation_r;
-    Animation stand_animation_r;
-    Animation fly_animation_r;
+    Animation run_animation_r_pig;
+    Animation stand_animation_r_pig;
+    Animation fly_animation_r_pig;
+
+    Animation run_animation_l_pig;
+    Animation stand_animation_l_pig;
+    Animation fly_animation_l_pig;
 
     std::list<FreePig>::iterator HitsPig(std::list<FreePig>& pigs);
 
@@ -49,6 +57,7 @@ public:
 
     void DecreaseHealthLevel();
     void IncreaseHelthLevel();
+    void ResetRunAnimation();
     
     enum class State {
         RUNNING,

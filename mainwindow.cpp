@@ -15,9 +15,11 @@ MainWindow::MainWindow(QWidget *parent)
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
     pig_flying_r(Reflect(pig_flying_l))
 {
+
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
     pig_caught.setVolume(0.25f);
+
     startTimer(9);
 }
 
@@ -32,6 +34,12 @@ void MainWindow::timerEvent(QTimerEvent *) {
             time = 0;
             player.IncreaseHelthLevel();
         }
+    }
+
+    if (free_pigs.empty()) {
+        free_pigs.insert(free_pigs.end(), GeneratePig());
+    } else if (rand() % 500 == 0 && free_pigs.size() < kPigCount) {
+        free_pigs.insert(free_pigs.end(), GeneratePig());
     }
 
     pig_running_l.NextFrame();
@@ -110,7 +118,7 @@ void MainWindow::ThrowPig(Person& player) {
             flying_pigs.push_back(pig);
         }
         player.armed_ = 0;
-        free_pigs.push_back(GeneratePig());
+        //free_pigs.push_back(GeneratePig());
     } else {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
         qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
