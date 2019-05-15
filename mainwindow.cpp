@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "constants.h"
+#include "health_field.h"
 #include <QPainter>
 #include <chrono>
 #include <cstdlib>
