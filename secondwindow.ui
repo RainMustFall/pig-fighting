@@ -22,6 +22,14 @@
      <height>60</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Courier New</family>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>Новая игра</string>
    </property>
@@ -34,6 +42,14 @@
      <width>300</width>
      <height>60</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Courier New</family>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Выключить звук</string>
@@ -48,6 +64,14 @@
      <height>60</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Courier New</family>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>Продолжить</string>
    </property>
@@ -60,6 +84,23 @@
      <width>301</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Courier New</family>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Выйти</string>

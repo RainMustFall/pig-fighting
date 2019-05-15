@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSoundEffect>
 #include "constants.h"
 #include "person.h"
 #include "ground.h"
@@ -27,42 +28,38 @@ public:
     Animation pig_flying_l;
     Animation pig_flying_r;
 
-    std::vector<Person> players = {{450, 120},
-                                   {800, 200}};
+    std::vector<Person> players = {{450, 120, "player_1"},
+                                   {800, 200, "player_2"}};
 
-    std::list<FreePig> free_pigs = {{100, 10, &pig_running_l, &pig_running_r},
-                                    {400, 10, &pig_running_l, &pig_running_r}};
+    std::list<FreePig> free_pigs;
 
     std::list<ShotPig> flying_pigs = {};
 
-<<<<<<< HEAD
+
+    std::list<HealthField> health_fields = {
+           {10,10,100, &players[0]},
+           {kScreenWidth - 110,10,100, &players[1]}
+       };
+
     std::vector<Ground>ground = {{-146, 160, 30, 420},
                                  /*{223, 46, 115, 30},*/
                                  {587, 130, 30, 270},
                                  {327, 327, 30, 270},
                                  {935, 327, 30, 270},
                                  {1193, 160, 30, 270},
-                                 {1068, 476, 30, 270},
+                                 {1068, 486, 30, 270},
                                  {-52, 486, 30, 270},
                                  {122, 656, 30, 1200}};
-=======
-    std::vector<Ground>ground = {{-146, 160, 30, 400},
-                                 {223, 46, 115, 30},
-                                 {587, 130, 30, 282},
-                                 {327, 327, 30, 282},
-                                 {935, 327, 30, 282},
-                                 {1193, 160, 30, 282},
-                                 {1068, 476, 30, 282},
-                                 {-52, 486, 30, 282},
-                                 {122, 656, 30, 1190}};
-
-    std::list<HealthField> health_fields = {
-        {10,10,100, &players[0]},
-        {kScreenWidth - 110,10,100, &players[1]}
-    };
 
     int time = 0;
->>>>>>> interaction
+
+    QSoundEffect pig_caught;
+    int timer_id;
+    bool isTimerActive = true;
+
+    void SetTimer();
+
+    void NewGame();
 };
 
 #endif // MAINWINDOW_H
