@@ -34,7 +34,8 @@ SOURCES += \
     movingobject.cpp \
     freepig.cpp \
     shotpig.cpp \
-    animation.cpp
+    animation.cpp \
+    secondwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,10 +46,12 @@ HEADERS += \
     movingobject.h \
     freepig.h \
     shotpig.h \
-    animation.h
+    animation.h \
+    secondwindow.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    secondwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

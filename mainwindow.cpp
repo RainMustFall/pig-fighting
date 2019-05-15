@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "constants.h"
+#include "secondwindow.h"
 #include <QPainter>
 #include <chrono>
 #include <cstdlib>
@@ -109,6 +110,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         break;
     case Qt::Key_Shift:
         ThrowPig(players[1]);
+        break;
+    case Qt::Key_Escape: { SecondWindow window;
+        window.setModal(true);
+        window.exec();
+    }
         break;
     default:
         // Нажатия клавиш для обоих игроков (передаём в качестве аргумента нажатую клавишу
