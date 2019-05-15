@@ -4,6 +4,7 @@
 #include "gameobject.h"
 #include "person.h"
 
+
 class ShotPig : public MovingObject
 {
 public:

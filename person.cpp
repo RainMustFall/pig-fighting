@@ -11,8 +11,13 @@ Person::Person(int x, int y)
       fly_animation_l(":/resources/animations/Fly.png", kPersonHeight, kPersonWidth, kPersonWidth, kPersonHeight),
       run_animation_r(Reflect(run_animation_l)),
       stand_animation_r(Reflect(stand_animation_l)),
-      fly_animation_r(Reflect(fly_animation_l))
+      fly_animation_r(Reflect(fly_animation_l)),
+      m_player (new QMediaPlayer),
+      m_playlist (new QMediaPlaylist)
 {
+    m_player->setPlaylist(m_playlist);
+    m_playlist->addMedia(QUrl("qrc:resources/sounds/pig_fly.mp3"));
+    m_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
     qDebug() << "PERSON CONSTRUCTOR!";
 }
 
@@ -174,6 +179,9 @@ void Person::IncreaseHelthLevel(){
     health_level += 1;
     }
     qDebug() << "up" << health_level;
+}
+void Person::PlayMusic() {
+     m_player->play();
 }
 
 std::list<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {

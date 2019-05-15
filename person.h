@@ -4,6 +4,8 @@
 #include "animation.h"
 #include "movingobject.h"
 #include "freepig.h"
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class MainWindow;
 
@@ -57,6 +59,9 @@ public:
     };
 
     State state;
+    QMediaPlayer *m_player;
+    QMediaPlaylist *m_playlist;
+    void PlayMusic();
 
 protected:
     void UpdateAnimationUniversal(Animation& run_animation,

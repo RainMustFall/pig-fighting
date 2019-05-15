@@ -16,6 +16,7 @@ public:
 
     const Animation* pig_running_l;
     const Animation* pig_running_r;
+
 };
 
 #endif // FREEPIG_H

@@ -118,6 +118,7 @@ void MainWindow::ThrowPig(Person& player) {
 //            QSound::play(":/resources/sounds/pig_caught.mp3");
             pig_caught.play();
             player.CatchPig(*current_pig);
+            player.PlayMusic();
             free_pigs.erase(current_pig);
         }
     }
