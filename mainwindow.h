@@ -9,7 +9,7 @@
 #include "shotpig.h"
 #include "health_field.h"
 
-class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
     Q_OBJECT
 

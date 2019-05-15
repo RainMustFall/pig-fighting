@@ -9,7 +9,7 @@
 #include <QSound>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
+    : QWidget(parent),
     pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
     pig_running_r(Reflect(pig_running_l)),
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
+    setFocus();
     time++;
     for (Person& player : players) {
         player.ProcessKeyboard();
