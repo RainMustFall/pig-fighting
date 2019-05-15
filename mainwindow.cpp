@@ -17,19 +17,21 @@ MainWindow::MainWindow(QWidget *parent)
     pig_flying_r(Reflect(pig_flying_l))
 {
     DrawBackground();
-
+    setFocus();
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
     pig_caught.setVolume(0.25f);
-    SetTimer();
 }
 
 void MainWindow::SetTimer() {
     is_start = true;
     timer_id = startTimer(9);
 }
+
 void MainWindow::NewGame(){
+    setFocus();
     qDebug() <<"new";
+    paused = false;
     players.clear();
     players.push_back({450, 120, "player_1"});
     players.push_back({800, 200, "player_2"});
@@ -39,9 +41,11 @@ void MainWindow::NewGame(){
     free_pigs.push_back({400, 10, &pig_running_l, &pig_running_r});
 
     flying_pigs.clear();
+    SetTimer();
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
+
     time++;
     if(time > 200) {
         is_start = false;
@@ -143,12 +147,14 @@ void MainWindow::DrawHint(QPainter& painter){
                       image1);
 }
 
-void MainWindow::DrawBackground(){
+void MainWindow::DrawBackground() {
+    qDebug() << "Drawing background";
     QPixmap bkgnd(":/resources/textures/background.png");
-    bkgnd = bkgnd.scaled(1440, 810, Qt::IgnoreAspectRatio);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, bkgnd);
-    this->setPalette(palette);
+    bkgnd = bkgnd.scaled(kScreenWidth, kScreenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    QPalette p(palette());
+    p.setBrush(QPalette::Background, bkgnd);
+    setAutoFillBackground(true);
+    setPalette(p);
 }
 
 void MainWindow::ThrowPig(Person& player) {
@@ -188,11 +194,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         ThrowPig(players[1]);
         break;
     case Qt::Key_Escape: {
+        paused = true;
         killTimer(timer_id);
-        SecondWindow window(this);
-        window.setModal(true);
-        window.exec();
-        SetTimer();
     }
         break;
     default:

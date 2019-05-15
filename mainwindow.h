@@ -64,6 +64,7 @@ public:
     void DrawHint(QPainter& painter);
 
     bool is_start = true;
+    bool paused = true;
 };
 
 #endif // MAINWINDOW_H
