@@ -7,6 +7,7 @@ FreePig::FreePig(int x, int y, Animation* running_left, Animation* running_right
     : MovingObject(x, y, kPigSize, kPigSize),
       pig_running_l(running_left),
       pig_running_r(running_right)
+
 {
     moveVector_.x = -1.0;
 };
