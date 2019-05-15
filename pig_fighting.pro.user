@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.8.2, 2019-05-15T21:17:58. -->
+<!-- Written by QtCreator 4.8.2, 2019-05-15T22:02:59. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -296,8 +296,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">pig_fighting</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/ekate/Downloads/pig_fighting-820e58bfd6e20ec0e3515ce421a2c036a244586c/pig_fighting-820e58bfd6e20ec0e3515ce421a2c036a244586c/pig_fighting.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">pig_fighting2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/ekate/Downloads/pig_fighting-sound/pig_fighting-sound/pig_fighting.pro</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">pig_fighting.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
@@ -550,7 +550,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">pig_fighting</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/ekate/Downloads/pig_fighting-820e58bfd6e20ec0e3515ce421a2c036a244586c/pig_fighting-820e58bfd6e20ec0e3515ce421a2c036a244586c/pig_fighting.pro</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">pig_fighting.pro</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">../../pig_fighting-820e58bfd6e20ec0e3515ce421a2c036a244586c/pig_fighting-820e58bfd6e20ec0e3515ce421a2c036a244586c/pig_fighting.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
