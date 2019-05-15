@@ -35,6 +35,7 @@ public:
 
     std::list<ShotPig> flying_pigs = {};
 
+
     std::list<HealthField> health_fields = {
            {10,10,100, &players[0]},
            {kScreenWidth - 110,10,100, &players[1]}
@@ -53,7 +54,12 @@ public:
     int time = 0;
 
     QSoundEffect pig_caught;
+    int timer_id;
+    bool isTimerActive = true;
 
+    void SetTimer();
+
+    void NewGame();
 };
 
 #endif // MAINWINDOW_H

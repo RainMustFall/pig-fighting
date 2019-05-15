@@ -36,7 +36,11 @@ SOURCES += \
     freepig.cpp \
     shotpig.cpp \
     animation.cpp \
+<<<<<<< HEAD
     health_field.cpp
+=======
+    secondwindow.cpp
+>>>>>>> menu
 
 HEADERS += \
         mainwindow.h \
@@ -48,10 +52,15 @@ HEADERS += \
     freepig.h \
     shotpig.h \
     animation.h \
+<<<<<<< HEAD
     health_field.h
+=======
+    secondwindow.h
+>>>>>>> menu
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    secondwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "constants.h"
 #include "health_field.h"
+#include "secondwindow.h"
 #include <QPainter>
 #include <chrono>
 #include <cstdlib>
@@ -19,8 +20,24 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
     pig_caught.setVolume(0.25f);
+    SetTimer();
+}
 
-    startTimer(9);
+void MainWindow::SetTimer() {
+    qDebug() << "Set!";
+    timer_id = startTimer(9);
+}
+void MainWindow::NewGame(){
+    qDebug() <<"new";
+    players.clear();
+    players.push_back({450, 120, "player_1"});
+    players.push_back({800, 200, "player_2"});
+
+    free_pigs.clear();
+    free_pigs.push_back({100, 10, &pig_running_l, &pig_running_r});
+    free_pigs.push_back({400, 10, &pig_running_l, &pig_running_r});
+
+    flying_pigs.clear();
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
@@ -138,6 +155,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         break;
     case Qt::Key_Shift:
         ThrowPig(players[1]);
+        break;
+    case Qt::Key_Escape: {
+        killTimer(timer_id);
+        SecondWindow window(this);
+        window.setModal(true);
+        window.exec();
+        SetTimer();
+    }
         break;
     default:
         // Нажатия клавиш для обоих игроков (передаём в качестве аргумента нажатую клавишу
