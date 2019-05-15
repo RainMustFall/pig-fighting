@@ -7,7 +7,8 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
+
 
 TARGET = pig_fighting
 TEMPLATE = app
@@ -34,7 +35,8 @@ SOURCES += \
     movingobject.cpp \
     freepig.cpp \
     shotpig.cpp \
-    animation.cpp
+    animation.cpp \
+    health_field.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +47,8 @@ HEADERS += \
     movingobject.h \
     freepig.h \
     shotpig.h \
-    animation.h
+    animation.h \
+    health_field.h
 
 FORMS += \
         mainwindow.ui

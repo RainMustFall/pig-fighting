@@ -6,6 +6,7 @@
 #include "person.h"
 #include "ground.h"
 #include "shotpig.h"
+#include "health_field.h"
 
 class MainWindow : public QMainWindow
 {

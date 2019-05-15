@@ -11,7 +11,7 @@ public:
     void setX (double x);
     void setY (double y);
     void PositionGenerate();
-    void Draw(QPainter& painter) const override;
+    void Draw(QPainter& painter) const;
     void UpdateAnimation();
 
     const Animation* pig_running_l;

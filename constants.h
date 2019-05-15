@@ -22,4 +22,9 @@ const double kShotSpeed = 10.5;
 // Высота полёта свиньи над уровнем земли
 const double kPigHeight = 15;
 
+//снижения здоровья
+const int kHealthDecrease = 20;
+//время, через которое здоровье снижается
+const int kTimeHealthUp = 500;
+
 #endif // CONSTANTS_H

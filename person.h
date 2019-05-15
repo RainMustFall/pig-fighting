@@ -44,6 +44,11 @@ public:
     Animation fly_animation_r;
 
     std::list<FreePig>::iterator HitsPig(std::list<FreePig>& pigs);
+
+    int health_level = 100;
+
+    void DecreaseHealthLevel();
+    void IncreaseHelthLevel();
     
     enum class State {
         RUNNING,
