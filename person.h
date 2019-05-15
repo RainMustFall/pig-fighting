@@ -66,6 +66,7 @@ public:
     };
 
     State state;
+    QString name;
 
 protected:
     void UpdateAnimationUniversal(Animation& run_animation,

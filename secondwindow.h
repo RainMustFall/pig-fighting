@@ -13,10 +13,19 @@ class SecondWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit SecondWindow(MainWindow *parent = nullptr);
+    enum class PauseCase {
+        FIRSTWIN,
+        SECONDWIN,
+        ESCAPE
+    };
+
+
+    SecondWindow(MainWindow *parent = nullptr, PauseCase type = PauseCase::ESCAPE);
     ~SecondWindow();
 
+    PauseCase type;
     MainWindow *parent;
+    bool ThirdButtonSoundTurnOn;
 
 private slots:
     void on_pushButton_clicked();
@@ -27,8 +36,12 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_3_windowIconTextChanged(const QString &iconText);
+
 private:
     Ui::SecondWindow *ui;
+
+
 };
 
 #endif // SECONDWINDOW_H

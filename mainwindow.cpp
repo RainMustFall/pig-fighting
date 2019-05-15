@@ -81,6 +81,20 @@ void MainWindow::timerEvent(QTimerEvent *) {
             const Person* hitting_person_const = dynamic_cast<const Person*>(hitting_object);
             Person* hitting_person = const_cast<Person*>(hitting_person_const);
             hitting_person->DecreaseHealthLevel();
+            if (hitting_person->health_level <= 0) {
+                killTimer(timer_id);
+                SecondWindow::PauseCase reason;
+                if (hitting_person->name == "player_2") {
+                    reason = SecondWindow::PauseCase::FIRSTWIN;
+                } else {
+                    reason = SecondWindow::PauseCase::SECONDWIN;
+                }
+                SecondWindow window(this, reason);
+                window.setModal(true);
+                window.exec();
+                SetTimer();
+            }
+
 
         } else {
             QSound::play(":/resources/sounds/hit2.mp3");
@@ -158,7 +172,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         break;
     case Qt::Key_Escape: {
         killTimer(timer_id);
-        SecondWindow window(this);
+        SecondWindow window(this, SecondWindow::PauseCase::ESCAPE);
         window.setModal(true);
         window.exec();
         SetTimer();

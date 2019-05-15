@@ -60,6 +60,8 @@ public:
     void SetTimer();
 
     void NewGame();
+
+    bool SoundOn = true;
 };
 
 #endif // MAINWINDOW_H

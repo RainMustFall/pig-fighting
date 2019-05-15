@@ -17,7 +17,8 @@ Person::Person(int x, int y, QString animation_dir)
       fly_animation_r_pig(":/resources/animations/" + animation_dir + "/Fly_pig.png", 300, 180, kPersonWidth, kPersonHeight),
       run_animation_l_pig(Reflect(run_animation_r_pig)),
       stand_animation_l_pig(Reflect(stand_animation_r_pig)),
-      fly_animation_l_pig(Reflect(fly_animation_r_pig))
+      fly_animation_l_pig(Reflect(fly_animation_r_pig)),
+      name(animation_dir)
 {
     qDebug() << "PERSON CONSTRUCTOR!";
 }
