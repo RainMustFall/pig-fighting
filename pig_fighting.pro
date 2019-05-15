@@ -36,11 +36,8 @@ SOURCES += \
     freepig.cpp \
     shotpig.cpp \
     animation.cpp \
-<<<<<<< HEAD
-    health_field.cpp
-=======
+    health_field.cpp \
     secondwindow.cpp
->>>>>>> menu
 
 HEADERS += \
         mainwindow.h \
@@ -52,11 +49,8 @@ HEADERS += \
     freepig.h \
     shotpig.h \
     animation.h \
-<<<<<<< HEAD
-    health_field.h
-=======
+    health_field.h \
     secondwindow.h
->>>>>>> menu
 
 FORMS += \
         mainwindow.ui \
