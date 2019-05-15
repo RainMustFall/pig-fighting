@@ -16,6 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
     pig_flying_r(Reflect(pig_flying_l))
 {
+    QPixmap bkgnd(":/resources/textures/background.png");
+    bkgnd = bkgnd.scaled(1440, 810, Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, bkgnd);
+    this->setPalette(palette);
 
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
