@@ -113,11 +113,6 @@ void MainWindow::timerEvent(QTimerEvent *) {
 void MainWindow::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
-    if (is_start) {
-        DrawHint(p);
-    } else if (time == 2000){
-       DrawBackground();
-    }
 
     for (Person& player : players) {
         player.Draw(p);
@@ -134,16 +129,22 @@ void MainWindow::paintEvent(QPaintEvent *) {
     for (ShotPig& item: flying_pigs) {
         item.Draw(p);
     }
+    if (is_start) {
+        DrawHint(p);
+    } else if (time == 5000){
+        is_start = false;
+       DrawBackground();
+    }
     p.end();
 }
 
 void MainWindow::DrawHint(QPainter& painter){
-    const QRectF rectangle2 = {kScreenWidth- 355,kScreenHeight - 130, 345, 122};
+    const QRectF rectangle2 = {kScreenWidth- 355,kScreenHeight - 180, 345, 122};
     QImage image2;
     image2.load(":/resources/textures/instruction2.png");
     painter.drawImage(rectangle2,
                       image2);
-    const QRectF rectangle1 = {10,kScreenHeight - 130, 345, 122};
+    const QRectF rectangle1 = {10,kScreenHeight - 180, 345, 122};
     QImage image1;
     image1.load(":/resources/textures/instruction1.png");
     painter.drawImage(rectangle1,
