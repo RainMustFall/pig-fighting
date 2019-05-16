@@ -11,34 +11,24 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-
     pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
     pig_running_r(Reflect(pig_running_l)),
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
-    pig_flying_r(Reflect(pig_flying_l)),
-    f_player (new QMediaPlayer),
-    f_playlist (new QMediaPlaylist)
+    pig_flying_r(Reflect(pig_flying_l))
 {
-    f_player->setPlaylist(f_playlist);
-    f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
-    f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    DrawBackground();
-    setFocus();
+
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
     pig_caught.setVolume(0.25f);
+    SetTimer();
 }
 
 void MainWindow::SetTimer() {
-    is_start = true;
+    qDebug() << "Set!";
     timer_id = startTimer(9);
 }
-
 void MainWindow::NewGame(){
-    f_player->play();
-    setFocus();
     qDebug() <<"new";
-    paused = false;
     players.clear();
     players.push_back({450, 120, "player_1"});
     players.push_back({800, 200, "player_2"});
@@ -48,15 +38,10 @@ void MainWindow::NewGame(){
     free_pigs.push_back({400, 10, &pig_running_l, &pig_running_r});
 
     flying_pigs.clear();
-    SetTimer();
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
-
     time++;
-    if(time > 200) {
-        is_start = false;
-    }
     for (Person& player : players) {
         player.ProcessKeyboard();
         player.UpdateAnimation();
@@ -92,16 +77,27 @@ void MainWindow::timerEvent(QTimerEvent *) {
             }
         } else if (dynamic_cast<const Person*>(hitting_object) != nullptr){
             QSound::play(":/resources/sounds/hit.mp3");
-            players[0].PlayMusicHit();
-            players[1].PlayMusicHit();
             item = flying_pigs.erase(item);
             const Person* hitting_person_const = dynamic_cast<const Person*>(hitting_object);
             Person* hitting_person = const_cast<Person*>(hitting_person_const);
             hitting_person->DecreaseHealthLevel();
+            if (hitting_person->health_level <= 0) {
+                killTimer(timer_id);
+                SecondWindow::PauseCase reason;
+                if (hitting_person->name == "player_2") {
+                    reason = SecondWindow::PauseCase::FIRSTWIN;
+                } else {
+                    reason = SecondWindow::PauseCase::SECONDWIN;
+                }
+                SecondWindow window(this, reason);
+                window.setModal(true);
+                window.exec();
+                SetTimer();
+            }
+
 
         } else {
             QSound::play(":/resources/sounds/hit2.mp3");
-            item->PlayMusic();
             item = flying_pigs.erase(item);
         }
     }
@@ -120,7 +116,6 @@ void MainWindow::timerEvent(QTimerEvent *) {
 void MainWindow::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
-
     for (Person& player : players) {
         player.Draw(p);
     }
@@ -136,35 +131,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
     for (ShotPig& item: flying_pigs) {
         item.Draw(p);
     }
-    if (is_start) {
-        DrawHint(p);
-    } else if (time == 2000){
-       DrawBackground();
-    }
     p.end();
-}
-
-void MainWindow::DrawHint(QPainter& painter){
-    const QRectF rectangle2 = {kScreenWidth- 355,kScreenHeight - 180, 345, 122};
-    QImage image2;
-    image2.load(":/resources/textures/instruction2.png");
-    painter.drawImage(rectangle2,
-                      image2);
-    const QRectF rectangle1 = {10,kScreenHeight - 180, 345, 122};
-    QImage image1;
-    image1.load(":/resources/textures/instruction1.png");
-    painter.drawImage(rectangle1,
-                      image1);
-}
-
-void MainWindow::DrawBackground() {
-    qDebug() << "Drawing background";
-    QPixmap bkgnd(":/resources/textures/background.png");
-    bkgnd = bkgnd.scaled(kScreenWidth, kScreenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QPalette p(palette());
-    p.setBrush(QPalette::Background, bkgnd);
-    setAutoFillBackground(true);
-    setPalette(p);
 }
 
 void MainWindow::ThrowPig(Person& player) {
@@ -175,16 +142,14 @@ void MainWindow::ThrowPig(Person& player) {
                         player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             pig.PlayMusicFly();
         } else {
             ShotPig pig(player.position_.x + player.Width() + 1,
                         player.position_.y + player.Height() - kPigSize - kPigHeight, 1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             pig.PlayMusicFly();
         }
         player.armed_ = 0;
-        free_pigs.push_back(GeneratePig());
+        //free_pigs.push_back(GeneratePig());
     } else {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
         qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
@@ -192,7 +157,6 @@ void MainWindow::ThrowPig(Person& player) {
 //            QSound::play(":/resources/sounds/pig_caught.mp3");
             pig_caught.play();
             player.CatchPig(*current_pig);
-            player.PlayMusic();
             free_pigs.erase(current_pig);
         }
     }
@@ -207,8 +171,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         ThrowPig(players[1]);
         break;
     case Qt::Key_Escape: {
-        paused = true;
         killTimer(timer_id);
+        SecondWindow window(this, SecondWindow::PauseCase::ESCAPE);
+        window.setModal(true);
+        window.exec();
+        SetTimer();
     }
         break;
     default:

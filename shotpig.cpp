@@ -7,18 +7,8 @@ ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player,
     : MovingObject(x, y, kPigSize, kPigSize),
       shooting_player(shooting_player),
       pig_flying_l(flying_left),
-      pig_flying_r(flying_right),
-      h_player (new QMediaPlayer),
-      h_playlist (new QMediaPlaylist),
-      f_player (new QMediaPlayer),
-      f_playlist (new QMediaPlaylist)
+      pig_flying_r(flying_right)
 {
-    f_player->setPlaylist(f_playlist);
-    f_playlist->addMedia(QUrl("qrc:resources/sounds/pig_fly.mp3"));
-    f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
-    h_player->setPlaylist(h_playlist);
-    h_playlist->addMedia(QUrl("qrc:resources/sounds/hit2.mp3"));
-    h_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
     moveVector_.x = direction * kShotSpeed;
     moveVector_.y = 0;
 }
@@ -47,15 +37,6 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
     }
     return nullptr;
 }
-
-void ShotPig::PlayMusic(){
-    h_player->play();
-}
-
-void ShotPig::PlayMusicFly() {
-     f_player->play();
-}
-
 
 void ShotPig::Draw(QPainter& painter) const {
 
