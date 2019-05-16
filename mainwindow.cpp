@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "constants.h"
 #include "health_field.h"
-#include "secondwindow.h"
+#include "themostmainwindow.h"
 #include <QPainter>
 #include <chrono>
 #include <cstdlib>
@@ -11,18 +11,19 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-
     pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
     pig_running_r(Reflect(pig_running_l)),
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
     pig_flying_r(Reflect(pig_flying_l)),
     f_player (new QMediaPlayer),
-    f_playlist (new QMediaPlaylist)
+    f_playlist (new QMediaPlaylist),
+    parent_(dynamic_cast<TheMostMainWindow*>(parent))
 {
     f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
     f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
     f_player->setVolume(15);
+
     DrawBackground();
     setFocus();
     qDebug() << "HERE! ";
@@ -36,7 +37,6 @@ void MainWindow::SetTimer() {
 }
 
 void MainWindow::NewGame(){
-    f_player->play();
     setFocus();
     qDebug() <<"new";
     paused = false;
@@ -50,6 +50,28 @@ void MainWindow::NewGame(){
 
     flying_pigs.clear();
     SetTimer();
+}
+
+void MainWindow::Pause(const QString &reason) {
+    if (!paused) {
+        parent_->ui->new_game->setEnabled(true);
+        parent_->ui->comboBox->setEnabled(true);
+        parent_->ui->pause->setText("Продолжить");
+        killTimer(timer_id);
+        parent_->ui->label_2->setText(reason);
+    } else {
+        setFocus();
+        parent_->ui->new_game->setEnabled(false);
+        parent_->ui->comboBox->setEnabled(false);
+        parent_->ui->pause->setText("Пауза");
+        parent_->ui->label_2->setText("");
+        SetTimer();
+    }
+    if(reason != "Пауза"){
+        parent_->ui->pause->setEnabled(false);
+    }
+
+    paused = not(paused);
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
@@ -99,6 +121,18 @@ void MainWindow::timerEvent(QTimerEvent *) {
             const Person* hitting_person_const = dynamic_cast<const Person*>(hitting_object);
             Person* hitting_person = const_cast<Person*>(hitting_person_const);
             hitting_person->DecreaseHealthLevel();
+            if (hitting_person->health_level <= 0) {
+                // paused = true;
+                if (hitting_person->name_ == 1) {
+                    Pause("Игрок 2 выиграл!");
+                } else {
+                    Pause("Игрок 1 выиграл!");
+                }
+                killTimer(timer_id);
+                is_start = true;
+
+            }
+
 
         } else {
             QSound::play(":/resources/sounds/hit2.mp3");
@@ -176,15 +210,17 @@ void MainWindow::ThrowPig(Person& player) {
                         player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             pig.PlayMusicFly();
+             player.PlayMusicFly();
         } else {
             ShotPig pig(player.position_.x + player.Width() + 1,
                         player.position_.y + player.Height() - kPigSize - kPigHeight, 1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             pig.PlayMusicFly();
+             player.PlayMusicFly();
         }
         player.armed_ = 0;
+
+        player.PlayMusicFly();
         free_pigs.push_back(GeneratePig());
     } else {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
@@ -202,14 +238,17 @@ void MainWindow::ThrowPig(Person& player) {
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     switch (event->key()) {
     case Qt::Key_Space:
+        players[0].PlayMusicFly();
         ThrowPig(players[0]);
         break;
     case Qt::Key_Shift:
+        players[1].PlayMusicFly();
         ThrowPig(players[1]);
         break;
     case Qt::Key_Escape: {
-        paused = true;
+
         killTimer(timer_id);
+        Pause("Пауза");
     }
         break;
     default:

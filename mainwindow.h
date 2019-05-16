@@ -3,13 +3,13 @@
 
 #include <QMainWindow>
 #include <QSoundEffect>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
 #include "constants.h"
 #include "person.h"
 #include "ground.h"
 #include "shotpig.h"
 #include "health_field.h"
+
+class TheMostMainWindow;
 
 class MainWindow : public QMainWindow
 {
@@ -64,13 +64,16 @@ public:
     void NewGame();
     void DrawBackground();
     void DrawHint(QPainter& painter);
+    void Pause(const QString& reason);
 
     bool is_start = true;
     bool paused = true;
-    QMediaPlayer *f_player;
-    QMediaPlaylist *f_playlist;
+    TheMostMainWindow* parent_;
 
     char* bg_path = ":/resources/textures/background.png";
+
+    QMediaPlayer *f_player;
+    QMediaPlaylist *f_playlist;
 };
 
 #endif // MAINWINDOW_H

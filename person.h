@@ -72,9 +72,12 @@ public:
     QMediaPlaylist *m_playlist;
     QMediaPlayer *h_player;
     QMediaPlaylist *h_playlist;
-
+    QMediaPlayer *f_player;
+    QMediaPlaylist *f_playlist;
     void PlayMusic();
     void PlayMusicHit();
+    void PlayMusicFly();
+    int name_;
 
 protected:
     void UpdateAnimationUniversal(Animation& run_animation,
