@@ -23,6 +23,8 @@ Person::Person(int x, int y, QString animation_dir)
       h_player (new QMediaPlayer),
       h_playlist (new QMediaPlaylist)
 {
+    m_player->setVolume(100);
+    h_player->setVolume(100);
     h_player->setPlaylist(h_playlist);
     h_playlist->addMedia(QUrl("qrc:resources/sounds/hit.mp3"));
     h_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);

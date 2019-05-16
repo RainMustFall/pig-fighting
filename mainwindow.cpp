@@ -22,11 +22,12 @@ MainWindow::MainWindow(QWidget *parent)
     f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
     f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    f_player->setVolume(3);
     DrawBackground();
     setFocus();
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
-    pig_caught.setVolume(0.25f);
+    pig_caught.setVolume(0.5f);
 }
 
 void MainWindow::SetTimer() {
