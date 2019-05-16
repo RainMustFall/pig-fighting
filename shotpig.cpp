@@ -13,6 +13,8 @@ ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player,
       f_player (new QMediaPlayer),
       f_playlist (new QMediaPlaylist)
 {
+    h_player->setVolume(100);
+    f_player->setVolume(10);
     f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/pig_fly.mp3"));
     f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);

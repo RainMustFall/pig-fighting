@@ -11,16 +11,23 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
+
     pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
     pig_running_r(Reflect(pig_running_l)),
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
-    pig_flying_r(Reflect(pig_flying_l))
+    pig_flying_r(Reflect(pig_flying_l)),
+    f_player (new QMediaPlayer),
+    f_playlist (new QMediaPlaylist)
 {
+    f_player->setPlaylist(f_playlist);
+    f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
+    f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    f_player->setVolume(3);
     DrawBackground();
     setFocus();
     qDebug() << "HERE! ";
     pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
-    pig_caught.setVolume(0.25f);
+    pig_caught.setVolume(0.5f);
 }
 
 void MainWindow::SetTimer() {
@@ -29,6 +36,7 @@ void MainWindow::SetTimer() {
 }
 
 void MainWindow::NewGame(){
+    f_player->play();
     setFocus();
     qDebug() <<"new";
     paused = false;
