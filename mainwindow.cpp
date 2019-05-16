@@ -113,6 +113,11 @@ void MainWindow::timerEvent(QTimerEvent *) {
 void MainWindow::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
+    if (is_start) {
+        DrawHint(p);
+    } else if (time == 2000){
+       DrawBackground();
+    }
 
     for (Person& player : players) {
         player.Draw(p);
@@ -128,12 +133,6 @@ void MainWindow::paintEvent(QPaintEvent *) {
     }
     for (ShotPig& item: flying_pigs) {
         item.Draw(p);
-    }
-    if (is_start) {
-        DrawHint(p);
-    } else if (time == 5000){
-        is_start = false;
-       DrawBackground();
     }
     p.end();
 }

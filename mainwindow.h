@@ -65,6 +65,8 @@ public:
 
     bool is_start = true;
     bool paused = true;
+
+    char* bg_path = ":/resources/textures/background.png";
 };
 
 #endif // MAINWINDOW_H
