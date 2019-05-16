@@ -38,11 +38,13 @@ void TheMostMainWindow::on_pause_clicked()
         ui->comboBox->setEnabled(true);
         ui->pause->setText("Продолжить");
         win->killTimer(win->timer_id);
+        ui->label_2->setText("Пауза");
     } else {
         win->setFocus();
         ui->new_game->setEnabled(false);
         ui->comboBox->setEnabled(false);
         ui->pause->setText("Пауза");
+        ui->label_2->setText("");
         win->SetTimer();
     }
 

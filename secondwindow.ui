@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>МЕНЮ</string>
+   <string>Dialog</string>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
@@ -21,6 +21,14 @@
      <width>300</width>
      <height>60</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Courier New</family>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Новая игра</string>
@@ -35,6 +43,14 @@
      <height>60</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Courier New</family>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>Выключить звук</string>
    </property>
@@ -47,6 +63,14 @@
      <width>300</width>
      <height>60</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Courier New</family>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Продолжить</string>
@@ -61,29 +85,25 @@
      <height>61</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Выйти</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>124</x>
-     <y>10</y>
-     <width>251</width>
-     <height>41</height>
-    </rect>
-   </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>Courier New</family>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
-   <property name="text">
-    <string>Игрок 1 победил!</string>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
    </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Выйти</string>
    </property>
   </widget>
  </widget>

@@ -9,6 +9,8 @@
 #include "shotpig.h"
 #include "health_field.h"
 
+class TheMostMainWindow;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -60,8 +62,15 @@ public:
     void SetTimer();
 
     void NewGame();
+    void DrawBackground();
+    void DrawHint(QPainter& painter);
+    void Pause(const QString& reason);
 
-    bool SoundOn = true;
+    bool is_start = true;
+    bool paused = true;
+    TheMostMainWindow* parent_;
+
+    char* bg_path = ":/resources/textures/background.png";
 };
 
 #endif // MAINWINDOW_H

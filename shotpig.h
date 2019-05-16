@@ -3,6 +3,10 @@
 #include "movingobject.h"
 #include "gameobject.h"
 #include "person.h"
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
+
+
 
 class ShotPig : public MovingObject
 {
@@ -16,6 +20,9 @@ public:
 
     const Animation* pig_flying_l;
     const Animation* pig_flying_r;
+    QMediaPlayer *h_player;
+    QMediaPlaylist *h_playlist;
+    void PlayMusic();
 };
 
 #endif // SHOTPIG_H
