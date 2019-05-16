@@ -168,17 +168,15 @@ void MainWindow::ThrowPig(Person& player) {
                         player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             player.PlayMusicFly();
+             pig.PlayMusicFly();
         } else {
             ShotPig pig(player.position_.x + player.Width() + 1,
                         player.position_.y + player.Height() - kPigSize - kPigHeight, 1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             player.PlayMusicFly();
+             pig.PlayMusicFly();
         }
         player.armed_ = 0;
-
-        player.PlayMusicFly();
         free_pigs.push_back(GeneratePig());
     } else {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
@@ -196,11 +194,9 @@ void MainWindow::ThrowPig(Person& player) {
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     switch (event->key()) {
     case Qt::Key_Space:
-        players[0].PlayMusicFly();
         ThrowPig(players[0]);
         break;
     case Qt::Key_Shift:
-        players[1].PlayMusicFly();
         ThrowPig(players[1]);
         break;
     case Qt::Key_Escape: {
