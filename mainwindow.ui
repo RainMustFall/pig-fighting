@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Pig Fighting</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="new_game">
@@ -93,10 +93,10 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>1443</x>
+      <x>1497</x>
       <y>223</y>
-      <width>211</width>
-      <height>41</height>
+      <width>111</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
@@ -109,6 +109,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

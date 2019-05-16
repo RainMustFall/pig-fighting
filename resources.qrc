@@ -38,5 +38,6 @@
         <file>textures/snow/right.png</file>
         <file>textures/sand/background.png</file>
         <file>textures/grass/background.png</file>
+        <file>textures/icon.ico</file>
     </qresource>
 </RCC>

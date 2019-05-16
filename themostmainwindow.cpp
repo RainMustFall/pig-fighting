@@ -7,6 +7,9 @@ TheMostMainWindow::TheMostMainWindow(QWidget *parent)
       ui(new Ui::MainWindow),
       win(new MainWindow(this))
 {
+    setWindowIcon(QIcon(":/resources/textures/icon.ico"));
+    setWindowTitle("Pig Fighting");
+
     ui->setupUi(this);
     ui->verticalLayout->addWidget(win);
     connect(ui->new_game, &QPushButton::clicked, this, &TheMostMainWindow::on_new_game_clicked);
