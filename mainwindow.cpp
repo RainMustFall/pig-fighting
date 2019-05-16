@@ -36,7 +36,10 @@ void MainWindow::SetTimer() {
     timer_id = startTimer(9);
 }
 
-void MainWindow::NewGame(){
+void MainWindow::NewGame(TextureType type) {
+    cur_theme = type;
+    DrawBackground();
+
     setFocus();
     qDebug() <<"new";
     paused = false;
@@ -49,6 +52,18 @@ void MainWindow::NewGame(){
     free_pigs.push_back({400, 10, &pig_running_l, &pig_running_r});
 
     flying_pigs.clear();
+    parent_->ui->label_2->setText("");
+
+    ground.clear();
+    ground = {{-146, 160, 30, 420, cur_theme},
+              /*{223, 46, 115, 30},*/
+              {587, 130, 30, 270, cur_theme},
+              {327, 327, 30, 270, cur_theme},
+              {935, 327, 30, 270, cur_theme},
+              {1193, 160, 30, 270, cur_theme},
+              {1068, 486, 30, 270, cur_theme},
+              {-52, 486, 30, 270, cur_theme},
+              {122, 656, 30, 1200, cur_theme}};
     SetTimer();
 }
 
@@ -193,8 +208,10 @@ void MainWindow::DrawHint(QPainter& painter){
 }
 
 void MainWindow::DrawBackground() {
+    std::vector<QString>bg_dirs = {"grass", "sand", "cave", "snow"};
+
     qDebug() << "Drawing background";
-    QPixmap bkgnd(":/resources/textures/background.png");
+    QPixmap bkgnd(":/resources/textures/" + bg_dirs[static_cast<int>(cur_theme)] + "/background.png");
     bkgnd = bkgnd.scaled(kScreenWidth, kScreenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QPalette p(palette());
     p.setBrush(QPalette::Background, bkgnd);

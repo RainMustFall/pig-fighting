@@ -14,6 +14,8 @@ TheMostMainWindow::TheMostMainWindow(QWidget *parent)
     connect(ui->exit, &QPushButton::clicked, this, &TheMostMainWindow::on_exit_clicked);
     ui->comboBox->addItem("Классический");
     ui->comboBox->addItem("Песчаный");
+    ui->comboBox->addItem("Пещера");
+    ui->comboBox->addItem("Снежная");
 }
 
 void TheMostMainWindow::on_new_game_clicked()
@@ -24,7 +26,7 @@ void TheMostMainWindow::on_new_game_clicked()
 //    palette.setBrush(QPalette::Background, bkgnd);
 //    win->setPalette(palette);
 
-    win->NewGame();
+    win->NewGame(static_cast<TextureType>(ui->comboBox->currentIndex()));
     ui->new_game->setEnabled(false);
     ui->comboBox->setEnabled(false);
     ui->pause->setEnabled(true);

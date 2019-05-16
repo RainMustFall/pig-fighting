@@ -3,8 +3,10 @@
 #include "gameobject.h"
 
 enum class TextureType {
-    SAND = 0,
-    GRASS = 1
+    GRASS = 0,
+    SAND = 1,
+    CAVE = 2,
+    SNOW = 3
 };
 
 struct TexturePack {

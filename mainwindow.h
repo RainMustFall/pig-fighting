@@ -61,7 +61,7 @@ public:
 
     void SetTimer();
 
-    void NewGame();
+    void NewGame(TextureType type);
     void DrawBackground();
     void DrawHint(QPainter& painter);
     void Pause(const QString& reason);
@@ -74,6 +74,8 @@ public:
 
     QMediaPlayer *f_player;
     QMediaPlaylist *f_playlist;
+
+    TextureType cur_theme;
 };
 
 #endif // MAINWINDOW_H

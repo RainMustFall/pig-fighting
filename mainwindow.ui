@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1757</width>
+    <width>1656</width>
     <height>809</height>
    </rect>
   </property>
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="new_game">
     <property name="geometry">
      <rect>
-      <x>1550</x>
-      <y>60</y>
+      <x>1485</x>
+      <y>83</y>
       <width>131</width>
       <height>28</height>
      </rect>
@@ -44,8 +44,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>1550</x>
-      <y>10</y>
+      <x>1485</x>
+      <y>33</y>
       <width>131</width>
       <height>28</height>
      </rect>
@@ -57,8 +57,8 @@
    <widget class="QPushButton" name="exit">
     <property name="geometry">
      <rect>
-      <x>1550</x>
-      <y>150</y>
+      <x>1485</x>
+      <y>173</y>
       <width>131</width>
       <height>28</height>
      </rect>
@@ -70,8 +70,8 @@
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>1550</x>
-      <y>110</y>
+      <x>1485</x>
+      <y>133</y>
       <width>131</width>
       <height>22</height>
      </rect>
@@ -80,9 +80,9 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>1550</x>
-      <y>90</y>
-      <width>55</width>
+      <x>1485</x>
+      <y>113</y>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
@@ -93,10 +93,10 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>1470</x>
-      <y>200</y>
-      <width>261</width>
-      <height>51</height>
+      <x>1443</x>
+      <y>223</y>
+      <width>211</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -117,8 +117,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1757</width>
-     <height>17</height>
+     <width>1656</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
