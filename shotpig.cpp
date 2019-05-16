@@ -21,6 +21,7 @@ ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player,
 
     h_player->setPlaylist(h_playlist);
     h_playlist->addMedia(QUrl("qrc:resources/sounds/hit2.mp3"));
+    f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
     moveVector_.x = direction * kShotSpeed;
     moveVector_.y = 0;
 }
@@ -52,6 +53,9 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
 
 void ShotPig::PlayMusic(){
     h_player->play();
+}
+void ShotPig::PlayMusicFly(){
+    f_player->play();
 }
 
 void ShotPig::Draw(QPainter& painter) const {

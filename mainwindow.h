@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QSoundEffect>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "constants.h"
 #include "person.h"
 #include "ground.h"

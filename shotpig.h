@@ -25,6 +25,7 @@ public:
     QMediaPlayer *f_player;
     QMediaPlaylist *f_playlist;
     void PlayMusic();
+    void PlayMusicFly();
 };
 
 #endif // SHOTPIG_H

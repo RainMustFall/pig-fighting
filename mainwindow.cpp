@@ -15,9 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
     pig_running_r(Reflect(pig_running_l)),
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
     pig_flying_r(Reflect(pig_flying_l)),
+    parent_(dynamic_cast<TheMostMainWindow*>(parent)),
     f_player (new QMediaPlayer),
-    f_playlist (new QMediaPlaylist),
-    parent_(dynamic_cast<TheMostMainWindow*>(parent))
+    f_playlist (new QMediaPlaylist)
 {
     f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
@@ -37,6 +37,7 @@ void MainWindow::SetTimer() {
 }
 
 void MainWindow::NewGame(TextureType type) {
+    f_player->play();
     cur_theme = type;
     DrawBackground();
 
@@ -227,17 +228,16 @@ void MainWindow::ThrowPig(Person& player) {
                         player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             player.PlayMusicFly();
+             pig.PlayMusicFly();
         } else {
             ShotPig pig(player.position_.x + player.Width() + 1,
                         player.position_.y + player.Height() - kPigSize - kPigHeight, 1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             player.PlayMusicFly();
+             pig.PlayMusicFly();
         }
         player.armed_ = 0;
 
-        player.PlayMusicFly();
         free_pigs.push_back(GeneratePig());
     } else {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
@@ -255,11 +255,9 @@ void MainWindow::ThrowPig(Person& player) {
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     switch (event->key()) {
     case Qt::Key_Space:
-        players[0].PlayMusicFly();
         ThrowPig(players[0]);
         break;
     case Qt::Key_Shift:
-        players[1].PlayMusicFly();
         ThrowPig(players[1]);
         break;
     case Qt::Key_Escape: {
