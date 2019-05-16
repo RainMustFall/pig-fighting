@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QSoundEffect>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "constants.h"
 #include "person.h"
 #include "ground.h"
@@ -65,6 +67,8 @@ public:
 
     bool is_start = true;
     bool paused = true;
+    QMediaPlayer *f_player;
+    QMediaPlaylist *f_playlist;
 
     char* bg_path = ":/resources/textures/background.png";
 };
