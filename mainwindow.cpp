@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
     f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    f_player->setVolume(3);
+    f_player->setVolume(15);
     DrawBackground();
     setFocus();
     qDebug() << "HERE! ";
