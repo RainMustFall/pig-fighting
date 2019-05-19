@@ -17,7 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     pig_flying_r(Reflect(pig_flying_l)),
     parent_(dynamic_cast<TheMostMainWindow*>(parent)),
     f_player (new QMediaPlayer),
-    f_playlist (new QMediaPlaylist)
+    f_playlist (new QMediaPlaylist),
+    cur_theme(TextureType::GRASS)
 {
     f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
@@ -64,7 +65,8 @@ void MainWindow::NewGame(TextureType type) {
               {1193, 160, 30, 270, cur_theme},
               {1068, 486, 30, 270, cur_theme},
               {-52, 486, 30, 270, cur_theme},
-              {122, 656, 30, 1200, cur_theme}};
+              {122, 656, 30, 1200, cur_theme}
+             };
     SetTimer();
 }
 
@@ -109,7 +111,7 @@ void MainWindow::timerEvent(QTimerEvent *) {
 
     if (free_pigs.empty()) {
         free_pigs.insert(free_pigs.end(), GeneratePig());
-    } else if (rand() % 500 == 0 && free_pigs.size() < kPigCount) {
+    } else if (rand() % kPigGeneraingFrequency == 0 && free_pigs.size() < kPigCount) {
         free_pigs.insert(free_pigs.end(), GeneratePig());
     }
 
