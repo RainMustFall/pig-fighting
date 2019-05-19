@@ -29,4 +29,6 @@ const int kHealthDecrease = 20;
 //время, через которое здоровье снижается
 const int kTimeHealthUp = 500;
 
+const int kPigGeneraingFrequency = 500;
+
 #endif // CONSTANTS_H
