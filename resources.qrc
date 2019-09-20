@@ -40,5 +40,10 @@
         <file>textures/sand/background.png</file>
         <file>textures/grass/background.png</file>
         <file>textures/icon.ico</file>
+        <file>sounds/hit.wav</file>
+        <file>sounds/hit2.wav</file>
+        <file>sounds/pig_caught.wav</file>
+        <file>sounds/pig_fly.wav</file>
+        <file>sounds/pig_sound.mp3</file>
     </qresource>
 </RCC>

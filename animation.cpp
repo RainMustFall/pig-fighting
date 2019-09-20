@@ -3,8 +3,8 @@
 #include <QDebug>
 #include <QTransform>
 
-Animation Reflect(const Animation& animation) {
-    Animation result = animation;
+Animation Animation::returnReflectedCopy() const {
+    Animation result = *this;
     for (auto& frame : result.frames_) {
         frame = frame.transformed(QTransform().scale(-1, 1));
     }
@@ -40,6 +40,14 @@ void Animation::PreviousFrame() {
         cur_frame_ = frames_.end();
     }
     cur_frame_--;
+}
+
+bool Animation::isOnFirstFrame() const {
+    return cur_frame_ == frames_.begin();
+}
+
+void Animation::goToFirstFrame() {
+    cur_frame_ = frames_.begin();
 }
 
 QPixmap Animation::CurrentFrame() const {

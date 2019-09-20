@@ -38,7 +38,8 @@ SOURCES += \
     shotpig.cpp \
     animation.cpp \
     health_field.cpp \
-    themostmainwindow.cpp
+    themostmainwindow.cpp \
+    soundplayer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     shotpig.h \
     animation.h \
     health_field.h \
-    themostmainwindow.h
+    themostmainwindow.h \
+    soundplayer.h
 
 FORMS += \
         mainwindow.ui \

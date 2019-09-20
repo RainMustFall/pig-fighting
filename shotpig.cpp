@@ -31,9 +31,9 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
                       const std::vector<Ground>& ground) {
 
     for (auto& item : persons) {
-        auto item_obj = dynamic_cast<const GameObject&>(item);
+        auto item_obj = dynamic_cast<const GameObject*>(&item);
         if (&item != shooting_player){
-           if (Hits(item_obj)) {
+           if (Hits(*item_obj)) {
                 item.moveVector_.x += moveVector_.x / 2;
                 return &item;
             }
@@ -41,10 +41,8 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
     }
 
     for (const auto& item : ground) {
-        auto item_obj = dynamic_cast<const GameObject&>(item);
-
-        if (Hits(item_obj)) {
-
+        auto item_obj = dynamic_cast<const GameObject*>(&item);
+        if (Hits(*item_obj)) {
             return &item;
         }
     }
@@ -52,10 +50,10 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
 }
 
 void ShotPig::PlayMusic(){
-    h_player->play();
+    //h_player->play();
 }
 void ShotPig::PlayMusicFly(){
-    f_player->play();
+    //f_player->play();
 }
 
 void ShotPig::Draw(QPainter& painter) const {

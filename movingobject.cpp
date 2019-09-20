@@ -55,9 +55,9 @@ void MovingObject::StabilizePosition(const Ground& ground) {
 const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
     bool hits = false;
     for (const auto& item : ground) {
-        auto item_obj = dynamic_cast<const GameObject&>(item);
+        auto item_obj = dynamic_cast<const GameObject*>(&item);
 
-        if (Hits(item_obj)) {
+        if (Hits(*item_obj)) {
             hits = true;
             if (ignored_platform != &item) {
                 ignored_platform = nullptr;

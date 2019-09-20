@@ -7,6 +7,7 @@
 
 class TheMostMainWindow : public QMainWindow
 {
+    Q_OBJECT
 public:
     TheMostMainWindow(QWidget *parent = nullptr);
 

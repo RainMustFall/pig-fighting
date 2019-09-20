@@ -5,16 +5,16 @@
 TheMostMainWindow::TheMostMainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
-      win(new MainWindow(this))
+        win(new MainWindow(this))
 {
     setWindowIcon(QIcon(":/resources/textures/icon.ico"));
     setWindowTitle("Pig Fighting");
 
     ui->setupUi(this);
     ui->verticalLayout->addWidget(win);
-    connect(ui->new_game, &QPushButton::clicked, this, &TheMostMainWindow::on_new_game_clicked);
-    connect(ui->pause, &QPushButton::clicked, this, &TheMostMainWindow::on_pause_clicked);
-    connect(ui->exit, &QPushButton::clicked, this, &TheMostMainWindow::on_exit_clicked);
+    //connect(ui->new_game, &QPushButton::clicked, this, &TheMostMainWindow::on_new_game_clicked);
+    //connect(ui->pause, &QPushButton::clicked, this, &TheMostMainWindow::on_pause_clicked);
+    //connect(ui->exit, &QPushButton::clicked, this, &TheMostMainWindow::on_exit_clicked);
     ui->comboBox->addItem("Классический");
     ui->comboBox->addItem("Песчаный");
     ui->comboBox->addItem("Пещера");

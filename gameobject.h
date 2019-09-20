@@ -20,9 +20,11 @@ class GameObject
 public:
     friend class MainWindow;
 
-    // Конструктор
     GameObject(int x, int y, int width, int height);
-    virtual void Draw(QPainter& painter) const;
+    virtual ~GameObject() = default;
+
+    virtual void Draw(QPainter& painter) const = 0;
+
     // Геттеры (вдруг пригодятся)
     int Width() const;
     int Height() const;

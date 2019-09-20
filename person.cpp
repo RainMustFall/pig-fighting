@@ -3,21 +3,23 @@
 #include "freepig.h"
 #include "mainwindow.h"
 #include <QDebug>
+#include <thread>
+#include <QSound>
 
 Person::Person(int x, int y, QString animation_dir)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
       run_animation_r(":/resources/animations/" + animation_dir + "/Run.png", 300, 180, kPersonWidth, kPersonHeight),
       stand_animation_r(":/resources/animations/" + animation_dir + "/Stand.png", 300, 180, kPersonWidth, kPersonHeight),
       fly_animation_r(":/resources/animations/" + animation_dir + "/Fly.png", 300, 180, kPersonWidth, kPersonHeight),
-      run_animation_l(Reflect(run_animation_r)),
-      stand_animation_l(Reflect(stand_animation_r)),
-      fly_animation_l(Reflect(fly_animation_r)),
+      run_animation_l(run_animation_r.returnReflectedCopy()),
+      stand_animation_l(stand_animation_r.returnReflectedCopy()),
+      fly_animation_l(fly_animation_r.returnReflectedCopy()),
       run_animation_r_pig(":/resources/animations/" + animation_dir + "/Run_pig.png", 300, 180, kPersonWidth, kPersonHeight),
       stand_animation_r_pig(":/resources/animations/" + animation_dir + "/Stand_pig.png", 300, 180, kPersonWidth, kPersonHeight),
       fly_animation_r_pig(":/resources/animations/" + animation_dir + "/Fly_pig.png", 300, 180, kPersonWidth, kPersonHeight),
-      run_animation_l_pig(Reflect(run_animation_r_pig)),
-      stand_animation_l_pig(Reflect(stand_animation_r_pig)),
-      fly_animation_l_pig(Reflect(fly_animation_r_pig)),
+      run_animation_l_pig(run_animation_r_pig.returnReflectedCopy()),
+      stand_animation_l_pig(stand_animation_r_pig.returnReflectedCopy()),
+      fly_animation_l_pig(fly_animation_r_pig.returnReflectedCopy()),
       m_player (new QMediaPlayer),
       m_playlist (new QMediaPlaylist),
       h_player (new QMediaPlayer),
@@ -54,9 +56,9 @@ void Person::CatchPressedKey(int key, int up_key, int left_key,
 
 std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
     for ( std::list<FreePig>::iterator i = pigs.begin(); i != pigs.end(); i++ ) {
-        auto item_obj = dynamic_cast<const GameObject&>(*i);
+        auto item_obj = dynamic_cast<const GameObject*>(&(*i));
 
-        if (Hits(item_obj)) {
+        if (Hits(*item_obj)) {
             return i;
         }
     }
@@ -134,17 +136,17 @@ void Person::UpdateAnimation() {
             state = State::RUNNING;
         } else {
             if (current_side == Side::LEFT) {
-                if (!armed_ && run_animation_l.cur_frame_ == run_animation_l.frames_.begin()) {
+                if (!armed_ && run_animation_l.isOnFirstFrame()) {
                     state = State::STANDING;
                 }
-                if (armed_ && run_animation_l_pig.cur_frame_ == run_animation_l_pig.frames_.begin()) {
+                if (armed_ && run_animation_l_pig.isOnFirstFrame()) {
                     state = State::STANDING;
                 }
             } else {
-                if (!armed_ && run_animation_r.cur_frame_ == run_animation_r.frames_.begin()) {
+                if (!armed_ && run_animation_r.isOnFirstFrame()) {
                     state = State::STANDING;
                 }
-                if (armed_ && run_animation_r_pig.cur_frame_ == run_animation_r_pig.frames_.begin()) {
+                if (armed_ && run_animation_r_pig.isOnFirstFrame()) {
                     state = State::STANDING;
                 }
             }
@@ -221,10 +223,10 @@ void Person::DecreaseHealthLevel(){
 }
 
 void Person::ResetRunAnimation() {
-    run_animation_l.cur_frame_ = run_animation_l.frames_.begin();
-    run_animation_r.cur_frame_ = run_animation_r.frames_.begin();
-    run_animation_l_pig.cur_frame_ = run_animation_l_pig.frames_.begin();
-    run_animation_r_pig.cur_frame_ = run_animation_r_pig.frames_.begin();
+    run_animation_l.goToFirstFrame();
+    run_animation_r.goToFirstFrame();
+    run_animation_l_pig.goToFirstFrame();
+    run_animation_r_pig.goToFirstFrame();
 }
 
 void Person::IncreaseHelthLevel(){
@@ -234,10 +236,16 @@ void Person::IncreaseHelthLevel(){
     qDebug() << "up" << health_level;
 }
 void Person::PlayMusic() {
-     m_player->play();
+     //m_player->play();
 }
 void Person::PlayMusicHit() {
-     h_player->play();
+    //QSound::play("sounds/pig_caught.wav");
+    /*auto player = []()
+    {
+        QSound::play("qrc:resources/sounds/pig_caught.wav");
+    };
+    std::thread thread(player);*/
+    //h_player->play();
 }
 
 

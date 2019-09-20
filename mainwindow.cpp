@@ -2,34 +2,37 @@
 #include "constants.h"
 #include "health_field.h"
 #include "themostmainwindow.h"
+#include "soundplayer.h"
 #include <QPainter>
 #include <chrono>
 #include <cstdlib>
 #include <QMouseEvent>
 #include <QDebug>
+#include <thread>
 #include <QSound>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
-    pig_running_r(Reflect(pig_running_l)),
+    pig_running_r(pig_running_l.returnReflectedCopy()),
     pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
-    pig_flying_r(Reflect(pig_flying_l)),
+    pig_flying_r(pig_flying_l.returnReflectedCopy()),
     parent_(dynamic_cast<TheMostMainWindow*>(parent)),
     f_player (new QMediaPlayer),
     f_playlist (new QMediaPlaylist),
-    cur_theme(TextureType::GRASS)
+    cur_theme(TextureType::GRASS),
+    hit_sound(new QSound(":/resources/sounds/pig_caught.wav"))
 {
-    f_player->setPlaylist(f_playlist);
+    /*f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
     f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    f_player->setVolume(15);
+    f_player->setVolume(15);*/
 
     DrawBackground();
     setFocus();
     qDebug() << "HERE! ";
-    pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
-    pig_caught.setVolume(0.5f);
+    //pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
+    //pig_caught.setVolume(0.5f);
 }
 
 void MainWindow::SetTimer() {
@@ -58,7 +61,6 @@ void MainWindow::NewGame(TextureType type) {
 
     ground.clear();
     ground = {{-146, 160, 30, 420, cur_theme},
-              /*{223, 46, 115, 30},*/
               {587, 130, 30, 270, cur_theme},
               {327, 327, 30, 270, cur_theme},
               {935, 327, 30, 270, cur_theme},
@@ -222,9 +224,10 @@ void MainWindow::DrawBackground() {
     setPalette(p);
 }
 
+
 void MainWindow::ThrowPig(Person& player) {
     if (player.armed_) {
-        QSound::play(":/resources/sounds/pig_fly.mp3");
+
         if (player.current_side == MovingObject::Side::LEFT){
             ShotPig pig(player.position_.x - kPigSize - 1,
                         player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
@@ -236,7 +239,7 @@ void MainWindow::ThrowPig(Person& player) {
                         player.position_.y + player.Height() - kPigSize - kPigHeight, 1,
                         &player, &pig_flying_l, &pig_flying_r);
             flying_pigs.push_back(pig);
-             pig.PlayMusicFly();
+             //pig.PlayMusicFly();
         }
         player.armed_ = 0;
 
@@ -245,10 +248,14 @@ void MainWindow::ThrowPig(Person& player) {
         std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
         qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
         if (current_pig != free_pigs.end()) {
-//            QSound::play(":/resources/sounds/pig_caught.mp3");
-            pig_caught.play();
+            SoundPlayer* s_player = new SoundPlayer(SoundPlayer::Sounds::Hit, new QSound(":/resources/sounds/pig_caught.wav"));
+            s_player->start();
+
+            //QSound::play(":/resources/sounds/hit.wav");
+            //pig_caught.play();
+
             player.CatchPig(*current_pig);
-            player.PlayMusic();
+            //player.PlayMusic();
             free_pigs.erase(current_pig);
         }
     }

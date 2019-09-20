@@ -9,6 +9,7 @@
 #include "person.h"
 #include "ground.h"
 #include "shotpig.h"
+#include "soundplayer.h"
 #include "health_field.h"
 
 class TheMostMainWindow;
@@ -78,6 +79,8 @@ public:
     QMediaPlaylist *f_playlist;
 
     TextureType cur_theme;
+
+    QSound* hit_sound;
 };
 
 #endif // MAINWINDOW_H

@@ -13,8 +13,12 @@ public:
 
     void NextFrame();
     void PreviousFrame();
+    void goToFirstFrame();
+    bool isOnFirstFrame() const;
     QPixmap CurrentFrame() const;
-//private:
+    Animation returnReflectedCopy() const;
+
+private:
     std::list<QPixmap>frames_;
     std::list<QPixmap>::iterator cur_frame_;
 };
