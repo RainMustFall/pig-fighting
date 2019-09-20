@@ -16,8 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     parent_(dynamic_cast<TheMostMainWindow*>(parent)),
     f_player (new QMediaPlayer),
     f_playlist (new QMediaPlaylist),
-    cur_theme(TextureType::GRASS),
-    hit_sound(new QSound(":/resources/sounds/pig_caught.wav"))
+    cur_theme(TextureType::GRASS)
 {
     /*f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));

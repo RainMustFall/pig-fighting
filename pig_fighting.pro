@@ -41,7 +41,7 @@ SOURCES += \
     themostmainwindow.cpp \
     soundplayer.cpp \
     fieldcontroller.cpp \
-    pigfactory.cpp
+    resourcestorage.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -57,7 +57,7 @@ HEADERS += \
     themostmainwindow.h \
     soundplayer.h \
     fieldcontroller.h \
-    pigfactory.h
+    resourcestorage.h
 
 FORMS += \
         mainwindow.ui \

@@ -4,10 +4,7 @@
 #include "mainwindow.h"
 
 FieldController::FieldController()
-    : pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
-      pig_running_r(pig_running_l.returnReflectedCopy()),
-      pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
-      pig_flying_r(pig_flying_l.returnReflectedCopy()) {}
+    :  storage_(new ResourceStorage) {}
 
 void FieldController::UpdatePlayers() {
     for (Person& player : players) {
@@ -49,15 +46,18 @@ void FieldController::UpdateFlyingPigs() {
     for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
         auto hitting_object = item->Pig_Hits(players, ground);
         if (hitting_object == nullptr) {
+            // if still flying
             item->UpdatePosition();
             if (item->isOutOfScreen()) {
                 item = flying_pigs.erase(item);
             }
         } else if (GetHitPerson(hitting_object) != nullptr){
+            // if hits a player
             item = flying_pigs.erase(item);
             auto hitting_person = GetHitPerson(hitting_object);
             hitting_person->DecreaseHealthLevel();
         } else {
+            // if hits another object
             // PLAY hit2.wav!
             item = flying_pigs.erase(item);
         }
@@ -83,14 +83,18 @@ void FieldController::onPigThrown(const ShotPig& pig) {
     // PlaySound!
 }
 
-void FieldController::onPigCaught() {
-    // PlaySound!
-    // SoundPlayer* s_player = new SoundPlayer(SoundPlayer::Sounds::Hit, new QSound(":/resources/sounds/pig_caught.wav"));
-    // s_player->start();
-}
-
 void FieldController::givePigsToPlayer(Person* player) {
-    player->CatchPig(free_pigs);
+    for (auto pig = free_pigs.begin(); pig != free_pigs.end(); ++pig) {
+        auto item_obj = dynamic_cast<const GameObject*>(&*pig);
+        if (player->Hits(*item_obj)) {
+            free_pigs.erase(pig);
+            // PlaySound!
+            // SoundPlayer* s_player = new SoundPlayer(SoundPlayer::Sounds::Hit, new QSound(":/resources/sounds/pig_caught.wav"));
+            // s_player->start();
+            break;
+        }
+    }
+    player->CatchPig();
 }
 
 void FieldController::onKeyPressed(QKeyEvent *event) {

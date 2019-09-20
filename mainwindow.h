@@ -53,8 +53,6 @@ public:
 
     TextureType cur_theme;
 
-    QSound* hit_sound;
-
 private:
     FieldController* controller_;
 };

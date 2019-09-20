@@ -3,6 +3,7 @@
 #include "gameobject.h"
 #include "animation.h"
 #include "movingobject.h"
+#include "resourcestorage.h"
 #include "freepig.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
@@ -26,7 +27,7 @@ public:
     void UpdateAnimation();
     void Draw(QPainter& painter) const override;
     void ThrowPig();
-    void CatchPig(std::list<FreePig>& pigs);
+    void CatchPig();
 
     // std::list<FreePig>::iterator FindClosestFreePig(MainWindow& w);
 
@@ -37,23 +38,6 @@ public:
     bool Left_pressed = false;
     bool Right_pressed = false;
     bool Down_pressed = false;
-
-    // Объекты, отвечающие за проигрывание анимации
-    Animation run_animation_r;
-    Animation stand_animation_r;
-    Animation fly_animation_r;
-
-    Animation run_animation_l;
-    Animation stand_animation_l;
-    Animation fly_animation_l;
-
-    Animation run_animation_r_pig;
-    Animation stand_animation_r_pig;
-    Animation fly_animation_r_pig;
-
-    Animation run_animation_l_pig;
-    Animation stand_animation_l_pig;
-    Animation fly_animation_l_pig;
 
     std::list<FreePig>::iterator HitsPig(std::list<FreePig>& pigs);
 
@@ -70,11 +54,8 @@ public:
     };
 
     State state;
-    QMediaPlayer *m_player;
-    QMediaPlaylist *m_playlist;
-    QMediaPlayer *h_player;
-    QMediaPlaylist *h_playlist;
-    void PlayMusic();
+    PersonAnimationStorage animations_;
+
     void PlayMusicHit();
     int name_;
     FieldController* controller_;

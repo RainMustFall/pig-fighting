@@ -8,31 +8,8 @@
 
 Person::Person(int x, int y, QString animation_dir)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
-      run_animation_r(":/resources/animations/" + animation_dir + "/Run.png", 300, 180, kPersonWidth, kPersonHeight),
-      stand_animation_r(":/resources/animations/" + animation_dir + "/Stand.png", 300, 180, kPersonWidth, kPersonHeight),
-      fly_animation_r(":/resources/animations/" + animation_dir + "/Fly.png", 300, 180, kPersonWidth, kPersonHeight),
-      run_animation_l(run_animation_r.returnReflectedCopy()),
-      stand_animation_l(stand_animation_r.returnReflectedCopy()),
-      fly_animation_l(fly_animation_r.returnReflectedCopy()),
-      run_animation_r_pig(":/resources/animations/" + animation_dir + "/Run_pig.png", 300, 180, kPersonWidth, kPersonHeight),
-      stand_animation_r_pig(":/resources/animations/" + animation_dir + "/Stand_pig.png", 300, 180, kPersonWidth, kPersonHeight),
-      fly_animation_r_pig(":/resources/animations/" + animation_dir + "/Fly_pig.png", 300, 180, kPersonWidth, kPersonHeight),
-      run_animation_l_pig(run_animation_r_pig.returnReflectedCopy()),
-      stand_animation_l_pig(stand_animation_r_pig.returnReflectedCopy()),
-      fly_animation_l_pig(fly_animation_r_pig.returnReflectedCopy()),
-      m_player (new QMediaPlayer),
-      m_playlist (new QMediaPlaylist),
-      h_player (new QMediaPlayer),
-      h_playlist (new QMediaPlaylist),
       name_(animation_dir[animation_dir.size()-1] == '1' ? 1 : 2)
 {
-    m_player->setVolume(100);
-    h_player->setVolume(100);
-    h_player->setPlaylist(h_playlist);
-    h_playlist->addMedia(QUrl("qrc:resources/sounds/hit.mp3"));
-    m_player->setPlaylist(m_playlist);
-    m_playlist->addMedia(QUrl("qrc:resources/sounds/pig_caught.mp3"));
-    m_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
     qDebug() << "PERSON CONSTRUCTOR!";
 }
 
@@ -128,15 +105,7 @@ void Person::ProcessKeyboard() {
     }
 }
 
-void Person::CatchPig(std::list<FreePig>& pigs) {
-    for (auto pig = pigs.begin(); pig != pigs.end(); ++pig) {
-        auto item_obj = dynamic_cast<const GameObject*>(&(*pig));
-        if (Hits(*item_obj)) {
-            pigs.erase(pig);
-            controller_->onPigCaught();
-            break;
-        }
-    }
+void Person::CatchPig() {
     armed_ = 1;
     qDebug() << "got it!";
 }
@@ -163,17 +132,17 @@ void Person::UpdateAnimation() {
             state = State::RUNNING;
         } else {
             if (current_side == Side::LEFT) {
-                if (!armed_ && run_animation_l.isOnFirstFrame()) {
+                if (!armed_ && animations_.run_l.isOnFirstFrame()) {
                     state = State::STANDING;
                 }
-                if (armed_ && run_animation_l_pig.isOnFirstFrame()) {
+                if (armed_ && animations_.run_l_pig.isOnFirstFrame()) {
                     state = State::STANDING;
                 }
             } else {
-                if (!armed_ && run_animation_r.isOnFirstFrame()) {
+                if (!armed_ && animations_.run_r.isOnFirstFrame()) {
                     state = State::STANDING;
                 }
-                if (armed_ && run_animation_r_pig.isOnFirstFrame()) {
+                if (armed_ && animations_.run_r_pig.isOnFirstFrame()) {
                     state = State::STANDING;
                 }
             }
@@ -185,15 +154,23 @@ void Person::UpdateAnimation() {
 
     if (current_side == Side::LEFT) {
         if (armed_) {
-            UpdateAnimationUniversal(run_animation_l_pig, stand_animation_l_pig, fly_animation_l_pig);
+            UpdateAnimationUniversal(animations_.run_l_pig,
+                                     animations_.stand_l_pig,
+                                     animations_.fly_l_pig);
         } else {
-            UpdateAnimationUniversal(run_animation_l, stand_animation_l, fly_animation_l);
+            UpdateAnimationUniversal(animations_.run_l,
+                                     animations_.stand_l,
+                                     animations_.fly_l);
         }
     } else {
         if (armed_) {
-            UpdateAnimationUniversal(run_animation_r_pig, stand_animation_r_pig, fly_animation_r_pig);
+            UpdateAnimationUniversal(animations_.run_r_pig,
+                                     animations_.stand_r_pig,
+                                     animations_.fly_r_pig);
         } else {
-            UpdateAnimationUniversal(run_animation_r, stand_animation_r, fly_animation_r);
+            UpdateAnimationUniversal(animations_.run_r,
+                                     animations_.stand_r,
+                                     animations_.fly_r);
         }
     }
 }
@@ -204,17 +181,17 @@ void Person::DrawUniversal(QPainter& painter,
                            const Animation& fly_animation) const {
     switch (state) {
     case State::RUNNING:
-        painter.drawPixmap(position_.x, position_.y,
+        painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
                            run_animation.CurrentFrame());
         break;
     case State::STANDING:
-        painter.drawPixmap(position_.x, position_.y,
+        painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
                            stand_animation.CurrentFrame());
         break;
     case State::FLYING:
-        painter.drawPixmap(position_.x, position_.y,
+        painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
                            fly_animation.CurrentFrame());
         break;
@@ -224,19 +201,19 @@ void Person::DrawUniversal(QPainter& painter,
 void Person::Draw(QPainter& painter) const {
     if (current_side == Side::LEFT) {
         if (!armed_) {
-            DrawUniversal(painter, run_animation_l,
-                          stand_animation_l, fly_animation_l);
+            DrawUniversal(painter, animations_.run_l,
+                          animations_.stand_l, animations_.fly_l);
         } else {
-            DrawUniversal(painter, run_animation_l_pig,
-                          stand_animation_l_pig, fly_animation_l_pig);
+            DrawUniversal(painter, animations_.run_l_pig,
+                          animations_.stand_l_pig, animations_.fly_l_pig);
         }
     } else {
         if (!armed_) {
-            DrawUniversal(painter, run_animation_r,
-                          stand_animation_r, fly_animation_r);
+            DrawUniversal(painter, animations_.run_r,
+                          animations_.stand_r, animations_.fly_r);
         } else {
-            DrawUniversal(painter, run_animation_r_pig,
-                          stand_animation_r_pig, fly_animation_r_pig);
+            DrawUniversal(painter, animations_.run_r_pig,
+                          animations_.stand_r_pig, animations_.fly_r_pig);
         }
     }
 }
@@ -250,10 +227,10 @@ void Person::DecreaseHealthLevel(){
 }
 
 void Person::ResetRunAnimation() {
-    run_animation_l.goToFirstFrame();
-    run_animation_r.goToFirstFrame();
-    run_animation_l_pig.goToFirstFrame();
-    run_animation_r_pig.goToFirstFrame();
+    animations_.run_l.goToFirstFrame();
+    animations_.run_r.goToFirstFrame();
+    animations_.run_l_pig.goToFirstFrame();
+    animations_.run_r_pig.goToFirstFrame();
 }
 
 void Person::IncreaseHelthLevel(){
@@ -272,9 +249,7 @@ void Person::IncreaseHelthLevel(){
         is_start = true;*/
     }
 }
-void Person::PlayMusic() {
-     //m_player->play();
-}
+
 void Person::PlayMusicHit() {
     //QSound::play("sounds/pig_caught.wav");
     /*auto player = []()

@@ -25,11 +25,11 @@ int GameObject::Height() const {
 }
 
 int GameObject::xPos() const {
-    return position_.x;
+    return static_cast<int>(position_.x);
 }
 
 int GameObject::yPos() const {
-    return position_.y;
+    return static_cast<int>(position_.y);
 }
 
 bool GameObject::Hits(const GameObject& obj) const {
