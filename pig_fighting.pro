@@ -40,7 +40,8 @@ SOURCES += \
     health_field.cpp \
     themostmainwindow.cpp \
     soundplayer.cpp \
-    fieldcontroller.cpp
+    fieldcontroller.cpp \
+    pigfactory.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -55,7 +56,8 @@ HEADERS += \
     health_field.h \
     themostmainwindow.h \
     soundplayer.h \
-    fieldcontroller.h
+    fieldcontroller.h \
+    pigfactory.h
 
 FORMS += \
         mainwindow.ui \

@@ -26,6 +26,7 @@ public:
     QMediaPlaylist *f_playlist;
     void PlayMusic();
     void PlayMusicFly();
+    bool isOutOfScreen();
 };
 
 #endif // SHOTPIG_H

@@ -164,3 +164,7 @@ void MovingObject::CheckBoundaries() {
         position_.y = -Height();
     }
 }
+
+void MovingObject::UpdatePlatform(const std::vector<Ground>& ground) {
+    current_platform = HitsGround(ground);
+}

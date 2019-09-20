@@ -13,10 +13,6 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-    pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
-    pig_running_r(pig_running_l.returnReflectedCopy()),
-    pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
-    pig_flying_r(pig_flying_l.returnReflectedCopy()),
     parent_(dynamic_cast<TheMostMainWindow*>(parent)),
     f_player (new QMediaPlayer),
     f_playlist (new QMediaPlaylist),
@@ -78,16 +74,10 @@ void MainWindow::Pause(const QString &reason) {
 
 void MainWindow::timerEvent(QTimerEvent *) {
     controller_->UpdateTimer();
-
     controller_->UpdatePlayers();
     controller_->AddPigs();
-
-    pig_running_l.NextFrame();
-    pig_running_r.NextFrame();
-
     controller_->UpdateFreePigs();
     controller_->UpdateFlyingPigs();
-
     repaint();
 }
 

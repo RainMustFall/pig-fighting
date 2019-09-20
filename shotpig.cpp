@@ -68,3 +68,7 @@ void ShotPig::Draw(QPainter& painter) const {
                            pig_flying_r->CurrentFrame());
     }
 }
+
+bool ShotPig::isOutOfScreen() {
+    return (position_.x > kScreenWidth) || (position_.x < -Width());
+}

@@ -6,6 +6,8 @@
 #include "freepig.h"
 #include "animation.h"
 #include "health_field.h"
+#include "shotpig.h"
+#include "constants.h"
 
 struct ObjectSet {
   const std::vector<Person>& players;
@@ -31,6 +33,10 @@ public:
     void onKeyPressed(QKeyEvent *event);
     void onKeyReleased(QKeyEvent *event);
     void UpdateTimer();
+    void onPigThrown(const ShotPig& pig);
+    void onPigCaught();
+    void givePigsToPlayer(Person* player);
+
 private:
     std::vector<Person> players = {{450, 120, "player_1"},
                                    {800, 200, "player_2"}};
@@ -65,6 +71,7 @@ private:
     bool is_start_ = true;
     ObjectSet PackObjects();
     FreePig GeneratePig();
+    Person* GetHitPerson(const GameObject* object);
 };
 
 #endif // FIELDCONTROLLER_H

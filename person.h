@@ -7,7 +7,7 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 
-class MainWindow;
+class FieldController;
 
 class Person: public MovingObject
 {
@@ -25,8 +25,10 @@ public:
     void CatchPig(FreePig& pig);
     void UpdateAnimation();
     void Draw(QPainter& painter) const override;
+    void ThrowPig();
+    void CatchPig(std::list<FreePig>& pigs);
 
-    std::list<FreePig>::iterator FindClosestFreePig(MainWindow& w);
+    // std::list<FreePig>::iterator FindClosestFreePig(MainWindow& w);
 
     bool armed_ = 0;
     // Флаги, показывающие, какие клавиши зажаты
@@ -60,8 +62,6 @@ public:
     void DecreaseHealthLevel();
     void IncreaseHelthLevel();
     void ResetRunAnimation();
-
-    void UpdatePlatform(const std::vector<Ground>& ground);
     
     enum class State {
         RUNNING,
@@ -77,6 +77,10 @@ public:
     void PlayMusic();
     void PlayMusicHit();
     int name_;
+    FieldController* controller_;
+
+signals:
+    void PlayerWins(int name);
 
 protected:
     void UpdateAnimationUniversal(Animation& run_animation,

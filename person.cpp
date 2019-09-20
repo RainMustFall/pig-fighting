@@ -55,9 +55,8 @@ void Person::CatchPressedKey(int key, int up_key, int left_key,
 }
 
 std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
-    for ( std::list<FreePig>::iterator i = pigs.begin(); i != pigs.end(); i++ ) {
+    for (auto i = pigs.begin(); i != pigs.end(); ++i) {
         auto item_obj = dynamic_cast<const GameObject*>(&(*i));
-
         if (Hits(*item_obj)) {
             return i;
         }
@@ -66,7 +65,7 @@ std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
 }
 
 void Person::CatchReleasedKey(int key, int up_key, int left_key,
-                             int down_key, int right_key) {
+                             int down_key, int right_key, int shot_key) {
     if (key == left_key) {
         Left_pressed = false;
     } else if (key == right_key) {
@@ -75,7 +74,27 @@ void Person::CatchReleasedKey(int key, int up_key, int left_key,
         Up_pressed = false;
     } else if (key == down_key) {
         Down_pressed = false;
+    } else if (key == shot_key) {
+        if (armed_) {
+            ThrowPig();
+        } else {
+            controller_->givePigsToPlayer(this);
+        }
     }
+}
+
+void Person::ThrowPig() {
+    if (current_side == Side::LEFT) {
+        ShotPig pig(position_.x - kPigSize - 1,
+                    position_.y + Height() - kPigSize - kPigHeight, -1,
+                    this, &pig_flying_l, &pig_flying_r);
+    } else {
+        ShotPig pig(position_.x + Width() + 1,
+                    position_.y + Height() - kPigSize - kPigHeight, 1,
+                    this, &pig_flying_l, &pig_flying_r);
+    }
+    controller_->onPigThrown(pig);
+    armed_ = 0;
 }
 
 void Person::ProcessKeyboard() {
@@ -109,7 +128,15 @@ void Person::ProcessKeyboard() {
     }
 }
 
-void Person::CatchPig(FreePig &pig) {
+void Person::CatchPig(std::list<FreePig>& pigs) {
+    for (auto pig = pigs.begin(); pig != pigs.end(); ++pig) {
+        auto item_obj = dynamic_cast<const GameObject*>(&(*pig));
+        if (Hits(*item_obj)) {
+            pigs.erase(pig);
+            controller_->onPigCaught();
+            break;
+        }
+    }
     armed_ = 1;
     qDebug() << "got it!";
 }
@@ -233,7 +260,17 @@ void Person::IncreaseHelthLevel(){
     if(health_level < 100){
     health_level += 1;
     }
-    qDebug() << "up" << health_level;
+
+    if (health_level <= 0) {
+        emit PlayerWins(name_);
+        /*if ( == 1) {
+            Pause("Игрок 2 выиграл!");
+        } else {
+            Pause("Игрок 1 выиграл!");
+        }
+        killTimer(timer_id);
+        is_start = true;*/
+    }
 }
 void Person::PlayMusic() {
      //m_player->play();
@@ -248,11 +285,8 @@ void Person::PlayMusicHit() {
     //h_player->play();
 }
 
-void Person::UpdatePlatform(const std::vector<Ground>& ground) {
-    current_platform = HitsGround(ground);
-}
-
-std::list<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {
+/*std::list<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {
     //
     return w.free_pigs.begin();
-}
+}*/
+

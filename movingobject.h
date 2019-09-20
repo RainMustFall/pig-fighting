@@ -36,6 +36,7 @@ public:
     const Ground* HitsGround(const std::vector<Ground>& ground);
     //virtual bool Hits(const GameObject& obj) const;
     Point moveVector_ = {0, 0};
+        void UpdatePlatform(const std::vector<Ground>& ground);
 protected:
     double GetMoveVectorX() const;
 
@@ -52,6 +53,7 @@ protected:
     };
 
     Side current_side = Side::LEFT;
+
 
     // Суть в том, что какую-то платформу мы временно
     // игнорируем и столкновения с ней не учитываем.

@@ -4,9 +4,10 @@
 #include "mainwindow.h"
 
 FieldController::FieldController()
-{
-
-}
+    : pig_running_l(":/resources/animations/pig_running.png", 400, 400, kPigSize, kPigSize),
+      pig_running_r(pig_running_l.returnReflectedCopy()),
+      pig_flying_l(":/resources/animations/pig_flying.png", 400, 400, kPigSize, kPigSize),
+      pig_flying_r(pig_flying_l.returnReflectedCopy()) {}
 
 void FieldController::UpdatePlayers() {
     for (Person& player : players) {
@@ -35,45 +36,29 @@ void FieldController::AddPigs() {
 void FieldController::UpdateFreePigs() {
     for (FreePig& pig : free_pigs) {
         pig.PositionGenerate();
-        pig.current_platform = pig.HitsGround(ground);
+        pig.UpdatePlatform(ground);
         pig.ApplyPhysics();
         pig.UpdatePosition();
-        pig.CheckBoundaries();
     }
+
+    pig_running_l.NextFrame();
+    pig_running_r.NextFrame();
 }
 
 void FieldController::UpdateFlyingPigs() {
     for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
-        const GameObject* hitting_object = item->Pig_Hits(players, ground);
+        auto hitting_object = item->Pig_Hits(players, ground);
         if (hitting_object == nullptr) {
             item->UpdatePosition();
-            if ((item->position_.x > kScreenWidth) || (item->position_.x < -item->Width())) {
+            if (item->isOutOfScreen()) {
                 item = flying_pigs.erase(item);
             }
-        } else if (dynamic_cast<const Person*>(hitting_object) != nullptr){
-            QSound::play(":/resources/sounds/hit.mp3");
-            players[0].PlayMusicHit();
-            players[1].PlayMusicHit();
+        } else if (GetHitPerson(hitting_object) != nullptr){
             item = flying_pigs.erase(item);
-            const Person* hitting_person_const = dynamic_cast<const Person*>(hitting_object);
-            Person* hitting_person = const_cast<Person*>(hitting_person_const);
+            auto hitting_person = GetHitPerson(hitting_object);
             hitting_person->DecreaseHealthLevel();
-            if (hitting_person->health_level <= 0) {
-                // paused = true;
-                if (hitting_person->name_ == 1) {
-                    Pause("Игрок 2 выиграл!");
-                } else {
-                    Pause("Игрок 1 выиграл!");
-                }
-                killTimer(timer_id);
-                is_start = true;
-
-            }
-
-
         } else {
-            QSound::play(":/resources/sounds/hit2.mp3");
-            item->PlayMusic();
+            // PLAY hit2.wav!
             item = flying_pigs.erase(item);
         }
     }
@@ -92,52 +77,31 @@ ObjectSet FieldController::PackObjects() {
     return {players, free_pigs, flying_pigs, health_fields, ground};
 }
 
-void FieldController::ThrowPig(Person& player) {
-    if (player.armed_) {
+void FieldController::onPigThrown(const ShotPig& pig) {
+    flying_pigs.push_back(pig);
+    free_pigs.push_back(GeneratePig());
+    // PlaySound!
+}
 
-        if (player.current_side == MovingObject::Side::LEFT){
-            ShotPig pig(player.position_.x - kPigSize - 1,
-                        player.position_.y + player.Height() - kPigSize - kPigHeight, -1,
-                        &player, &pig_flying_l, &pig_flying_r);
-            flying_pigs.push_back(pig);
-             pig.PlayMusicFly();
-        } else {
-            ShotPig pig(player.position_.x + player.Width() + 1,
-                        player.position_.y + player.Height() - kPigSize - kPigHeight, 1,
-                        &player, &pig_flying_l, &pig_flying_r);
-            flying_pigs.push_back(pig);
-             //pig.PlayMusicFly();
-        }
-        player.armed_ = 0;
+void FieldController::onPigCaught() {
+    // PlaySound!
+    // SoundPlayer* s_player = new SoundPlayer(SoundPlayer::Sounds::Hit, new QSound(":/resources/sounds/pig_caught.wav"));
+    // s_player->start();
+}
 
-        free_pigs.push_back(GeneratePig());
-    } else {
-        std::list<FreePig>::iterator current_pig = player.HitsPig(free_pigs);
-        qDebug() << current_pig->xPos() << ' ' << current_pig->yPos();
-        if (current_pig != free_pigs.end()) {
-            SoundPlayer* s_player = new SoundPlayer(SoundPlayer::Sounds::Hit, new QSound(":/resources/sounds/pig_caught.wav"));
-            s_player->start();
-
-            //QSound::play(":/resources/sounds/hit.wav");
-            //pig_caught.play();
-
-            player.CatchPig(*current_pig);
-            //player.PlayMusic();
-            free_pigs.erase(current_pig);
-        }
-    }
+void FieldController::givePigsToPlayer(Person* player) {
+    player->CatchPig(free_pigs);
 }
 
 void FieldController::onKeyPressed(QKeyEvent *event) {
     switch (event->key()) {
-    case Qt::Key_Space:
+    /*case Qt::Key_Space:
         ThrowPig(players[0]);
         break;
     case Qt::Key_Shift:
         ThrowPig(players[1]);
-        break;
+        break;*/
     case Qt::Key_Escape: {
-
         field_view_->killTimer(field_view_->timer_id);
         field_view_->Pause("Пауза");
     }
@@ -167,4 +131,10 @@ FreePig FieldController::GeneratePig() {
     new_pig.setX(rand() % field_view_->geometry().width());
     new_pig.setY(rand() % field_view_->geometry().height());
     return new_pig;
+}
+
+Person* FieldController::GetHitPerson(const GameObject* object) {
+    auto hitting_person_const = dynamic_cast<const Person*>(object);
+    auto hitting_person = const_cast<Person*>(hitting_person_const);
+    return hitting_person;
 }
