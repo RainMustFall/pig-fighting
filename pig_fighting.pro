@@ -39,7 +39,8 @@ SOURCES += \
     animation.cpp \
     health_field.cpp \
     themostmainwindow.cpp \
-    soundplayer.cpp
+    soundplayer.cpp \
+    fieldcontroller.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,7 +54,8 @@ HEADERS += \
     animation.h \
     health_field.h \
     themostmainwindow.h \
-    soundplayer.h
+    soundplayer.h \
+    fieldcontroller.h
 
 FORMS += \
         mainwindow.ui \

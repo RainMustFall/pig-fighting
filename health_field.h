@@ -23,7 +23,7 @@ public:
 
     Person* player_ptr;
 
-    void Draw(QPainter& painter);
+    void Draw(QPainter& painter) const;
 
     int level = 100;
 };

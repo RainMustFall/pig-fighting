@@ -9,12 +9,11 @@ HealthField::HealthField(int x, int y, int level, Person* player)
       player_ptr(player){
 }
 
-void HealthField::Draw(QPainter& painter) {
+void HealthField::Draw(QPainter& painter) const {
 
-    level = player_ptr->health_level;
-//    int red = 250 * (100 - level) / 100;
-//    int green = 250 - red;
-//    QColor color(red, green, 0);
+    // SOMETHING WRONG HERE
+    // level = player_ptr->health_level;
+
     QColor color;
     if (level > 75){
         color = Qt::green;

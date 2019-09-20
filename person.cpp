@@ -248,6 +248,9 @@ void Person::PlayMusicHit() {
     //h_player->play();
 }
 
+void Person::UpdatePlatform(const std::vector<Ground>& ground) {
+    current_platform = HitsGround(ground);
+}
 
 std::list<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {
     //

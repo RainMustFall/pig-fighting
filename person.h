@@ -60,6 +60,8 @@ public:
     void DecreaseHealthLevel();
     void IncreaseHelthLevel();
     void ResetRunAnimation();
+
+    void UpdatePlatform(const std::vector<Ground>& ground);
     
     enum class State {
         RUNNING,

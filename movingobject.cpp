@@ -14,6 +14,8 @@ void MovingObject::UpdatePosition() {
     } else if (moveVector_.x < 0) {
         current_side = Side::LEFT;
     }
+
+    CheckBoundaries();
  }
 
 void MovingObject::ApplyPhysics() {
