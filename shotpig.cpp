@@ -18,7 +18,7 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
     for (auto& item : persons) {
         auto item_obj = dynamic_cast<const GameObject*>(&item);
         if (&item != shooting_player){
-           if (Hits(*item_obj)) {
+           if (Hits(item_obj)) {
                 item.moveVector_.x += moveVector_.x / 2;
                 return &item;
             }
@@ -27,7 +27,7 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
 
     for (const auto& item : ground) {
         auto item_obj = dynamic_cast<const GameObject*>(&item);
-        if (Hits(*item_obj)) {
+        if (Hits(item_obj)) {
             return &item;
         }
     }
@@ -55,5 +55,5 @@ void ShotPig::Draw(QPainter& painter) const {
 }
 
 bool ShotPig::isOutOfScreen() {
-    return (position_.x > kScreenWidth) || (position_.x < -Width());
+    return (position_.x >= kScreenWidth) || (position_.x < -Width());
 }

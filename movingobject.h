@@ -34,13 +34,14 @@ public:
     // стабилизирует его положение. Если ещё и касается сверху,
     // возвращает указатель на платформу, иначе nullptr
     const Ground* HitsGround(const std::vector<Ground>& ground);
+    void CheckBoundaries();
     //virtual bool Hits(const GameObject& obj) const;
     Point moveVector_ = {0, 0};
         void UpdatePlatform(const std::vector<Ground>& ground);
 protected:
     double GetMoveVectorX() const;
 
-    void CheckBoundaries();
+
 
     // Флажок, показывающий, с какой стороны мы врезались
     // последний раз.

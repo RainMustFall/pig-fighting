@@ -14,7 +14,7 @@ class FieldController;
 class Person: public MovingObject
 {
 public:
-    Person(int x, int y, const QString& animation_dir, int id);
+    Person(int x, int y, const QString& animation_dir, int id, FieldController* controller);
 
     void CatchPressedKey(int key);
     void CatchReleasedKey(int key);

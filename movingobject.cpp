@@ -14,8 +14,6 @@ void MovingObject::UpdatePosition() {
     } else if (moveVector_.x < 0) {
         current_side = Side::LEFT;
     }
-
-    CheckBoundaries();
  }
 
 void MovingObject::ApplyPhysics() {
@@ -59,7 +57,7 @@ const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
     for (const auto& item : ground) {
         auto item_obj = dynamic_cast<const GameObject*>(&item);
 
-        if (Hits(*item_obj)) {
+        if (Hits(item_obj)) {
             hits = true;
             if (ignored_platform != &item) {
                 ignored_platform = nullptr;

@@ -12,7 +12,7 @@
 
 struct ObjectSet {
   const std::vector<Person>& players;
-  const std::list<FreePig>& free_pigs;
+  const std::vector<FreePig>& free_pigs;
   const std::list<ShotPig>& flying_pigs;
   const std::list<HealthField>& health_fields;
   const std::vector<Ground>& ground;
@@ -38,10 +38,9 @@ public:
     void givePigsToPlayer(Person* player);
 
 private:
-    std::vector<Person> players = {{450, 120, "player_1", 1},
-                                   {800, 200, "player_2", 2}};
+    std::vector<Person> players;
 
-    std::list<FreePig> free_pigs;
+    std::vector<FreePig> free_pigs;
 
     std::list<ShotPig> flying_pigs = {};
 

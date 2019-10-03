@@ -18,8 +18,6 @@ void SoundPlayer::run() {
     case Sounds::Throw:
       pig_fly->play();
       break;
-    default:
-      break;
   }
 
   exec();

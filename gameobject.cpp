@@ -32,12 +32,12 @@ int GameObject::yPos() const {
     return static_cast<int>(position_.y);
 }
 
-bool GameObject::Hits(const GameObject& obj) const {
-    int max_y = std::max(yPos() + Height(), obj.yPos() + obj.Height());
-    int min_y = std::min(yPos(), obj.yPos());
-    int max_x = std::max(xPos() + Width(), obj.xPos() + obj.Width());
-    int min_x = std::min(xPos(), obj.xPos());
+bool GameObject::Hits(const GameObject* obj) const {
+    int max_y = std::max(yPos() + Height(), obj->yPos() + obj->Height());
+    int min_y = std::min(yPos(), obj->yPos());
+    int max_x = std::max(xPos() + Width(), obj->xPos() + obj->Width());
+    int min_x = std::min(xPos(), obj->xPos());
 
-    return (max_y - min_y <= Height() + obj.Height()) &&
-           (max_x - min_x <= Width() + obj.Width());
+    return (max_y - min_y <= Height() + obj->Height()) &&
+           (max_x - min_x <= Width() + obj->Width());
 }

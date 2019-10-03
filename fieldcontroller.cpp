@@ -5,7 +5,9 @@
 #include "mainwindow.h"
 
 FieldController::FieldController(MainWindow* view)
-    : field_view_(view) {}
+    : players{{450, 120, "player_1", 1, this},
+       {800, 200, "player_2", 2, this}},
+      field_view_(view) {}
 
 void FieldController::UpdatePlayers() {
     for (Person& player : players) {
@@ -20,6 +22,7 @@ void FieldController::UpdatePlayers() {
         }
 
         player.UpdatePosition();
+        player.CheckBoundaries();
     }
 }
 
@@ -37,6 +40,7 @@ void FieldController::UpdateFreePigs() {
         pig.UpdatePlatform(ground);
         pig.ApplyPhysics();
         pig.UpdatePosition();
+        pig.CheckBoundaries();
     }
 
     pig_animations_.run_l.NextFrame();
@@ -86,19 +90,17 @@ void FieldController::onPigThrown(int x, int y, int direction, const Person* sen
 
 void FieldController::givePigsToPlayer(Person* player) {
     for (auto pig = free_pigs.begin(); pig != free_pigs.end(); ++pig) {
-        qDebug() << "giving pigs here" << &(*pig);
-        auto item_obj = dynamic_cast<const GameObject*>(&(*pig));
-        qDebug() << "giving pigs still here" << item_obj;
-        if (player->Hits(*item_obj)) {
-            qDebug() << "giving pigs";
+        auto item_obj = dynamic_cast<const GameObject*>(&*pig);
+
+        if (player->Hits(item_obj)) {
             free_pigs.erase(pig);
+            player->CatchPig();
             // PlaySound!
             // SoundPlayer* s_player = new SoundPlayer(SoundPlayer::Sounds::Hit, new QSound(":/resources/sounds/pig_caught.wav"));
             // s_player->start();
             break;
         }
     }
-    player->CatchPig();
 }
 
 void FieldController::onKeyPressed(QKeyEvent *event) {

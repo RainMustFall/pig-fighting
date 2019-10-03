@@ -5,11 +5,12 @@
 #include <thread>
 #include <QSound>
 
-Person::Person(int x, int y, const QString& animation_dir, int id)
+Person::Person(int x, int y, const QString& animation_dir, int id, FieldController* controller)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
       animations_(animation_dir),
       handle_keys_(id == 1 ? kFirstPlayerKeys : kSecondPlayerKeys),
-      name_(id) {}
+      name_(id),
+      controller_(controller) {}
 
 void Person::CatchPressedKey(int key) {
     if (key == handle_keys_.up_key) {
@@ -31,7 +32,7 @@ void Person::CatchPressedKey(int key) {
 std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
     for (auto i = pigs.begin(); i != pigs.end(); ++i) {
         auto item_obj = dynamic_cast<const GameObject*>(&(*i));
-        if (Hits(*item_obj)) {
+        if (Hits(item_obj)) {
             return i;
         }
     }
