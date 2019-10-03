@@ -3,27 +3,22 @@
 #include "movingobject.h"
 #include "gameobject.h"
 #include "person.h"
+#include "resourcestorage.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
-
-
 
 class ShotPig : public MovingObject
 {
 public:
-    ShotPig(int height, int width, int direction, const Person* shooting_player,
-            Animation* flying_left, Animation* flying_right);
+    ShotPig(int x, int y, int direction, const Person* shooting_player,
+            const PigAnimationStorage* animations);
     const GameObject* Pig_Hits(std::vector<Person>& persons,
                  const std::vector<Ground>& ground);
     const Person* shooting_player;
     void Draw(QPainter& painter) const override;
 
-    const Animation* pig_flying_l;
-    const Animation* pig_flying_r;
-    QMediaPlayer *h_player;
-    QMediaPlaylist *h_playlist;
-    QMediaPlayer *f_player;
-    QMediaPlaylist *f_playlist;
+    const PigAnimationStorage* animations_;
+
     void PlayMusic();
     void PlayMusicFly();
     bool isOutOfScreen();

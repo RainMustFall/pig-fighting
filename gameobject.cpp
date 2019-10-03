@@ -12,7 +12,7 @@ GameObject::GameObject(int x, int y, int height, int width)
 
 void GameObject::Draw(QPainter& painter) const {
     /*painter.setRenderHint(QPainter::SmoothPixmapTransform);*/
-    painter.drawRect(position_.x, position_.y,
+    painter.drawRect(xPos(), yPos(),
                        bBox_.width_, bBox_.height_);
 }
 

@@ -1,12 +1,12 @@
 #ifndef FREEPIG_H
 #define FREEPIG_H
 #include "movingobject.h"
-#include "animation.h"
+#include "resourcestorage.h"
 
 class FreePig : public MovingObject
 {
 public:
-    FreePig(int x, int y, Animation* running_left, Animation* running_right);
+    FreePig(int x, int y, const PigAnimationStorage* animations);
     FreePig GeneratePig();
     void setX (double x);
     void setY (double y);
@@ -14,9 +14,7 @@ public:
     void Draw(QPainter& painter) const;
     void UpdateAnimation();
 
-    const Animation* pig_running_l;
-    const Animation* pig_running_r;
-
+    const PigAnimationStorage* animations_;
 };
 
 #endif // FREEPIG_H

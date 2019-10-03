@@ -23,7 +23,7 @@ class MainWindow;
 class FieldController
 {
 public:
-    FieldController();
+    FieldController(MainWindow* view);
 
     void UpdatePlayers();
     void AddPigs();
@@ -34,12 +34,12 @@ public:
     void onKeyPressed(QKeyEvent *event);
     void onKeyReleased(QKeyEvent *event);
     void UpdateTimer();
-    void onPigThrown(const ShotPig& pig);
+    void onPigThrown(int x, int y, int direction, const Person* sender);
     void givePigsToPlayer(Person* player);
 
 private:
-    std::vector<Person> players = {{450, 120, "player_1"},
-                                   {800, 200, "player_2"}};
+    std::vector<Person> players = {{450, 120, "player_1", 1},
+                                   {800, 200, "player_2", 2}};
 
     std::list<FreePig> free_pigs;
 
@@ -68,7 +68,7 @@ private:
     FreePig GeneratePig();
     Person* GetHitPerson(const GameObject* object);
 
-    ResourceStorage* storage_;
+    PigAnimationStorage pig_animations_;
 };
 
 #endif // FIELDCONTROLLER_H

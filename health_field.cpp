@@ -4,16 +4,12 @@
 #include <QDebug>
 
 HealthField::HealthField(int x, int y, int level, Person* player)
-    : position_{static_cast<double>(x), static_cast<double>(y)},
-      level(level),
-      player_ptr(player){
+    : GameObject (x, y, 20, 100),
+      player_ptr(player),
+      level(level) {
 }
 
 void HealthField::Draw(QPainter& painter) const {
-
-    // SOMETHING WRONG HERE
-    // level = player_ptr->health_level;
-
     QColor color;
     if (level > 75){
         color = Qt::green;
@@ -24,8 +20,11 @@ void HealthField::Draw(QPainter& painter) const {
     }else if (level > 5) {
         color = Qt::red;
     }
-    painter.drawRect(position_.x, position_.y, bBox_.width_, bBox_.height_);
-    painter.drawRect(position_.x + 1, position_.y + 1, level - 1 ,bBox_.height_ - 1);
-    painter.fillRect(position_.x + 1, position_.y + 1,
+
+    painter.drawRect(xPos(), yPos(),
+                     bBox_.width_, bBox_.height_);
+    painter.drawRect(xPos() + 1, yPos() + 1,
+                     level - 1,bBox_.height_ - 1);
+    painter.fillRect(xPos() + 1, yPos() + 1,
                      level - 1 ,bBox_.height_ - 1,  color);
 }

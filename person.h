@@ -6,6 +6,7 @@
 #include "resourcestorage.h"
 #include "freepig.h"
 #include <QMediaPlayer>
+#include "constants.h"
 #include <QMediaPlaylist>
 
 class FieldController;
@@ -13,13 +14,10 @@ class FieldController;
 class Person: public MovingObject
 {
 public:
+    Person(int x, int y, const QString& animation_dir, int id);
 
-    Person(int x, int y, QString animation_dir);
-
-    void CatchPressedKey(int key, const int up_key, const int left_key,
-                         const int down_key, const int right_key);
-    void CatchReleasedKey(int key, const int up_key, const int left_key,
-                         const int down_key, const int right_key);
+    void CatchPressedKey(int key);
+    void CatchReleasedKey(int key);
     // Проверяет, какие клавиши нажаты,
     // и обрабатывает все нажатия
     void ProcessKeyboard();
@@ -55,6 +53,7 @@ public:
 
     State state;
     PersonAnimationStorage animations_;
+    const HandleKeys handle_keys_;
 
     void PlayMusicHit();
     int name_;

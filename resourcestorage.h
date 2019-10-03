@@ -7,17 +7,17 @@
 struct PigAnimationStorage {
     PigAnimationStorage();
 
-    Animation pig_running_l;
-    Animation pig_running_r;
+    Animation run_l;
+    Animation run_r;
 
-    Animation pig_flying_l;
-    Animation pig_flying_r;
+    Animation fly_l;
+    Animation fly_r;
 
     QSound* hit_sound;
 };
 
 struct PersonAnimationStorage {
-    PersonAnimationStorage();
+    PersonAnimationStorage(const QString& animation_dir);
 
     Animation run_r;
     Animation stand_r;

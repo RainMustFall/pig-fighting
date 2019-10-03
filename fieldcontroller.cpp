@@ -1,10 +1,11 @@
 #include "fieldcontroller.h"
 #include "constants.h"
 #include "shotpig.h"
+#include "resourcestorage.h"
 #include "mainwindow.h"
 
-FieldController::FieldController()
-    :  storage_(new ResourceStorage) {}
+FieldController::FieldController(MainWindow* view)
+    : field_view_(view) {}
 
 void FieldController::UpdatePlayers() {
     for (Person& player : players) {
@@ -38,8 +39,8 @@ void FieldController::UpdateFreePigs() {
         pig.UpdatePosition();
     }
 
-    pig_running_l.NextFrame();
-    pig_running_r.NextFrame();
+    pig_animations_.run_l.NextFrame();
+    pig_animations_.run_r.NextFrame();
 }
 
 void FieldController::UpdateFlyingPigs() {
@@ -77,16 +78,19 @@ ObjectSet FieldController::PackObjects() {
     return {players, free_pigs, flying_pigs, health_fields, ground};
 }
 
-void FieldController::onPigThrown(const ShotPig& pig) {
-    flying_pigs.push_back(pig);
+void FieldController::onPigThrown(int x, int y, int direction, const Person* sender) {
+    flying_pigs.emplace_back(x, y, direction, sender, &pig_animations_);
     free_pigs.push_back(GeneratePig());
     // PlaySound!
 }
 
 void FieldController::givePigsToPlayer(Person* player) {
     for (auto pig = free_pigs.begin(); pig != free_pigs.end(); ++pig) {
-        auto item_obj = dynamic_cast<const GameObject*>(&*pig);
+        qDebug() << "giving pigs here" << &(*pig);
+        auto item_obj = dynamic_cast<const GameObject*>(&(*pig));
+        qDebug() << "giving pigs still here" << item_obj;
         if (player->Hits(*item_obj)) {
+            qDebug() << "giving pigs";
             free_pigs.erase(pig);
             // PlaySound!
             // SoundPlayer* s_player = new SoundPlayer(SoundPlayer::Sounds::Hit, new QSound(":/resources/sounds/pig_caught.wav"));
@@ -113,14 +117,14 @@ void FieldController::onKeyPressed(QKeyEvent *event) {
     default:
         // Нажатия клавиш для обоих игроков (передаём в качестве аргумента нажатую клавишу
         // и четыре клавиши, отвечающие у этого игрока за верх, лево, низ, право)
-        players[0].CatchPressedKey(event->key(), Qt::Key_W, Qt::Key_A, Qt::Key_S, Qt::Key_D);
-        players[1].CatchPressedKey(event->key(), Qt::Key_Up, Qt::Key_Left, Qt::Key_Down, Qt::Key_Right);
+        players[0].CatchPressedKey(event->key());
+        players[1].CatchPressedKey(event->key());
     }
 }
 
 void FieldController::onKeyReleased(QKeyEvent *event) {
-    players[0].CatchReleasedKey(event->key(), Qt::Key_W, Qt::Key_A, Qt::Key_S, Qt::Key_D);
-    players[1].CatchReleasedKey(event->key(), Qt::Key_Up, Qt::Key_Left, Qt::Key_Down, Qt::Key_Right);
+    players[0].CatchReleasedKey(event->key());
+    players[1].CatchReleasedKey(event->key());
 }
 
 void FieldController::UpdateTimer() {
@@ -131,7 +135,7 @@ void FieldController::UpdateTimer() {
 }
 
 FreePig FieldController::GeneratePig() {
-    FreePig new_pig(10, 10, &pig_running_l, &pig_running_r);
+    FreePig new_pig(10, 10, &pig_animations_);
     new_pig.setX(rand() % field_view_->geometry().width());
     new_pig.setY(rand() % field_view_->geometry().height());
     return new_pig;

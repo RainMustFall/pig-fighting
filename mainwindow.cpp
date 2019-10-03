@@ -14,9 +14,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     parent_(dynamic_cast<TheMostMainWindow*>(parent)),
-    f_player (new QMediaPlayer),
-    f_playlist (new QMediaPlaylist),
-    cur_theme(TextureType::GRASS)
+    cur_theme(TextureType::GRASS),
+    controller_(new FieldController(this))
 {
     /*f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
@@ -36,13 +35,13 @@ void MainWindow::SetTimer() {
 }
 
 void MainWindow::NewGame(TextureType type) {
-    f_player->play();
     cur_theme = type;
     DrawBackground();
     setFocus();
 
+    qDebug() << "starting new game";
     delete controller_;
-    controller_ = new FieldController;
+    controller_ = new FieldController(this);
 
     qDebug() <<"new";
     paused = false;
@@ -72,11 +71,18 @@ void MainWindow::Pause(const QString &reason) {
 }
 
 void MainWindow::timerEvent(QTimerEvent *) {
+
     controller_->UpdateTimer();
+
     controller_->UpdatePlayers();
+
+    qDebug() << "started cycle of timer";
     controller_->AddPigs();
+
     controller_->UpdateFreePigs();
+
     controller_->UpdateFlyingPigs();
+    qDebug() << "cycle of timer";
     repaint();
 }
 
@@ -125,7 +131,7 @@ void MainWindow::DrawBackground() {
     std::vector<QString>bg_dirs = {"grass", "sand", "cave", "snow"};
 
     qDebug() << "Drawing background";
-    QPixmap bkgnd(":/resources/textures/" + bg_dirs[static_cast<int>(cur_theme)] + "/background.png");
+    QPixmap bkgnd(":/resources/textures/" + bg_dirs[static_cast<unsigned>(cur_theme)] + "/background.png");
     bkgnd = bkgnd.scaled(kScreenWidth, kScreenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QPalette p(palette());
     p.setBrush(QPalette::Background, bkgnd);

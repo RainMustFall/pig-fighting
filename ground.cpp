@@ -1,10 +1,11 @@
 #include "ground.h"
+#include "constants.h"
 #include <QDebug>
 
 TexturePack::TexturePack(const QString path)
-    : left_block(":/resources/textures/" + path + "/left.png"),
-      middle_block(":/resources/textures/" + path + "/middle.png"),
-      right_block(":/resources/textures/" + path + "/right.png") {}
+    : left_block(kTexturesPath + path + "/left.png"),
+      middle_block(kTexturesPath + path + "/middle.png"),
+      right_block(kTexturesPath + path + "/right.png") {}
 
 Ground::Ground(int x, int y, int height, int width, TextureType type)
     : GameObject (x, y, height, width),
@@ -39,7 +40,7 @@ Ground::Ground(int x, int y, int height, int width, TextureType type)
 }
 
 void Ground::Draw(QPainter& painter) const {
-    painter.drawPixmap(position_.x, position_.y,
+    painter.drawPixmap(xPos(), yPos(),
                        bBox_.width_, bBox_.height_,
                        texture);
 }

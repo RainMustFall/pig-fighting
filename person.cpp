@@ -1,27 +1,24 @@
 #include "person.h"
-#include "constants.h"
 #include "freepig.h"
 #include "mainwindow.h"
 #include <QDebug>
 #include <thread>
 #include <QSound>
 
-Person::Person(int x, int y, QString animation_dir)
+Person::Person(int x, int y, const QString& animation_dir, int id)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
-      name_(animation_dir[animation_dir.size()-1] == '1' ? 1 : 2)
-{
-    qDebug() << "PERSON CONSTRUCTOR!";
-}
+      animations_(animation_dir),
+      handle_keys_(id == 1 ? kFirstPlayerKeys : kSecondPlayerKeys),
+      name_(id) {}
 
-void Person::CatchPressedKey(int key, int up_key, int left_key,
-                             int down_key, int right_key) {
-    if (key == up_key) {
+void Person::CatchPressedKey(int key) {
+    if (key == handle_keys_.up_key) {
         Up_pressed = true;
-    } else if (key == left_key) {
+    } else if (key == handle_keys_.left_key) {
         Left_pressed = true;
-    } else if (key == right_key) {
+    } else if (key == handle_keys_.right_key) {
         Right_pressed = true;
-    } else if (key == down_key) {
+    } else if (key == handle_keys_.down_key) {
         Down_pressed = true;
         if (current_platform != nullptr) {
             ignored_platform = current_platform;
@@ -41,17 +38,16 @@ std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
     return pigs.end();
 }
 
-void Person::CatchReleasedKey(int key, int up_key, int left_key,
-                             int down_key, int right_key, int shot_key) {
-    if (key == left_key) {
+void Person::CatchReleasedKey(int key) {
+    if (key == handle_keys_.left_key) {
         Left_pressed = false;
-    } else if (key == right_key) {
+    } else if (key == handle_keys_.right_key) {
         Right_pressed = false;
-    } else if (key == up_key) {
+    } else if (key == handle_keys_.up_key) {
         Up_pressed = false;
-    } else if (key == down_key) {
+    } else if (key == handle_keys_.down_key) {
         Down_pressed = false;
-    } else if (key == shot_key) {
+    } else if (key == handle_keys_.shot_key) {
         if (armed_) {
             ThrowPig();
         } else {
@@ -62,15 +58,14 @@ void Person::CatchReleasedKey(int key, int up_key, int left_key,
 
 void Person::ThrowPig() {
     if (current_side == Side::LEFT) {
-        ShotPig pig(position_.x - kPigSize - 1,
-                    position_.y + Height() - kPigSize - kPigHeight, -1,
-                    this, &pig_flying_l, &pig_flying_r);
+        controller_->onPigThrown(xPos() - kPigSize - 1,
+                                 yPos() + Height() - kPigSize - kPigHeight, -1,
+                                 this);
     } else {
-        ShotPig pig(position_.x + Width() + 1,
-                    position_.y + Height() - kPigSize - kPigHeight, 1,
-                    this, &pig_flying_l, &pig_flying_r);
+        controller_->onPigThrown(xPos() + Width() + 1,
+                                 yPos() + Height() - kPigSize - kPigHeight, 1,
+                                 this);
     }
-    controller_->onPigThrown(pig);
     armed_ = 0;
 }
 
@@ -239,8 +234,8 @@ void Person::IncreaseHelthLevel(){
     }
 
     if (health_level <= 0) {
-        emit PlayerWins(name_);
-        /*if ( == 1) {
+        //emit PlayerWins(name_);
+        /*if (name_ == 1) {
             Pause("Игрок 2 выиграл!");
         } else {
             Pause("Игрок 1 выиграл!");

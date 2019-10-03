@@ -3,25 +3,10 @@
 #include "person.h"
 
 ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player,
-                 Animation* flying_left, Animation* flying_right)
+                 const PigAnimationStorage* animations)
     : MovingObject(x, y, kPigSize, kPigSize),
       shooting_player(shooting_player),
-      pig_flying_l(flying_left),
-      pig_flying_r(flying_right),
-      h_player (new QMediaPlayer),
-      h_playlist (new QMediaPlaylist),
-      f_player (new QMediaPlayer),
-      f_playlist (new QMediaPlaylist)
-{
-    h_player->setVolume(100);
-    f_player->setVolume(50);
-    f_player->setPlaylist(f_playlist);
-    f_playlist->addMedia(QUrl("qrc:resources/sounds/pig_fly.mp3"));
-    f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
-
-    h_player->setPlaylist(h_playlist);
-    h_playlist->addMedia(QUrl("qrc:resources/sounds/hit2.mp3"));
-    f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
+      animations_(animations) {
     moveVector_.x = direction * kShotSpeed;
     moveVector_.y = 0;
 }
@@ -59,13 +44,13 @@ void ShotPig::PlayMusicFly(){
 void ShotPig::Draw(QPainter& painter) const {
 
     if (current_side == Side::LEFT) {
-        painter.drawPixmap(position_.x, position_.y,
+        painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
-                           pig_flying_l->CurrentFrame());
+                           animations_->fly_l.CurrentFrame());
     } else {
-        painter.drawPixmap(position_.x, position_.y,
+        painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
-                           pig_flying_r->CurrentFrame());
+                           animations_->fly_r.CurrentFrame());
     }
 }
 

@@ -34,7 +34,6 @@ public:
     int timer_id;
     bool isTimerActive = true;
 
-
     void SetTimer();
 
     void NewGame(TextureType type);
@@ -45,11 +44,6 @@ public:
     bool is_start = true;
     bool paused = true;
     TheMostMainWindow* parent_;
-
-    char* bg_path = ":/resources/textures/background.png";
-
-    QMediaPlayer *f_player;
-    QMediaPlaylist *f_playlist;
 
     TextureType cur_theme;
 
