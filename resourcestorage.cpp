@@ -1,6 +1,7 @@
 #include "resourcestorage.h"
 #include "constants.h"
 #include <QString>
+#include <QDebug>
 
 Animation createPersonAnimation(const QString& file) {
     return Animation(kAnimationPath + file,
@@ -41,7 +42,24 @@ Animation &PersonAnimationStorage::GetAnimation(bool armed,
                                                 utils::PersonState state,
                                                 MovingObject::Side side)
 {
+    Animation* storage[2][2][3] = {{{&run_r, &stand_r, &fly_r},
+                                    {&run_l, &stand_l, &fly_l}},
+                                   {{&run_r_pig, &stand_r_pig, &fly_r_pig},
+                                    {&run_l_pig, &stand_l_pig, &fly_l_pig}}};
+
     return *storage[int{armed}]
-                   [static_cast<int>(state)]
-                   [static_cast<int>(side)];
+                   [static_cast<int>(side)]
+[static_cast<int>(state)];
+}
+
+const Animation &PersonAnimationStorage::GetAnimation(bool armed, utils::PersonState state, MovingObject::Side side) const
+{
+    const Animation* storage[2][2][3] = {{{&run_r, &stand_r, &fly_r},
+                                    {&run_l, &stand_l, &fly_l}},
+                                   {{&run_r_pig, &stand_r_pig, &fly_r_pig},
+                                    {&run_l_pig, &stand_l_pig, &fly_l_pig}}};
+
+    return *storage[int{armed}]
+                   [static_cast<int>(side)]
+[static_cast<int>(state)];
 }

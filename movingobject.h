@@ -36,8 +36,8 @@ public:
 
     //показывает, какая сторона объекта повернута к экрану
     enum class Side {
-        LEFT,
-        RIGHT
+        RIGHT = 0,
+        LEFT = 1
     };
         void UpdatePlatform(const std::vector<Ground>& ground);
 protected:

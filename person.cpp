@@ -8,6 +8,7 @@
 Person::Person(int x, int y, const QString& animation_dir, int id, FieldController* controller)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
       animations_(animation_dir),
+      state(utils::PersonState::FLYING),
       handle_keys_(id == 1 ? kFirstPlayerKeys : kSecondPlayerKeys),
       name_(id),
       controller_(controller) {}
@@ -97,41 +98,14 @@ void Person::CatchPig() {
     qDebug() << "got it!";
 }
 
-void Person::UpdateAnimationUniversal(Animation& run_animation,
-                                      Animation& stand_animation,
-                                      Animation& fly_animation) {
-    switch (state) {
-    case utils::PersonState::RUNNING:
-        run_animation.NextFrame();
-        break;
-    case utils::PersonState::STANDING:
-        stand_animation.NextFrame();
-        break;
-    case utils::PersonState::FLYING:
-        fly_animation.NextFrame();
-        break;
-    }
-}
-
 void Person::UpdateAnimation() {
     if (current_platform != nullptr) {
         if (Left_pressed || Right_pressed) {
             state = utils::PersonState::RUNNING;
         } else {
-            if (current_side == Side::LEFT) {
-                if (!armed_ && animations_.run_l.isOnFirstFrame()) {
-                    state = utils::PersonState::STANDING;
-                }
-                if (armed_ && animations_.run_l_pig.isOnFirstFrame()) {
-                    state = utils::PersonState::STANDING;
-                }
-            } else {
-                if (!armed_ && animations_.run_r.isOnFirstFrame()) {
-                    state = utils::PersonState::STANDING;
-                }
-                if (armed_ && animations_.run_r_pig.isOnFirstFrame()) {
-                    state = utils::PersonState::STANDING;
-                }
+            auto& animation = animations_.GetAnimation(armed_, state, current_side);
+            if (animation.isOnFirstFrame()) {
+                state = utils::PersonState::STANDING;
             }
         }
     } else {
@@ -139,70 +113,15 @@ void Person::UpdateAnimation() {
         state = utils::PersonState::FLYING;
     }
 
-    if (current_side == Side::LEFT) {
-        if (armed_) {
-            UpdateAnimationUniversal(animations_.run_l_pig,
-                                     animations_.stand_l_pig,
-                                     animations_.fly_l_pig);
-        } else {
-            UpdateAnimationUniversal(animations_.run_l,
-                                     animations_.stand_l,
-                                     animations_.fly_l);
-        }
-    } else {
-        if (armed_) {
-            UpdateAnimationUniversal(animations_.run_r_pig,
-                                     animations_.stand_r_pig,
-                                     animations_.fly_r_pig);
-        } else {
-            UpdateAnimationUniversal(animations_.run_r,
-                                     animations_.stand_r,
-                                     animations_.fly_r);
-        }
-    }
-}
-
-void Person::DrawUniversal(QPainter& painter,
-                           const Animation& run_animation,
-                           const Animation& stand_animation,
-                           const Animation& fly_animation) const {
-    switch (state) {
-    case utils::PersonState::RUNNING:
-        painter.drawPixmap(xPos(), yPos(),
-                           bBox_.width_, bBox_.height_,
-                           run_animation.CurrentFrame());
-        break;
-    case utils::PersonState::STANDING:
-        painter.drawPixmap(xPos(), yPos(),
-                           bBox_.width_, bBox_.height_,
-                           stand_animation.CurrentFrame());
-        break;
-    case utils::PersonState::FLYING:
-        painter.drawPixmap(xPos(), yPos(),
-                           bBox_.width_, bBox_.height_,
-                           fly_animation.CurrentFrame());
-        break;
-    }
+    auto& animation = animations_.GetAnimation(armed_, state, current_side);
+    animation.NextFrame();
 }
 
 void Person::Draw(QPainter& painter) const {
-    if (current_side == Side::LEFT) {
-        if (!armed_) {
-            DrawUniversal(painter, animations_.run_l,
-                          animations_.stand_l, animations_.fly_l);
-        } else {
-            DrawUniversal(painter, animations_.run_l_pig,
-                          animations_.stand_l_pig, animations_.fly_l_pig);
-        }
-    } else {
-        if (!armed_) {
-            DrawUniversal(painter, animations_.run_r,
-                          animations_.stand_r, animations_.fly_r);
-        } else {
-            DrawUniversal(painter, animations_.run_r_pig,
-                          animations_.stand_r_pig, animations_.fly_r_pig);
-        }
-    }
+    const auto& animation = animations_.GetAnimation(armed_, state, current_side);
+    painter.drawPixmap(xPos(), yPos(),
+                       bBox_.width_, bBox_.height_,
+                       animation.CurrentFrame());
 }
 
 
