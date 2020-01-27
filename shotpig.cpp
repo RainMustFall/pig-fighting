@@ -14,11 +14,9 @@ ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player,
 
 const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
                       const std::vector<Ground>& ground) {
-
     for (auto& item : persons) {
-        auto item_obj = dynamic_cast<const GameObject*>(&item);
         if (&item != shooting_player){
-           if (Hits(item_obj)) {
+           if (Hits(&item)) {
                 item.moveVector_.x += moveVector_.x / 2;
                 return &item;
             }
@@ -26,8 +24,7 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
     }
 
     for (const auto& item : ground) {
-        auto item_obj = dynamic_cast<const GameObject*>(&item);
-        if (Hits(item_obj)) {
+        if (Hits(&item)) {
             return &item;
         }
     }

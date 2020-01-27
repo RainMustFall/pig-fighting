@@ -5,14 +5,9 @@
 
 class MovingObject : public GameObject {
 public:
-    friend class MainWindow;
-
-    // Конструктор
     MovingObject(int x, int y, int width, int height);
 
-    // Перемещает объект в зависимости от вектора его движения
     void UpdatePosition();
-
     virtual void ApplyPhysics();
 
     // Для определения, с какой именно стороны объект
@@ -37,6 +32,13 @@ public:
     void CheckBoundaries();
     //virtual bool Hits(const GameObject& obj) const;
     Point moveVector_ = {0, 0};
+
+
+    //показывает, какая сторона объекта повернута к экрану
+    enum class Side {
+        LEFT,
+        RIGHT
+    };
         void UpdatePlatform(const std::vector<Ground>& ground);
 protected:
     double GetMoveVectorX() const;
@@ -46,12 +48,6 @@ protected:
     // Флажок, показывающий, с какой стороны мы врезались
     // последний раз.
     HitType last_hit;
-
-    //показывает, какая сторона объекта повернута к экрану
-    enum class Side {
-        LEFT,
-        RIGHT
-    };
 
     Side current_side = Side::LEFT;
 

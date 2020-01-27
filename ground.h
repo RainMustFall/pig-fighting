@@ -19,7 +19,8 @@ struct TexturePack {
 
 class Ground : public GameObject {
 public:
-    Ground(int x, int y, int height, int width, TextureType type = TextureType::GRASS);
+    Ground(int x, int y, int height, int width,
+           TextureType type = TextureType::GRASS);
     void Draw(QPainter& painter) const override;
     QPixmap texture;
 };

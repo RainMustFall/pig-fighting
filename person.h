@@ -5,6 +5,7 @@
 #include "movingobject.h"
 #include "resourcestorage.h"
 #include "freepig.h"
+#include "utils.h"
 #include <QMediaPlayer>
 #include "constants.h"
 #include <QMediaPlaylist>
@@ -26,6 +27,7 @@ public:
     void Draw(QPainter& painter) const override;
     void ThrowPig();
     void CatchPig();
+    int Health() const;
 
     // std::list<FreePig>::iterator FindClosestFreePig(MainWindow& w);
 
@@ -36,31 +38,21 @@ public:
     bool Left_pressed = false;
     bool Right_pressed = false;
     bool Down_pressed = false;
+    bool can_shoot_ = true;
 
-    std::list<FreePig>::iterator HitsPig(std::list<FreePig>& pigs);
-
-    int health_level = 100;
+    int health_level_ = 100;
 
     void DecreaseHealthLevel();
     void IncreaseHelthLevel();
     void ResetRunAnimation();
-    
-    enum class State {
-        RUNNING,
-        STANDING,
-        FLYING
-    };
 
-    State state;
+    utils::PersonState state;
     PersonAnimationStorage animations_;
     const HandleKeys handle_keys_;
 
     void PlayMusicHit();
     int name_;
     FieldController* controller_;
-
-signals:
-    void PlayerWins(int name);
 
 protected:
     void UpdateAnimationUniversal(Animation& run_animation,

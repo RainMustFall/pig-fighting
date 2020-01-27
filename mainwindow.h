@@ -15,40 +15,53 @@
 
 class TheMostMainWindow;
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+ public:
+  explicit MainWindow(QWidget* parent = nullptr);
+  ~MainWindow() override;
 
-public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    void timerEvent(QTimerEvent *) override;
-    void paintEvent(QPaintEvent *) override;
-    void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
-    void ThrowPig(Person& player);
-    ~MainWindow() override;
-    FreePig GeneratePig();
-    void drawPlayingObjects(QPainter& p, const ObjectSet&);
+  void timerEvent(QTimerEvent*) override;
+  void paintEvent(QPaintEvent*) override;
+  void keyPressEvent(QKeyEvent* event) override;
+  void keyReleaseEvent(QKeyEvent* event) override;
 
-    QSoundEffect pig_caught;
-    int timer_id;
-    bool isTimerActive = true;
+  void ThrowPig(Person& player);
+  void NewGame(TextureType type);
+  void DrawBackground();
+  void DrawHint(QPainter& painter);
+  void Pause(const QString& reason);
+  void SetTimer();
+  void StopTimer();
+  void GameOver(int player);
 
-    void SetTimer();
+  template<typename T>
+  void drawPlayingObject(QPainter& p, const T& objects) {
+      for (const auto& object: objects) {
+          object.Draw(p);
+      }
+  }
 
-    void NewGame(TextureType type);
-    void DrawBackground();
-    void DrawHint(QPainter& painter);
-    void Pause(const QString& reason);
+  FreePig GeneratePig();
 
-    bool is_start = true;
-    bool paused = true;
-    TheMostMainWindow* parent_;
+ private:
 
-    TextureType cur_theme;
+  QSoundEffect pig_caught;
+  int timer_id;
 
-private:
-    FieldController* controller_;
+  bool isTimerActive = true;
+  bool is_start = true;
+  bool paused = true;
+
+  FieldController* controller_;
+  TheMostMainWindow* parent_;
+  TextureType cur_theme;
+
+  const std::vector<QString> bg_dirs_ = {
+      "grass",
+      "sand",
+      "cave",
+      "snow"
+  };
 };
 
 #endif // MAINWINDOW_H

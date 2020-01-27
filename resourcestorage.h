@@ -2,6 +2,8 @@
 #define PIGFACTORY_H
 
 #include "animation.h"
+#include "movingobject.h"
+#include "utils.h"
 #include <QSound>
 
 struct PigAnimationStorage {
@@ -34,6 +36,14 @@ struct PersonAnimationStorage {
     Animation run_l_pig;
     Animation stand_l_pig;
     Animation fly_l_pig;
+
+    Animation* storage[2][2][3] = {{{&run_r, &stand_r, &fly_r},
+                                    {&run_l, &stand_l, &fly_l}},
+                                   {{&run_r_pig, &stand_r_pig, &fly_r_pig},
+                                    {&run_l_pig, &stand_l_pig, &fly_l_pig}}};
+
+    Animation& GetAnimation(bool armed, utils::PersonState state,
+                            MovingObject::Side side);
 };
 
 

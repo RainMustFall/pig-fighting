@@ -90,11 +90,11 @@ const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
 
 // Лучше это не трогать и не вникать...
 MovingObject::HitType MovingObject::CheckHitType(const Ground& ground) {
-    if (abs(moveVector_.y) < 1e-5) {
+    if (std::fabs(moveVector_.y) < kEps) {
         return HitType::UP;
     }
 
-    if (abs(moveVector_.x) < 1e-5) {
+    if (std::fabs(moveVector_.x) < kEps) {
         if (moveVector_.y < 0) {
             return HitType::DOWN;
         } else {

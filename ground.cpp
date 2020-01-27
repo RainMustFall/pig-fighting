@@ -15,7 +15,10 @@ Ground::Ground(int x, int y, int height, int width, TextureType type)
         throw std::invalid_argument("The length of a ground must be divided by the height for correct rendering.");
     }
 
-    std::vector<TexturePack>textures = {{"grass"}, {"sand"}, {"cave"}, {"snow"}};
+    std::vector<TexturePack>textures = {{"grass"},
+                                        {"sand"},
+                                        {"cave"},
+                                        {"snow"}};
 
     texture.fill(QColor(0, 0, 0, 0));
     TexturePack& cur_texture = textures[static_cast<size_t>(type)];

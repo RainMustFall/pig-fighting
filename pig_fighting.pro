@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++11
+CONFIG+= static
 
 SOURCES += \
         main.cpp \
@@ -41,7 +42,8 @@ SOURCES += \
     themostmainwindow.cpp \
     soundplayer.cpp \
     fieldcontroller.cpp \
-    resourcestorage.cpp
+    resourcestorage.cpp \
+    utils.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -57,7 +59,8 @@ HEADERS += \
     themostmainwindow.h \
     soundplayer.h \
     fieldcontroller.h \
-    resourcestorage.h
+    resourcestorage.h \
+    utils.h
 
 FORMS += \
         mainwindow.ui \

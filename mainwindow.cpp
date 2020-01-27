@@ -13,9 +13,9 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-    parent_(dynamic_cast<TheMostMainWindow*>(parent)),
-    cur_theme(TextureType::GRASS),
-    controller_(new FieldController(this))
+      controller_(new FieldController(this)),
+      parent_(dynamic_cast<TheMostMainWindow*>(parent)),
+      cur_theme(TextureType::GRASS)
 {
     /*f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
@@ -34,55 +34,29 @@ void MainWindow::SetTimer() {
     timer_id = startTimer(9);
 }
 
+void MainWindow::StopTimer() {
+    killTimer(timer_id);
+}
+
+void MainWindow::GameOver(int player) {
+    parent_->GameOver(player);
+}
+
 void MainWindow::NewGame(TextureType type) {
     cur_theme = type;
     DrawBackground();
     setFocus();
-
-    qDebug() << "starting new game";
     delete controller_;
-    controller_ = new FieldController(this);
-
-    qDebug() <<"new";
-    paused = false;
+    controller_ = new FieldController(this, type);
     SetTimer();
 }
 
-void MainWindow::Pause(const QString &reason) {
-    if (!paused) {
-        parent_->ui->new_game->setEnabled(true);
-        parent_->ui->comboBox->setEnabled(true);
-        parent_->ui->pause->setText("Продолжить");
-        killTimer(timer_id);
-        parent_->ui->label_2->setText(reason);
-    } else {
-        setFocus();
-        parent_->ui->new_game->setEnabled(false);
-        parent_->ui->comboBox->setEnabled(false);
-        parent_->ui->pause->setText("Пауза");
-        parent_->ui->label_2->setText("");
-        SetTimer();
-    }
-    if(reason != "Пауза"){
-        parent_->ui->pause->setEnabled(false);
-    }
-
-    paused = not(paused);
-}
-
 void MainWindow::timerEvent(QTimerEvent *) {
-
     controller_->UpdateTimer();
-
     controller_->UpdatePlayers();
-
-    qDebug() << "started cycle of timer";
     controller_->AddPigs();
-
     controller_->UpdateFreePigs();
-
     controller_->UpdateFlyingPigs();
-    qDebug() << "cycle of timer";
     repaint();
 }
 
@@ -91,27 +65,6 @@ void MainWindow::paintEvent(QPaintEvent *) {
     p.begin(this);
     controller_->onPaintingStarted(p);
     p.end();
-}
-
-void MainWindow::drawPlayingObjects(QPainter& p, const ObjectSet& objects) {
-    for (const Person& player : objects.players) {
-        player.Draw(p);
-    }
-
-    for (const HealthField& field : objects.health_fields) {
-        field.Draw(p);
-    }
-
-    for (const auto& item : objects.ground) {
-        item.Draw(p);
-    }
-
-    for (const FreePig& item : objects.free_pigs) {
-        item.Draw(p);
-    }
-    for (const ShotPig& item : objects.flying_pigs) {
-        item.Draw(p);
-    }
 }
 
 void MainWindow::DrawHint(QPainter& painter){
@@ -128,10 +81,8 @@ void MainWindow::DrawHint(QPainter& painter){
 }
 
 void MainWindow::DrawBackground() {
-    std::vector<QString>bg_dirs = {"grass", "sand", "cave", "snow"};
-
-    qDebug() << "Drawing background";
-    QPixmap bkgnd(":/resources/textures/" + bg_dirs[static_cast<unsigned>(cur_theme)] + "/background.png");
+    QString bg_dir = bg_dirs_[static_cast<unsigned>(cur_theme)];
+    QPixmap bkgnd(kTexturesPath + bg_dir + "/background.png");
     bkgnd = bkgnd.scaled(kScreenWidth, kScreenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QPalette p(palette());
     p.setBrush(QPalette::Background, bkgnd);
@@ -140,7 +91,11 @@ void MainWindow::DrawBackground() {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    controller_->onKeyPressed(event);
+    if(event->key() == Qt::Key_Escape) {
+      parent_->Pause(false);
+    } else {
+        controller_->onKeyPressed(event);
+    }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {

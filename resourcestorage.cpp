@@ -33,4 +33,15 @@ PersonAnimationStorage::PersonAnimationStorage(const QString& animation_dir)
 
       run_l_pig(run_r_pig.returnReflectedCopy()),
       stand_l_pig(stand_r_pig.returnReflectedCopy()),
-      fly_l_pig(fly_r_pig.returnReflectedCopy()) {}
+      fly_l_pig(fly_r_pig.returnReflectedCopy()) {
+
+}
+
+Animation &PersonAnimationStorage::GetAnimation(bool armed,
+                                                utils::PersonState state,
+                                                MovingObject::Side side)
+{
+    return *storage[int{armed}]
+                   [static_cast<int>(state)]
+                   [static_cast<int>(side)];
+}

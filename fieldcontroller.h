@@ -10,20 +10,12 @@
 #include "constants.h"
 #include "resourcestorage.h"
 
-struct ObjectSet {
-  const std::vector<Person>& players;
-  const std::vector<FreePig>& free_pigs;
-  const std::list<ShotPig>& flying_pigs;
-  const std::list<HealthField>& health_fields;
-  const std::vector<Ground>& ground;
-};
-
 class MainWindow;
 
 class FieldController
 {
 public:
-    FieldController(MainWindow* view);
+    FieldController(MainWindow* view, TextureType type = TextureType::GRASS);
 
     void UpdatePlayers();
     void AddPigs();
@@ -36,37 +28,22 @@ public:
     void UpdateTimer();
     void onPigThrown(int x, int y, int direction, const Person* sender);
     void givePigsToPlayer(Person* player);
+    void PlayerWins(int name);
 
 private:
-    std::vector<Person> players;
-
-    std::vector<FreePig> free_pigs;
-
-    std::list<ShotPig> flying_pigs = {};
-
-
-    std::list<HealthField> health_fields = {
-           {10,10,100, &players[0]},
-           {kScreenWidth - 110,10,100, &players[1]}
-       };
-
-    std::vector<Ground>ground = {{-146, 160, 30, 420},
-                                 {587, 130, 30, 270},
-                                 {327, 327, 30, 270},
-                                 {935, 327, 30, 270},
-                                 {1193, 160, 30, 270},
-                                 {1068, 486, 30, 270},
-                                 {-52, 486, 30, 270},
-                                 {122, 656, 30, 1200}};
-
-    MainWindow* field_view_;
-
-    int cur_time_ = 0;
-    bool is_start_ = true;
-    ObjectSet PackObjects();
     FreePig GeneratePig();
     Person* GetHitPerson(const GameObject* object);
 
+    int cur_time_ = 0;
+    bool is_start_ = true;
+
+    std::vector<Person> players;
+    std::vector<Ground>ground;
+    std::list<HealthField> health_fields;
+    std::vector<FreePig> free_pigs;
+    std::list<ShotPig> flying_pigs;
+
+    MainWindow* field_view_;
     PigAnimationStorage pig_animations_;
 };
 

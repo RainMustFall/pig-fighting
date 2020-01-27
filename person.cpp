@@ -26,17 +26,14 @@ void Person::CatchPressedKey(int key) {
         } else {
             moveVector_.y += 10;
         }
-    }
-}
-
-std::list<FreePig>::iterator Person::HitsPig(std::list<FreePig>& pigs) {
-    for (auto i = pigs.begin(); i != pigs.end(); ++i) {
-        auto item_obj = dynamic_cast<const GameObject*>(&(*i));
-        if (Hits(item_obj)) {
-            return i;
+    } else if (key == handle_keys_.shot_key && can_shoot_) {
+        if (armed_) {
+            ThrowPig();
+        } else {
+            controller_->givePigsToPlayer(this);
         }
+        can_shoot_ = false;
     }
-    return pigs.end();
 }
 
 void Person::CatchReleasedKey(int key) {
@@ -49,23 +46,17 @@ void Person::CatchReleasedKey(int key) {
     } else if (key == handle_keys_.down_key) {
         Down_pressed = false;
     } else if (key == handle_keys_.shot_key) {
-        if (armed_) {
-            ThrowPig();
-        } else {
-            controller_->givePigsToPlayer(this);
-        }
+        can_shoot_ = true;
     }
 }
 
 void Person::ThrowPig() {
     if (current_side == Side::LEFT) {
         controller_->onPigThrown(xPos() - kPigSize - 1,
-                                 yPos() + Height() - kPigSize - kPigHeight, -1,
-                                 this);
+                                 yPos() + Height() - kPigSize - kPigHeight, -1, this);
     } else {
         controller_->onPigThrown(xPos() + Width() + 1,
-                                 yPos() + Height() - kPigSize - kPigHeight, 1,
-                                 this);
+                                 yPos() + Height() - kPigSize - kPigHeight, 1, this);
     }
     armed_ = 0;
 }
@@ -110,13 +101,13 @@ void Person::UpdateAnimationUniversal(Animation& run_animation,
                                       Animation& stand_animation,
                                       Animation& fly_animation) {
     switch (state) {
-    case State::RUNNING:
+    case utils::PersonState::RUNNING:
         run_animation.NextFrame();
         break;
-    case State::STANDING:
+    case utils::PersonState::STANDING:
         stand_animation.NextFrame();
         break;
-    case State::FLYING:
+    case utils::PersonState::FLYING:
         fly_animation.NextFrame();
         break;
     }
@@ -125,27 +116,27 @@ void Person::UpdateAnimationUniversal(Animation& run_animation,
 void Person::UpdateAnimation() {
     if (current_platform != nullptr) {
         if (Left_pressed || Right_pressed) {
-            state = State::RUNNING;
+            state = utils::PersonState::RUNNING;
         } else {
             if (current_side == Side::LEFT) {
                 if (!armed_ && animations_.run_l.isOnFirstFrame()) {
-                    state = State::STANDING;
+                    state = utils::PersonState::STANDING;
                 }
                 if (armed_ && animations_.run_l_pig.isOnFirstFrame()) {
-                    state = State::STANDING;
+                    state = utils::PersonState::STANDING;
                 }
             } else {
                 if (!armed_ && animations_.run_r.isOnFirstFrame()) {
-                    state = State::STANDING;
+                    state = utils::PersonState::STANDING;
                 }
                 if (armed_ && animations_.run_r_pig.isOnFirstFrame()) {
-                    state = State::STANDING;
+                    state = utils::PersonState::STANDING;
                 }
             }
         }
     } else {
         ResetRunAnimation();
-        state = State::FLYING;
+        state = utils::PersonState::FLYING;
     }
 
     if (current_side == Side::LEFT) {
@@ -176,17 +167,17 @@ void Person::DrawUniversal(QPainter& painter,
                            const Animation& stand_animation,
                            const Animation& fly_animation) const {
     switch (state) {
-    case State::RUNNING:
+    case utils::PersonState::RUNNING:
         painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
                            run_animation.CurrentFrame());
         break;
-    case State::STANDING:
+    case utils::PersonState::STANDING:
         painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
                            stand_animation.CurrentFrame());
         break;
-    case State::FLYING:
+    case utils::PersonState::FLYING:
         painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
                            fly_animation.CurrentFrame());
@@ -216,10 +207,13 @@ void Person::Draw(QPainter& painter) const {
 
 
 void Person::DecreaseHealthLevel(){
-    if (health_level > 1){
-        health_level -= kHealthDecrease;
+    if (health_level_ > 1){
+        health_level_ -= kHealthDecrease;
     }
-    qDebug() << "down" << health_level;
+
+    if (health_level_ <= 0) {
+        controller_->PlayerWins(name_);
+    }
 }
 
 void Person::ResetRunAnimation() {
@@ -230,34 +224,25 @@ void Person::ResetRunAnimation() {
 }
 
 void Person::IncreaseHelthLevel(){
-    if(health_level < 100){
-    health_level += 1;
+    if (health_level_ < 100){
+        health_level_ += 1;
     }
 
-    if (health_level <= 0) {
-        //emit PlayerWins(name_);
-        /*if (name_ == 1) {
-            Pause("Игрок 2 выиграл!");
-        } else {
-            Pause("Игрок 1 выиграл!");
-        }
-        killTimer(timer_id);
-        is_start = true;*/
+    if (health_level_ <= 0) {
+        controller_->PlayerWins(name_);
     }
+}
+
+int Person::Health() const {
+    return health_level_;
 }
 
 void Person::PlayMusicHit() {
-    //QSound::play("sounds/pig_caught.wav");
-    /*auto player = []()
+    auto player = []()
     {
         QSound::play("qrc:resources/sounds/pig_caught.wav");
     };
-    std::thread thread(player);*/
-    //h_player->play();
+    std::thread thread(player);
 }
 
-/*std::list<FreePig>::iterator Person::FindClosestFreePig(MainWindow& w) {
-    //
-    return w.free_pigs.begin();
-}*/
 

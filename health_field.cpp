@@ -3,13 +3,12 @@
 #include <QColor>
 #include <QDebug>
 
-HealthField::HealthField(int x, int y, int level, Person* player)
+HealthField::HealthField(int x, int y, Person* player)
     : GameObject (x, y, 20, 100),
-      player_ptr(player),
-      level(level) {
-}
+      player_ptr(player) {}
 
 void HealthField::Draw(QPainter& painter) const {
+    int level = player_ptr->Health();
     QColor color;
     if (level > 75){
         color = Qt::green;
@@ -24,7 +23,7 @@ void HealthField::Draw(QPainter& painter) const {
     painter.drawRect(xPos(), yPos(),
                      bBox_.width_, bBox_.height_);
     painter.drawRect(xPos() + 1, yPos() + 1,
-                     level - 1,bBox_.height_ - 1);
+                     level - 1, bBox_.height_ - 1);
     painter.fillRect(xPos() + 1, yPos() + 1,
-                     level - 1 ,bBox_.height_ - 1,  color);
+                     level - 1, bBox_.height_ - 1,  color);
 }
