@@ -1,7 +1,7 @@
 #ifndef FREEPIG_H
 #define FREEPIG_H
-#include "movingobject.h"
-#include "resourcestorage.h"
+#include "moving_object.h"
+#include "resource_storage.h"
 
 class FreePig : public MovingObject
 {

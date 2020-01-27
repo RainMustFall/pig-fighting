@@ -1,14 +1,14 @@
 #include "person.h"
-#include "freepig.h"
-#include "mainwindow.h"
+#include "free_pig.h"
+#include "field_view.h"
 #include <QDebug>
 #include <thread>
 #include <QSound>
 
 Person::Person(int x, int y, const QString& animation_dir, int id, FieldController* controller)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
-      animations_(animation_dir),
       state(utils::PersonState::FLYING),
+      animations_(animation_dir),
       handle_keys_(id == 1 ? kFirstPlayerKeys : kSecondPlayerKeys),
       name_(id),
       controller_(controller) {}
@@ -52,7 +52,7 @@ void Person::CatchReleasedKey(int key) {
 }
 
 void Person::ThrowPig() {
-    if (current_side == Side::LEFT) {
+    if (current_side == utils::Side::LEFT) {
         controller_->onPigThrown(xPos() - kPigSize - 1,
                                  yPos() + Height() - kPigSize - kPigHeight, -1, this);
     } else {
@@ -64,14 +64,14 @@ void Person::ThrowPig() {
 
 void Person::ProcessKeyboard() {
     if (Left_pressed) {
-        if (last_hit != MovingObject::HitType::RIGHT) {
+        if (last_hit != utils::HitType::RIGHT) {
             moveVector_.x -= kSpeed;
             moveVector_.x = std::max(-kSpeedLimit, moveVector_.x);
         }
     }
 
     if (Right_pressed) {
-        if (last_hit != MovingObject::HitType::LEFT) {
+        if (last_hit != utils::HitType::LEFT) {
             moveVector_.x += kSpeed;
             moveVector_.x = std::min(kSpeedLimit, moveVector_.x);
         }
@@ -95,7 +95,6 @@ void Person::ProcessKeyboard() {
 
 void Person::CatchPig() {
     armed_ = 1;
-    qDebug() << "got it!";
 }
 
 void Person::UpdateAnimation() {
@@ -155,13 +154,3 @@ void Person::IncreaseHelthLevel(){
 int Person::Health() const {
     return health_level_;
 }
-
-void Person::PlayMusicHit() {
-    auto player = []()
-    {
-        QSound::play("qrc:resources/sounds/pig_caught.wav");
-    };
-    std::thread thread(player);
-}
-
-

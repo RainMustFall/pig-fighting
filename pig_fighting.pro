@@ -30,37 +30,37 @@ CONFIG+= static
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    gameobject.cpp \
     ground.cpp \
     person.cpp \
-    movingobject.cpp \
-    freepig.cpp \
-    shotpig.cpp \
     animation.cpp \
     health_field.cpp \
-    themostmainwindow.cpp \
-    soundplayer.cpp \
-    fieldcontroller.cpp \
-    resourcestorage.cpp \
-    utils.cpp
+    utils.cpp \
+    main_window.cpp \
+    sound_player.cpp \
+    shot_pig.cpp \
+    resource_storage.cpp \
+    field_view.cpp \
+    free_pig.cpp \
+    game_object.cpp \
+    moving_object.cpp \
+    field_controller.cpp
 
 HEADERS += \
-        mainwindow.h \
-    gameobject.h \
     ground.h \
     person.h \
     constants.h \
-    movingobject.h \
-    freepig.h \
-    shotpig.h \
     animation.h \
     health_field.h \
-    themostmainwindow.h \
-    soundplayer.h \
-    fieldcontroller.h \
-    resourcestorage.h \
-    utils.h
+    utils.h \
+    field_controller.h \
+    field_view.h \
+    main_window.h \
+    sound_player.h \
+    shot_pig.h \
+    free_pig.h \
+    game_object.h \
+    moving_object.h \
+    resource_storage.h
 
 FORMS += \
         mainwindow.ui \

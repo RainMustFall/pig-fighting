@@ -1,4 +1,4 @@
-#include "resourcestorage.h"
+#include "resource_storage.h"
 #include "constants.h"
 #include <QString>
 #include <QDebug>
@@ -40,7 +40,7 @@ PersonAnimationStorage::PersonAnimationStorage(const QString& animation_dir)
 
 Animation &PersonAnimationStorage::GetAnimation(bool armed,
                                                 utils::PersonState state,
-                                                MovingObject::Side side)
+                                                utils::Side side)
 {
     Animation* storage[2][2][3] = {{{&run_r, &stand_r, &fly_r},
                                     {&run_l, &stand_l, &fly_l}},
@@ -52,7 +52,7 @@ Animation &PersonAnimationStorage::GetAnimation(bool armed,
 [static_cast<int>(state)];
 }
 
-const Animation &PersonAnimationStorage::GetAnimation(bool armed, utils::PersonState state, MovingObject::Side side) const
+const Animation &PersonAnimationStorage::GetAnimation(bool armed, utils::PersonState state, utils::Side side) const
 {
     const Animation* storage[2][2][3] = {{{&run_r, &stand_r, &fly_r},
                                     {&run_l, &stand_l, &fly_l}},

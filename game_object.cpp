@@ -1,4 +1,4 @@
-#include "gameobject.h"
+#include "game_object.h"
 #include "constants.h"
 #include <vector>
 #include <QDebug>

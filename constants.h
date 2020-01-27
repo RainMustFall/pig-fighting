@@ -6,6 +6,7 @@
 // всё в одном месте.
 
 #include <QString>
+#include "utils.h"
 
 const int kScreenWidth = 1440;
 const int kScreenHeight = 810;
@@ -23,7 +24,7 @@ const double kSpeedLimit = 5;
 const double kSpeedReduce = 0.125;
 const double kShotSpeed = 10.5;
 // Высота полёта свиньи над уровнем земли
-const double kPigHeight = 15;
+const int kPigHeight = 15;
 
 //снижения здоровья
 const int kHealthDecrease = 20;
@@ -36,21 +37,13 @@ const double kEps = 1e-5;
 const QString kAnimationPath = ":/resources/animations/";
 const QString kTexturesPath = ":/resources/textures/";
 
-struct HandleKeys {
-    int up_key;
-    int left_key;
-    int down_key;
-    int right_key;
-    int shot_key;
-};
-
-const HandleKeys kFirstPlayerKeys = {Qt::Key_W,
+const utils::HandleKeys kFirstPlayerKeys = {Qt::Key_W,
                                Qt::Key_A,
                                Qt::Key_S,
                                Qt::Key_D,
                               Qt::Key_Space};
 
-const HandleKeys kSecondPlayerKeys = {Qt::Key_Up,
+const utils::HandleKeys kSecondPlayerKeys = {Qt::Key_Up,
                                Qt::Key_Left,
                                Qt::Key_Down,
                                Qt::Key_Right,

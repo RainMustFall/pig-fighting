@@ -1,9 +1,9 @@
 #ifndef SHOTPIG_H
 #define SHOTPIG_H
-#include "movingobject.h"
-#include "gameobject.h"
+#include "moving_object.h"
+#include "game_object.h"
 #include "person.h"
-#include "resourcestorage.h"
+#include "resource_storage.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 

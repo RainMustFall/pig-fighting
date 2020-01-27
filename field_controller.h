@@ -3,19 +3,19 @@
 
 #include "person.h"
 #include <list>
-#include "freepig.h"
+#include "free_pig.h"
 #include "animation.h"
 #include "health_field.h"
-#include "shotpig.h"
+#include "shot_pig.h"
 #include "constants.h"
-#include "resourcestorage.h"
+#include "resource_storage.h"
 
-class MainWindow;
+class FieldView;
 
 class FieldController
 {
 public:
-    FieldController(MainWindow* view, TextureType type = TextureType::GRASS);
+    FieldController(FieldView* view, utils::TextureType type = utils::TextureType::GRASS);
 
     void UpdatePlayers();
     void AddPigs();
@@ -43,8 +43,10 @@ private:
     std::vector<FreePig> free_pigs;
     std::list<ShotPig> flying_pigs;
 
-    MainWindow* field_view_;
+    FieldView* field_view_;
     PigAnimationStorage pig_animations_;
+
+    QSound* sound;
 };
 
 #endif // FIELDCONTROLLER_H

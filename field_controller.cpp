@@ -1,11 +1,11 @@
-#include "fieldcontroller.h"
+#include "field_controller.h"
 #include "constants.h"
-#include "shotpig.h"
-#include "resourcestorage.h"
-#include "themostmainwindow.h"
-#include "mainwindow.h"
+#include "shot_pig.h"
+#include "resource_storage.h"
+#include "main_window.h"
+#include "field_view.h"
 
-FieldController::FieldController(MainWindow* view, TextureType type)
+FieldController::FieldController(FieldView* view, utils::TextureType type)
     : players{
           {450, 120, "player_1", 1, this},
           {800, 200, "player_2", 2, this}},
@@ -21,7 +21,8 @@ FieldController::FieldController(MainWindow* view, TextureType type)
       health_fields{
           {10, 10, &players[0]},
           {kScreenWidth - 110, 10, &players[1]}},
-      field_view_(view) {}
+      field_view_(view),
+      sound(new QSound(":/resources/sounds/pig_caught.wav")) {}
 
 void FieldController::UpdatePlayers() {
   for (Person& player : players) {
@@ -76,9 +77,12 @@ void FieldController::UpdateFlyingPigs() {
       item = flying_pigs.erase(item);
       auto hitting_person = GetHitPerson(hitting_object);
       hitting_person->DecreaseHealthLevel();
+      SoundPlayer* s_player = new SoundPlayer(utils::Sounds::Hit);
+      s_player->start();
     } else {
       // if hits another object
       // PLAY hit2.wav!
+
       item = flying_pigs.erase(item);
     }
   }
@@ -103,6 +107,8 @@ void FieldController::onPigThrown(int x, int y, int direction,
   flying_pigs.emplace_back(x, y, direction, sender, &pig_animations_);
   free_pigs.push_back(GeneratePig());
   // PlaySound!
+  SoundPlayer* s_player = new SoundPlayer(utils::Sounds::Throw);
+  s_player->start();
 }
 
 void FieldController::givePigsToPlayer(Person* player) {
@@ -113,7 +119,7 @@ void FieldController::givePigsToPlayer(Person* player) {
       free_pigs.erase(pig);
       player->CatchPig();
       // PlaySound!
-      SoundPlayer* s_player = new SoundPlayer(SoundPlayer::Sounds::Hit, new QSound(":/resources/sounds/pig_caught.wav"));
+      SoundPlayer* s_player = new SoundPlayer(utils::Sounds::Take);
       s_player->start();
       break;
     }

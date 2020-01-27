@@ -1,6 +1,6 @@
 #ifndef MOVEOBJECT_H
 #define MOVEOBJECT_H
-#include "gameobject.h"
+#include "game_object.h"
 #include "ground.h"
 
 class MovingObject : public GameObject {
@@ -10,17 +10,9 @@ public:
     void UpdatePosition();
     virtual void ApplyPhysics();
 
-    // Для определения, с какой именно стороны объект
-    // коснулся земли
-    enum class HitType {
-        UP,  // Сверху на платформе
-        DOWN,  // Снизу под ней
-        LEFT,
-        RIGHT
-    };
     // Непосредственно определяет, с какой именно
     // стороны объект коснулся платформы
-    HitType CheckHitType(const Ground& ground);
+    utils::HitType CheckHitType(const Ground& ground);
 
     // Стабилизирует положение в зависимости от типа столкновения
     void StabilizePosition(const Ground& groung);
@@ -31,14 +23,11 @@ public:
     const Ground* HitsGround(const std::vector<Ground>& ground);
     void CheckBoundaries();
     //virtual bool Hits(const GameObject& obj) const;
-    Point moveVector_ = {0, 0};
+    utils::Point moveVector_ = {0, 0};
 
 
     //показывает, какая сторона объекта повернута к экрану
-    enum class Side {
-        RIGHT = 0,
-        LEFT = 1
-    };
+
         void UpdatePlatform(const std::vector<Ground>& ground);
 protected:
     double GetMoveVectorX() const;
@@ -47,10 +36,8 @@ protected:
 
     // Флажок, показывающий, с какой стороны мы врезались
     // последний раз.
-    HitType last_hit;
-
-    Side current_side = Side::LEFT;
-
+    utils::HitType last_hit;
+    utils::Side current_side = utils::Side::LEFT;
 
     // Суть в том, что какую-то платформу мы временно
     // игнорируем и столкновения с ней не учитываем.

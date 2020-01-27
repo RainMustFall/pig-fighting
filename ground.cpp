@@ -2,12 +2,7 @@
 #include "constants.h"
 #include <QDebug>
 
-TexturePack::TexturePack(const QString path)
-    : left_block(kTexturesPath + path + "/left.png"),
-      middle_block(kTexturesPath + path + "/middle.png"),
-      right_block(kTexturesPath + path + "/right.png") {}
-
-Ground::Ground(int x, int y, int height, int width, TextureType type)
+Ground::Ground(int x, int y, int height, int width, utils::TextureType type)
     : GameObject (x, y, height, width),
       texture(width, height)
 {
@@ -15,13 +10,13 @@ Ground::Ground(int x, int y, int height, int width, TextureType type)
         throw std::invalid_argument("The length of a ground must be divided by the height for correct rendering.");
     }
 
-    std::vector<TexturePack>textures = {{"grass"},
+    std::vector<utils::TexturePack>textures = {{"grass"},
                                         {"sand"},
                                         {"cave"},
                                         {"snow"}};
 
     texture.fill(QColor(0, 0, 0, 0));
-    TexturePack& cur_texture = textures[static_cast<size_t>(type)];
+    utils::TexturePack& cur_texture = textures[static_cast<size_t>(type)];
 
     QPainter painter(&texture);
     painter.drawPixmap(

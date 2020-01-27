@@ -1,8 +1,8 @@
-#include "mainwindow.h"
+#include "field_view.h"
 #include "constants.h"
 #include "health_field.h"
-#include "themostmainwindow.h"
-#include "soundplayer.h"
+#include "main_window.h"
+#include "sound_player.h"
 #include <QPainter>
 #include <chrono>
 #include <cstdlib>
@@ -11,11 +11,11 @@
 #include <thread>
 #include <QSound>
 
-MainWindow::MainWindow(QWidget *parent)
+FieldView::FieldView(QWidget *parent)
     : QMainWindow(parent),
       controller_(new FieldController(this)),
-      parent_(dynamic_cast<TheMostMainWindow*>(parent)),
-      cur_theme(TextureType::GRASS)
+      parent_(dynamic_cast<MainWindow*>(parent)),
+      cur_theme(utils::TextureType::GRASS)
 {
     /*f_player->setPlaylist(f_playlist);
     f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
@@ -29,20 +29,20 @@ MainWindow::MainWindow(QWidget *parent)
     //pig_caught.setVolume(0.5f);
 }
 
-void MainWindow::SetTimer() {
+void FieldView::SetTimer() {
     is_start = true;
     timer_id = startTimer(9);
 }
 
-void MainWindow::StopTimer() {
+void FieldView::StopTimer() {
     killTimer(timer_id);
 }
 
-void MainWindow::GameOver(int player) {
+void FieldView::GameOver(int player) {
     parent_->GameOver(player);
 }
 
-void MainWindow::NewGame(TextureType type) {
+void FieldView::NewGame(utils::TextureType type) {
     cur_theme = type;
     DrawBackground();
     setFocus();
@@ -51,7 +51,7 @@ void MainWindow::NewGame(TextureType type) {
     SetTimer();
 }
 
-void MainWindow::timerEvent(QTimerEvent *) {
+void FieldView::timerEvent(QTimerEvent *) {
     controller_->UpdateTimer();
     controller_->UpdatePlayers();
     controller_->AddPigs();
@@ -60,14 +60,14 @@ void MainWindow::timerEvent(QTimerEvent *) {
     repaint();
 }
 
-void MainWindow::paintEvent(QPaintEvent *) {
+void FieldView::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
     controller_->onPaintingStarted(p);
     p.end();
 }
 
-void MainWindow::DrawHint(QPainter& painter){
+void FieldView::DrawHint(QPainter& painter){
     const QRectF rectangle2 = {kScreenWidth- 355,kScreenHeight - 180, 345, 122};
     QImage image2;
     image2.load(":/resources/textures/instruction2.png");
@@ -80,7 +80,7 @@ void MainWindow::DrawHint(QPainter& painter){
                       image1);
 }
 
-void MainWindow::DrawBackground() {
+void FieldView::DrawBackground() {
     QString bg_dir = bg_dirs_[static_cast<unsigned>(cur_theme)];
     QPixmap bkgnd(kTexturesPath + bg_dir + "/background.png");
     bkgnd = bkgnd.scaled(kScreenWidth, kScreenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
@@ -90,7 +90,7 @@ void MainWindow::DrawBackground() {
     setPalette(p);
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event) {
+void FieldView::keyPressEvent(QKeyEvent *event) {
     if(event->key() == Qt::Key_Escape) {
       parent_->Pause(false);
     } else {
@@ -98,11 +98,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     }
 }
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+void FieldView::keyReleaseEvent(QKeyEvent *event) {
     controller_->onKeyReleased(event);
 }
 
-MainWindow::~MainWindow()
+FieldView::~FieldView()
 {
 
 }

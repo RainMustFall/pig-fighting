@@ -2,7 +2,7 @@
 #define PIGFACTORY_H
 
 #include "animation.h"
-#include "movingobject.h"
+#include "moving_object.h"
 #include "utils.h"
 #include <QSound>
 
@@ -38,9 +38,9 @@ struct PersonAnimationStorage {
     Animation fly_l_pig;
 
     Animation& GetAnimation(bool armed, utils::PersonState state,
-                            MovingObject::Side side);
+                            utils::Side side);
     const Animation& GetAnimation(bool armed, utils::PersonState state,
-                            MovingObject::Side side) const;
+                            utils::Side side) const;
 };
 
 

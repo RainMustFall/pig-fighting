@@ -1,5 +1,5 @@
-#include "freepig.h"
-#include "movingobject.h"
+#include "free_pig.h"
+#include "moving_object.h"
 #include "constants.h"
 #include <QDebug>
 
@@ -35,7 +35,7 @@ void FreePig::PositionGenerate() {
 }
 
 void FreePig::Draw(QPainter& painter) const {
-  if (current_side == Side::LEFT) {
+  if (current_side == utils::Side::LEFT) {
     painter.drawPixmap(xPos(), yPos(),
                        bBox_.width_, bBox_.height_,
                        animations_->run_l.CurrentFrame());

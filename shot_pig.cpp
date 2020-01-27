@@ -1,4 +1,4 @@
-#include "shotpig.h"
+#include "shot_pig.h"
 #include "constants.h"
 #include "person.h"
 
@@ -40,7 +40,7 @@ void ShotPig::PlayMusicFly(){
 
 void ShotPig::Draw(QPainter& painter) const {
 
-    if (current_side == Side::LEFT) {
+    if (current_side == utils::Side::LEFT) {
         painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
                            animations_->fly_l.CurrentFrame());

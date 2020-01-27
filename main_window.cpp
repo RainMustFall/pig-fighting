@@ -1,13 +1,13 @@
-#include "themostmainwindow.h"
-#include "mainwindow.h"
+#include "main_window.h"
+#include "field_view.h"
 #include "person.h"
 #include <QDebug>
 
-TheMostMainWindow::TheMostMainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       paused_(true),
       ui(new Ui::MainWindow),
-        win(new MainWindow(this))
+        win(new FieldView(this))
 {
     setWindowIcon(QIcon(":/resources/textures/icon.ico"));
     setWindowTitle("Pig Fighting");
@@ -20,7 +20,7 @@ TheMostMainWindow::TheMostMainWindow(QWidget *parent)
     ui->comboBox->addItem("Снежная");
 }
 
-void TheMostMainWindow::Pause(bool game_over) {
+void MainWindow::Pause(bool game_over) {
     if (!paused_) {
         ui->new_game->setEnabled(true);
         ui->comboBox->setEnabled(true);
@@ -45,7 +45,7 @@ void TheMostMainWindow::Pause(bool game_over) {
     paused_ = !paused_;
 }
 
-void TheMostMainWindow::GameOver(int player) {
+void MainWindow::GameOver(int player) {
     Pause(true);
     if (player == 1) {
         ui->label_2->setText("Игрок 2 выиграл!");
@@ -54,9 +54,9 @@ void TheMostMainWindow::GameOver(int player) {
     }
 }
 
-void TheMostMainWindow::on_new_game_clicked()
+void MainWindow::on_new_game_clicked()
 {
-    win->NewGame(static_cast<TextureType>(ui->comboBox->currentIndex()));
+    win->NewGame(static_cast<utils::TextureType>(ui->comboBox->currentIndex()));
     ui->new_game->setEnabled(false);
     ui->comboBox->setEnabled(false);
     ui->pause->setEnabled(true);
@@ -65,12 +65,12 @@ void TheMostMainWindow::on_new_game_clicked()
     paused_ = false;
 }
 
-void TheMostMainWindow::on_pause_clicked()
+void MainWindow::on_pause_clicked()
 {
     Pause(false);
 }
 
-void TheMostMainWindow::on_exit_clicked()
+void MainWindow::on_exit_clicked()
 {
     QApplication::exit(0);
 }

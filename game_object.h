@@ -2,16 +2,7 @@
 #define GAMEOBJECT_H
 #include <QPainter>
 #include <QMouseEvent>
-
-struct Point {
-    double x;
-    double y;
-};
-
-struct BoundingBox {
-    int height_;
-    int width_;
-};
+#include "utils.h"
 
 // Абстрактный класс объекта в игре, хранящий самую базовую
 // информацию, вроде положения, длины, ширины.
@@ -34,8 +25,8 @@ public:
     virtual bool Hits(const GameObject* obj) const;
     void UpdatePosition();
 protected:
-    Point position_;
-    BoundingBox bBox_;
+    utils::Point position_;
+    utils::BoundingBox bBox_;
 };
 
 #endif // GAMEOBJECT_H

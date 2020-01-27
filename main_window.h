@@ -4,19 +4,19 @@
 #include <QMainWindow>
 #include "person.h"
 #include "ui_mainwindow.h"
-#include "mainwindow.h"
+#include "field_view.h"
 
-class TheMostMainWindow : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    TheMostMainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     void Pause(bool game_over);
 
 private:
     bool paused_;
     Ui::MainWindow* ui;
-    MainWindow* win;
+    FieldView* win;
 
 public slots:
     void GameOver(int player);

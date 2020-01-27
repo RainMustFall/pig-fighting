@@ -1,4 +1,4 @@
-#include "movingobject.h"
+#include "moving_object.h"
 #include "constants.h"
 #include <QDebug>
 
@@ -10,9 +10,9 @@ void MovingObject::UpdatePosition() {
     position_.y += moveVector_.y;
 
     if (moveVector_.x > 0) {
-        current_side = Side::RIGHT;
+        current_side = utils::Side::RIGHT;
     } else if (moveVector_.x < 0) {
-        current_side = Side::LEFT;
+        current_side = utils::Side::LEFT;
     }
  }
 
@@ -25,26 +25,26 @@ void MovingObject::ApplyPhysics() {
 }
 
 void MovingObject::StabilizePosition(const Ground& ground) {
-    HitType type = CheckHitType(ground);
+    utils::HitType type = CheckHitType(ground);
     last_hit = type;
 
-    if (type != HitType::UP) {
+    if (type != utils::HitType::UP) {
         qDebug() << static_cast<int>(type);
     }
 
     switch (type) {
-        case HitType::DOWN:
+        case utils::HitType::DOWN:
             ignored_platform = &ground;
             break;
-        case HitType::UP:
+        case utils::HitType::UP:
             moveVector_.y = 0;
             position_.y = ground.yPos() - Height();
             break;
-        case HitType::LEFT:
+        case utils::HitType::LEFT:
             moveVector_.x *= -1;
             position_.x = ground.xPos() - Width();
             break;
-        case HitType::RIGHT:
+        case utils::HitType::RIGHT:
             moveVector_.x *= -1;
             position_.x = ground.xPos() + ground.Width();
             break;
@@ -65,7 +65,7 @@ const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
 
                 // Если мы стоим сверху на платформе, то
                 // возвращаем её адрес
-                if (CheckHitType(item) == HitType::UP) {
+                if (CheckHitType(item) == utils::HitType::UP) {
                     return &item;
                 } else {
                     return nullptr;
@@ -89,16 +89,16 @@ const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
 }
 
 // Лучше это не трогать и не вникать...
-MovingObject::HitType MovingObject::CheckHitType(const Ground& ground) {
+utils::HitType MovingObject::CheckHitType(const Ground& ground) {
     if (std::fabs(moveVector_.y) < kEps) {
-        return HitType::UP;
+        return utils::HitType::UP;
     }
 
     if (std::fabs(moveVector_.x) < kEps) {
         if (moveVector_.y < 0) {
-            return HitType::DOWN;
+            return utils::HitType::DOWN;
         } else {
-            return HitType::UP;
+            return utils::HitType::UP;
         }
     }
 
@@ -117,31 +117,31 @@ MovingObject::HitType MovingObject::CheckHitType(const Ground& ground) {
 
     if (y_hit_time > 0) {
         if (moveVector_.x > 0) {
-            return HitType::LEFT;
+            return utils::HitType::LEFT;
         } else {
-            return HitType::RIGHT;
+            return utils::HitType::RIGHT;
         }
     }
 
     if (x_hit_time > 0) {
         if (moveVector_.y > 0) {
-            return HitType::UP;
+            return utils::HitType::UP;
         } else {
-            return HitType::DOWN;
+            return utils::HitType::DOWN;
         }
     }
 
     if (y_hit_time > x_hit_time) {
         if (moveVector_.y < 0) {
-            return HitType::DOWN;
+            return utils::HitType::DOWN;
         } else {
-            return HitType::UP;
+            return utils::HitType::UP;
         }
     } else {
         if (moveVector_.x < 0) {
-            return HitType::RIGHT;
+            return utils::HitType::RIGHT;
         } else {
-            return HitType::LEFT;
+            return utils::HitType::LEFT;
         }
     }
 }

@@ -1,10 +1,10 @@
 #ifndef PERSON_H
 #define PERSON_H
-#include "gameobject.h"
+#include "game_object.h"
 #include "animation.h"
-#include "movingobject.h"
-#include "resourcestorage.h"
-#include "freepig.h"
+#include "moving_object.h"
+#include "resource_storage.h"
+#include "free_pig.h"
 #include "utils.h"
 #include <QMediaPlayer>
 #include "constants.h"
@@ -48,21 +48,11 @@ public:
 
     utils::PersonState state;
     PersonAnimationStorage animations_;
-    const HandleKeys handle_keys_;
+    const utils::HandleKeys handle_keys_;
 
     void PlayMusicHit();
     int name_;
     FieldController* controller_;
-
-protected:
-    void UpdateAnimationUniversal(Animation& run_animation,
-                                  Animation& stand_animation,
-                                  Animation& fly_animation);
-
-    void DrawUniversal(QPainter& painter,
-                               const Animation& run_animation,
-                               const Animation& stand_animation,
-                               const Animation& fly_animation) const;
 };
 
 #endif // PERSON_H

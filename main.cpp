@@ -1,11 +1,11 @@
 #include <QApplication>
-#include "mainwindow.h"
-#include "themostmainwindow.h"
+#include "field_view.h"
+#include "main_window.h"
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    TheMostMainWindow w;
+    MainWindow w;
     w.show();
     return app.exec();
 }

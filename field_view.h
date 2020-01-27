@@ -8,17 +8,17 @@
 #include "constants.h"
 #include "person.h"
 #include "ground.h"
-#include "shotpig.h"
-#include "soundplayer.h"
+#include "shot_pig.h"
+#include "sound_player.h"
 #include "health_field.h"
-#include "fieldcontroller.h"
+#include "field_controller.h"
 
-class TheMostMainWindow;
+class MainWindow;
 
-class MainWindow : public QMainWindow {
+class FieldView : public QMainWindow {
  public:
-  explicit MainWindow(QWidget* parent = nullptr);
-  ~MainWindow() override;
+  explicit FieldView(QWidget* parent = nullptr);
+  ~FieldView() override;
 
   void timerEvent(QTimerEvent*) override;
   void paintEvent(QPaintEvent*) override;
@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow {
   void keyReleaseEvent(QKeyEvent* event) override;
 
   void ThrowPig(Person& player);
-  void NewGame(TextureType type);
+  void NewGame(utils::TextureType type);
   void DrawBackground();
   void DrawHint(QPainter& painter);
   void Pause(const QString& reason);
@@ -53,8 +53,8 @@ class MainWindow : public QMainWindow {
   bool paused = true;
 
   FieldController* controller_;
-  TheMostMainWindow* parent_;
-  TextureType cur_theme;
+  MainWindow* parent_;
+  utils::TextureType cur_theme;
 
   const std::vector<QString> bg_dirs_ = {
       "grass",
