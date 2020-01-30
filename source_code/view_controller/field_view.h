@@ -29,7 +29,7 @@ class FieldView : public QMainWindow {
   void keyReleaseEvent(QKeyEvent* event) override;
 
   void ThrowPig(Person* player);
-  void NewGame(utils::TextureType type);
+  void NewGame(utils::TextureType type, const QString& map);
   void DrawBackground();
   void DrawHint(QPainter* painter);
   void Pause(const QString* reason);

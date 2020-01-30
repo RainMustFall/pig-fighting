@@ -14,16 +14,19 @@ MainWindow::MainWindow(QWidget *parent)
 
   ui_->setupUi(this);
   ui_->verticalLayout->addWidget(field_view_);
-  ui_->comboBox->addItem("Classical");
-  ui_->comboBox->addItem("Sandy");
-  ui_->comboBox->addItem("Cave");
-  ui_->comboBox->addItem("Snowy");
+
+  ui_->background_box->addItem("Classical");
+  ui_->background_box->addItem("Sandy");
+  ui_->background_box->addItem("Cave");
+  ui_->background_box->addItem("Snowy");
+
+  ui_->map_box->addItem("Map 1");
 }
 
 void MainWindow::Pause(bool game_over) {
   if (!paused_) {
     ui_->new_game->setEnabled(true);
-    ui_->comboBox->setEnabled(true);
+    ui_->background_box->setEnabled(true);
     ui_->pause->setText("Continue");
     if (!game_over) {
       ui_->state_label->setText("Pause");
@@ -32,7 +35,7 @@ void MainWindow::Pause(bool game_over) {
   } else {
     field_view_->setFocus();
     ui_->new_game->setEnabled(false);
-    ui_->comboBox->setEnabled(false);
+    ui_->background_box->setEnabled(false);
     ui_->pause->setText("Pause");
     ui_->state_label->setText("");
     field_view_->SetTimer();
@@ -56,9 +59,10 @@ void MainWindow::GameOver(int player) {
 
 void MainWindow::on_new_game_clicked() {
   field_view_->NewGame(
-      static_cast<utils::TextureType>(ui_->comboBox->currentIndex()));
+      static_cast<utils::TextureType>(ui_->background_box->currentIndex()),
+      ui_->map_box->currentText());
   ui_->new_game->setEnabled(false);
-  ui_->comboBox->setEnabled(false);
+  ui_->background_box->setEnabled(false);
   ui_->pause->setEnabled(true);
   ui_->pause->setText("Pause");
   ui_->state_label->setText("");

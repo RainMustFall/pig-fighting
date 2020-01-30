@@ -11,7 +11,7 @@
 
 FieldView::FieldView(QWidget *parent)
     : QMainWindow(parent),
-      controller_(new FieldController(this)),
+      controller_(new FieldController(this, ":/resources/maps/Map 1.json")),
       parent_(dynamic_cast<MainWindow *>(parent)),
       cur_theme_(utils::TextureType::GRASS) {
   DrawBackground();
@@ -27,12 +27,12 @@ void FieldView::StopTimer() { killTimer(timer_id_); }
 
 void FieldView::GameOver(int player) { parent_->GameOver(player); }
 
-void FieldView::NewGame(utils::TextureType type) {
+void FieldView::NewGame(utils::TextureType type, const QString& map) {
   cur_theme_ = type;
   DrawBackground();
   setFocus();
   delete controller_;
-  controller_ = new FieldController(this, type);
+  controller_ = new FieldController(this, ":/resources/maps/" + map + ".json", type);
   SetTimer();
 }
 

@@ -17,6 +17,7 @@ class FieldView;
 class FieldController {
  public:
   FieldController(FieldView* view,
+                  const QString& map_name,
                   utils::TextureType type = utils::TextureType::GRASS);
 
   void UpdatePlayers();
@@ -33,16 +34,19 @@ class FieldController {
   void PlayerWins(int player);
 
  private:
+  void InitGround(const QJsonArray& ground, utils::TextureType type);
+  void InitPlayers(const QJsonArray& players);
+
   FreePig GeneratePig();
 
   int cur_time_ = 0;
   bool is_start_ = true;
 
-  std::vector<Person> players;
-  std::vector<Ground> ground;
-  std::list<HealthField> health_fields;
-  std::vector<FreePig> free_pigs;
-  std::list<ShotPig> flying_pigs;
+  std::vector<Person> players_;
+  std::vector<Ground> ground_;
+  std::list<HealthField> health_fields_;
+  std::vector<FreePig> free_pigs_;
+  std::list<ShotPig> flying_pigs_;
 
   FieldView* field_view_;
   PigAnimationStorage pig_animations_;

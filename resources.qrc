@@ -40,5 +40,6 @@
         <file>sounds/hit2.wav</file>
         <file>sounds/pig_caught.wav</file>
         <file>sounds/pig_fly.wav</file>
+        <file>maps/Map 1.json</file>
     </qresource>
 </RCC>
