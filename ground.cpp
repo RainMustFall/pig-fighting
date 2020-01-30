@@ -42,6 +42,6 @@ Ground::Ground(int x, int y, int height, int width, utils::TextureType type)
       QRectF(0, 0, height, height));
 }
 
-void Ground::Draw(QPainter& painter) const {
-  painter.drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_, texture_);
+void Ground::Draw(QPainter* painter) const {
+  painter->drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_, texture_);
 }

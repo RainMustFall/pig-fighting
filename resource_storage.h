@@ -1,48 +1,47 @@
-#ifndef PIGFACTORY_H
-#define PIGFACTORY_H
+#ifndef RESOURCE_STORAGE_H_
+#define RESOURCE_STORAGE_H_
 
-#include "animation.h"
-#include "moving_object.h"
-#include "utils.h"
 #include <QSound>
 
+#include "./animation.h"
+#include "./moving_object.h"
+#include "./utils.h"
+
 struct PigAnimationStorage {
-    PigAnimationStorage();
+  PigAnimationStorage();
 
-    Animation run_l;
-    Animation run_r;
+  Animation run_l;
+  Animation run_r;
 
-    Animation fly_l;
-    Animation fly_r;
+  Animation fly_l;
+  Animation fly_r;
 
-    QSound* hit_sound{};
+  QSound* hit_sound{};
 };
 
 struct PersonAnimationStorage {
-    PersonAnimationStorage(const QString& animation_dir);
+  explicit PersonAnimationStorage(const QString& animation_dir);
 
-    Animation run_r;
-    Animation stand_r;
-    Animation fly_r;
+  Animation run_r;
+  Animation stand_r;
+  Animation fly_r;
 
-    Animation run_l;
-    Animation stand_l;
-    Animation fly_l;
+  Animation run_l;
+  Animation stand_l;
+  Animation fly_l;
 
-    Animation run_r_pig;
-    Animation stand_r_pig;
-    Animation fly_r_pig;
+  Animation run_r_pig;
+  Animation stand_r_pig;
+  Animation fly_r_pig;
 
-    Animation run_l_pig;
-    Animation stand_l_pig;
-    Animation fly_l_pig;
+  Animation run_l_pig;
+  Animation stand_l_pig;
+  Animation fly_l_pig;
 
-    Animation& GetAnimation(bool armed, utils::PersonState state,
-                            utils::Side side);
-    const Animation& GetAnimation(bool armed, utils::PersonState state,
-                            utils::Side side) const;
+  Animation& GetAnimation(bool armed, utils::PersonState state,
+                          utils::Side side);
+  const Animation& GetAnimation(bool armed, utils::PersonState state,
+                                utils::Side side) const;
 };
 
-
-
-#endif // PIGFACTORY_H
+#endif  // RESOURCE_STORAGE_H_

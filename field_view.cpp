@@ -51,19 +51,19 @@ void FieldView::timerEvent(QTimerEvent *) {
 void FieldView::paintEvent(QPaintEvent *) {
   QPainter p;
   p.begin(this);
-  controller_->OnPaintingStarted(p);
+  controller_->OnPaintingStarted(&p);
   p.end();
 }
 
-void FieldView::DrawHint(QPainter &painter) {
+void FieldView::DrawHint(QPainter *painter) {
   const QRectF rectangle2 = {kScreenWidth - 355, kScreenHeight - 180, 345, 122};
   QImage image2;
   image2.load(":/resources/textures/instruction2.png");
-  painter.drawImage(rectangle2, image2);
+  painter->drawImage(rectangle2, image2);
   const QRectF rectangle1 = {10, kScreenHeight - 180, 345, 122};
   QImage image1;
   image1.load(":/resources/textures/instruction1.png");
-  painter.drawImage(rectangle1, image1);
+  painter->drawImage(rectangle1, image1);
 }
 
 void FieldView::DrawBackground() {

@@ -1,17 +1,20 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef FIELD_VIEW_H_
+#define FIELD_VIEW_H_
 
 #include <QMainWindow>
 #include <QSoundEffect>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
-#include "constants.h"
-#include "person.h"
-#include "ground.h"
-#include "shot_pig.h"
-#include "sound_player.h"
-#include "health_field.h"
-#include "field_controller.h"
+
+#include <vector>
+
+#include "./constants.h"
+#include "./person.h"
+#include "./ground.h"
+#include "./shot_pig.h"
+#include "./sound_player.h"
+#include "./health_field.h"
+#include "./field_controller.h"
 
 class MainWindow;
 
@@ -25,20 +28,20 @@ class FieldView : public QMainWindow {
   void keyPressEvent(QKeyEvent* event) override;
   void keyReleaseEvent(QKeyEvent* event) override;
 
-  void ThrowPig(Person& player);
+  void ThrowPig(Person* player);
   void NewGame(utils::TextureType type);
   void DrawBackground();
-  void DrawHint(QPainter& painter);
-  void Pause(const QString& reason);
+  void DrawHint(QPainter* painter);
+  void Pause(const QString* reason);
   void SetTimer();
   void StopTimer();
   void GameOver(int player);
 
-  template<typename T>
-  void DrawPlayingObject(QPainter& p, const T& objects) {
-      for (const auto& object: objects) {
-          object.Draw(p);
-      }
+  template <typename T>
+  void DrawPlayingObject(QPainter* p, const T& objects) {
+    for (const auto& object : objects) {
+      object.Draw(p);
+    }
   }
 
   FreePig GeneratePig();
@@ -63,4 +66,4 @@ class FieldView : public QMainWindow {
   };
 };
 
-#endif // MAINWINDOW_H
+#endif  // FIELD_VIEW_H_

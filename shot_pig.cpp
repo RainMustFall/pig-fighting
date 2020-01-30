@@ -14,9 +14,9 @@ ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player,
   move_vector_.y = 0;
 }
 
-const GameObject* ShotPig::PigHits(std::vector<Person>& persons,
-                                   const std::vector<Ground>& ground) {
-  for (auto& item : persons) {
+GameObject* ShotPig::PigHits(std::vector<Person>* persons,
+                                   std::vector<Ground>* ground) {
+  for (auto& item : *persons) {
     if (&item != shooting_player_) {
       if (Hits(&item)) {
         item.AccelerateX(move_vector_.x / 2);
@@ -25,7 +25,7 @@ const GameObject* ShotPig::PigHits(std::vector<Person>& persons,
     }
   }
 
-  for (const auto& item : ground) {
+  for (auto& item : *ground) {
     if (Hits(&item)) {
       return &item;
     }
@@ -33,12 +33,12 @@ const GameObject* ShotPig::PigHits(std::vector<Person>& persons,
   return nullptr;
 }
 
-void ShotPig::Draw(QPainter& painter) const {
+void ShotPig::Draw(QPainter* painter) const {
   if (current_side_ == utils::Side::LEFT) {
-    painter.drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
+    painter->drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
                        animations_->fly_l.CurrentFrame());
   } else {
-    painter.drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
+    painter->drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
                        animations_->fly_r.CurrentFrame());
   }
 }

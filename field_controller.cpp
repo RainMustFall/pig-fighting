@@ -59,17 +59,17 @@ void FieldController::UpdateFreePigs() {
 
 void FieldController::UpdateFlyingPigs() {
   for (auto item = flying_pigs.begin(); item != flying_pigs.end(); ++item) {
-    auto hitting_object = item->PigHits(players, ground);
+    auto hitting_object = item->PigHits(&players, &ground);
     if (hitting_object == nullptr) {
       // if still flying
       item->UpdatePosition();
       if (item->IsOutOfScreen()) {
         item = flying_pigs.erase(item);
       }
-    } else if (GetHitPerson(hitting_object) != nullptr) {
+    } else if (dynamic_cast<Person*>(hitting_object) != nullptr) {
       // if hits a player
       item = flying_pigs.erase(item);
-      auto hitting_person = GetHitPerson(hitting_object);
+      auto hitting_person = dynamic_cast<Person*>(hitting_object);
       hitting_person->DecreaseHealthLevel();
       auto* s_player = new SoundPlayer(utils::Sounds::Hit);
       s_player->start();
@@ -80,7 +80,7 @@ void FieldController::UpdateFlyingPigs() {
   }
 }
 
-void FieldController::OnPaintingStarted(QPainter& p) {
+void FieldController::OnPaintingStarted(QPainter* p) {
   field_view_->DrawPlayingObject(p, players);
   field_view_->DrawPlayingObject(p, free_pigs);
   field_view_->DrawPlayingObject(p, flying_pigs);
@@ -140,12 +140,6 @@ FreePig FieldController::GeneratePig() {
   new_pig.SetX(rand() % field_view_->geometry().width());
   new_pig.SetY(rand() % field_view_->geometry().height());
   return new_pig;
-}
-
-Person* FieldController::GetHitPerson(const GameObject* object) {
-  auto hitting_person_const = dynamic_cast<const Person*>(object);
-  auto hitting_person = const_cast<Person*>(hitting_person_const);
-  return hitting_person;
 }
 
 void FieldController::PlayerWins(int player) { field_view_->GameOver(player); }

@@ -1,30 +1,30 @@
-#ifndef THEMOSTMAINWINDOW_H
-#define THEMOSTMAINWINDOW_H
+#ifndef MAIN_WINDOW_H_
+#define MAIN_WINDOW_H_
 
 #include <QMainWindow>
-#include "person.h"
-#include "ui_mainwindow.h"
-#include "field_view.h"
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
-public:
-    MainWindow(QWidget *parent = nullptr);
-    void Pause(bool game_over);
+#include "./person.h"
+#include "./ui_mainwindow.h"
+#include "./field_view.h"
 
-private:
-    bool paused_;
-    Ui::MainWindow* ui_;
-    FieldView* field_view_;
+class MainWindow : public QMainWindow {
+  Q_OBJECT
+ public:
+  explicit MainWindow(QWidget* parent = nullptr);
+  void Pause(bool game_over);
 
-public slots:
-    void GameOver(int player);
+ private:
+  bool paused_;
+  Ui::MainWindow* ui_;
+  FieldView* field_view_;
 
-private slots:
-    void on_new_game_clicked();
-    void on_pause_clicked();
-    void on_exit_clicked();
+ public slots:  // NOLINT
+  void GameOver(int player);
+
+ private slots:  // NOLINT
+  void on_new_game_clicked();
+  void on_pause_clicked();
+  void on_exit_clicked();
 };
 
-#endif // THEMOSTMAINWINDOW_H
+#endif  // MAIN_WINDOW_H_

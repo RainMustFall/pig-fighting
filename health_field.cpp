@@ -8,7 +8,7 @@
 HealthField::HealthField(int x, int y, Person* player)
     : GameObject(x, y, 20, 100), player_ptr_(player) {}
 
-void HealthField::Draw(QPainter& painter) const {
+void HealthField::Draw(QPainter* painter) const {
   int level = player_ptr_->Health();
   QColor color;
   if (level > 75) {
@@ -21,7 +21,7 @@ void HealthField::Draw(QPainter& painter) const {
     color = Qt::red;
   }
 
-  painter.drawRect(xPos(), yPos(), bBox_.width_, bBox_.height_);
-  painter.drawRect(xPos() + 1, yPos() + 1, level - 1, bBox_.height_ - 1);
-  painter.fillRect(xPos() + 1, yPos() + 1, level - 1, bBox_.height_ - 1, color);
+  painter->drawRect(xPos(), yPos(), bBox_.width_, bBox_.height_);
+  painter->drawRect(xPos() + 1, yPos() + 1, level - 1, bBox_.height_ - 1);
+  painter->fillRect(xPos() + 1, yPos() + 1, level - 1, bBox_.height_ - 1, color);
 }

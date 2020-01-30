@@ -121,10 +121,10 @@ void Person::UpdateAnimation() {
   animation.NextFrame();
 }
 
-void Person::Draw(QPainter& painter) const {
+void Person::Draw(QPainter* painter) const {
   const auto& animation =
       animations_.GetAnimation(armed_, state_, current_side_);
-  painter.drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
+  painter->drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
                      animation.CurrentFrame());
 }
 

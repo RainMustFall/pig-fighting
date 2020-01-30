@@ -6,14 +6,12 @@
 #include <vector>
 #include <algorithm>
 
-#include "./constants.h"
-
 GameObject::GameObject(int x, int y, int height, int width)
     : position_{static_cast<double>(x), static_cast<double>(y)},
       bBox_{height, width} {}
 
-void GameObject::Draw(QPainter& painter) const {
-  painter.drawRect(xPos(), yPos(), bBox_.width_, bBox_.height_);
+void GameObject::Draw(QPainter* painter) const {
+  painter->drawRect(xPos(), yPos(), bBox_.width_, bBox_.height_);
 }
 
 int GameObject::Width() const { return bBox_.width_; }

@@ -1,22 +1,23 @@
-#ifndef SOUNDPLAYER_H
-#define SOUNDPLAYER_H
+#ifndef SOUND_PLAYER_H_
+#define SOUND_PLAYER_H_
 
 #include <QSound>
 #include <QThread>
-#include "utils.h"
 
-class SoundPlayer : public QThread
-{
-public:
-    SoundPlayer(utils::Sounds sound);
+#include "./utils.h"
 
-    void run() override;
+class SoundPlayer : public QThread {
+ public:
+  explicit SoundPlayer(utils::Sounds sound);
 
-    static QSound* pig_fly;
-    static QSound* hit;
-    static QSound* take;
-private:
-    utils::Sounds sound_;
+  void run() override;
+
+  static QSound* pig_fly;
+  static QSound* hit;
+  static QSound* take;
+
+ private:
+  utils::Sounds sound_;
 };
 
-#endif // SOUNDPLAYER_H
+#endif  // SOUND_PLAYER_H_
