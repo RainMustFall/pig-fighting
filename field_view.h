@@ -35,7 +35,7 @@ class FieldView : public QMainWindow {
   void GameOver(int player);
 
   template<typename T>
-  void drawPlayingObject(QPainter& p, const T& objects) {
+  void DrawPlayingObject(QPainter& p, const T& objects) {
       for (const auto& object: objects) {
           object.Draw(p);
       }
@@ -44,19 +44,18 @@ class FieldView : public QMainWindow {
   FreePig GeneratePig();
 
  private:
+  QSoundEffect pig_caught_;
+  int timer_id_;
 
-  QSoundEffect pig_caught;
-  int timer_id;
-
-  bool isTimerActive = true;
-  bool is_start = true;
-  bool paused = true;
+  bool is_timer_active_ = true;
+  bool is_start_ = true;
+  bool paused_ = true;
 
   FieldController* controller_;
   MainWindow* parent_;
-  utils::TextureType cur_theme;
+  utils::TextureType cur_theme_;
 
-  const std::vector<QString> bg_dirs_ = {
+  const std::vector<QString> background_dirs_ = {
       "grass",
       "sand",
       "cave",

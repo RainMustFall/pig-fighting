@@ -11,6 +11,7 @@
 const int kScreenWidth = 1440;
 const int kScreenHeight = 810;
 
+const int kMaxHealthLevel = 100;
 const int kPigCount = 8;
 
 const int kPersonHeight = 110;
@@ -23,6 +24,7 @@ const double kGravitation = 0.4;
 const double kSpeedLimit = 5;
 const double kSpeedReduce = 0.125;
 const double kShotSpeed = 10.5;
+const double kDownAcceleration = 10;
 // Высота полёта свиньи над уровнем земли
 const int kPigHeight = 15;
 
@@ -36,6 +38,7 @@ const double kEps = 1e-5;
 
 const QString kAnimationPath = ":/resources/animations/";
 const QString kTexturesPath = ":/resources/textures/";
+const QString kIconPath = ":/resources/textures/icon.ico";
 
 const utils::HandleKeys kFirstPlayerKeys = {Qt::Key_W,
                                Qt::Key_A,

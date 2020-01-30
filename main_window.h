@@ -15,8 +15,8 @@ public:
 
 private:
     bool paused_;
-    Ui::MainWindow* ui;
-    FieldView* win;
+    Ui::MainWindow* ui_;
+    FieldView* field_view_;
 
 public slots:
     void GameOver(int player);

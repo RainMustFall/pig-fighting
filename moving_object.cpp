@@ -6,46 +6,42 @@ MovingObject::MovingObject(int x, int y, int width, int height)
     : GameObject (x, y, width, height) {}
 
 void MovingObject::UpdatePosition() {
-    position_.x += moveVector_.x;
-    position_.y += moveVector_.y;
+    position_.x += move_vector_.x;
+    position_.y += move_vector_.y;
 
-    if (moveVector_.x > 0) {
-        current_side = utils::Side::RIGHT;
-    } else if (moveVector_.x < 0) {
-        current_side = utils::Side::LEFT;
+    if (move_vector_.x > 0) {
+        current_side_ = utils::Side::RIGHT;
+    } else if (move_vector_.x < 0) {
+        current_side_ = utils::Side::LEFT;
     }
  }
 
 void MovingObject::ApplyPhysics() {
-    if (current_platform != nullptr) {
-        moveVector_.y = std::min(0.0, moveVector_.y);
+    if (current_platform_ != nullptr) {
+        move_vector_.y = std::min(0.0, move_vector_.y);
     } else {
-        moveVector_.y += kGravitation;
+        move_vector_.y += kGravitation;
     }
 }
 
 void MovingObject::StabilizePosition(const Ground& ground) {
     utils::HitType type = CheckHitType(ground);
-    last_hit = type;
-
-    if (type != utils::HitType::UP) {
-        qDebug() << static_cast<int>(type);
-    }
+    last_hit_ = type;
 
     switch (type) {
         case utils::HitType::DOWN:
-            ignored_platform = &ground;
+            ignored_platform_ = &ground;
             break;
         case utils::HitType::UP:
-            moveVector_.y = 0;
+            move_vector_.y = 0;
             position_.y = ground.yPos() - Height();
             break;
         case utils::HitType::LEFT:
-            moveVector_.x *= -1;
+            move_vector_.x *= -1;
             position_.x = ground.xPos() - Width();
             break;
         case utils::HitType::RIGHT:
-            moveVector_.x *= -1;
+            move_vector_.x *= -1;
             position_.x = ground.xPos() + ground.Width();
             break;
     }
@@ -59,12 +55,10 @@ const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
 
         if (Hits(item_obj)) {
             hits = true;
-            if (ignored_platform != &item) {
-                ignored_platform = nullptr;
+            if (ignored_platform_ != &item) {
+                ignored_platform_ = nullptr;
                 StabilizePosition(item);
 
-                // Если мы стоим сверху на платформе, то
-                // возвращаем её адрес
                 if (CheckHitType(item) == utils::HitType::UP) {
                     return &item;
                 } else {
@@ -74,28 +68,27 @@ const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
         }
     }
 
-    // Если мы действительно ничего не коснулись,
-    // значит, мы висели в воздухе, и
-    // игнорируемую платформу можно сбросить.
+    // If we really didn't touch anything, it means we
+    // were hanging in the air and the platform
+    // that was being ignored could be reset.
     //
-    // Если же мы дошли до конца цикла, но чего-то коснулись,
-    // значит, мы коснулись той платформы, которую должны были
-    // проигнорировать
+    // If we have reached the end of the cycle, but have
+    // touched something, then we have touched the platform
+    // that should have been ignored.
 
     if (!hits) {
-        ignored_platform = nullptr;
+        ignored_platform_ = nullptr;
     }
     return nullptr;
 }
 
-// Лучше это не трогать и не вникать...
 utils::HitType MovingObject::CheckHitType(const Ground& ground) {
-    if (std::fabs(moveVector_.y) < kEps) {
+    if (std::fabs(move_vector_.y) < kEps) {
         return utils::HitType::UP;
     }
 
-    if (std::fabs(moveVector_.x) < kEps) {
-        if (moveVector_.y < 0) {
+    if (std::fabs(move_vector_.x) < kEps) {
+        if (move_vector_.y < 0) {
             return utils::HitType::DOWN;
         } else {
             return utils::HitType::UP;
@@ -103,20 +96,20 @@ utils::HitType MovingObject::CheckHitType(const Ground& ground) {
     }
 
     double y_hit_time, x_hit_time;
-    if (moveVector_.y > 0) {
-        y_hit_time = (ground.yPos() - yPos() - Height()) / moveVector_.y;
+    if (move_vector_.y > 0) {
+        y_hit_time = (ground.yPos() - yPos() - Height()) / move_vector_.y;
     } else {
-        y_hit_time = (ground.yPos() + ground.Height() - yPos()) / moveVector_.y;
+        y_hit_time = (ground.yPos() + ground.Height() - yPos()) / move_vector_.y;
     }
 
-    if (moveVector_.x > 0) {
-        x_hit_time = (ground.xPos() - xPos() - Width()) / moveVector_.x;
+    if (move_vector_.x > 0) {
+        x_hit_time = (ground.xPos() - xPos() - Width()) / move_vector_.x;
     } else {
-        x_hit_time = (ground.xPos() + ground.Width() - xPos()) / moveVector_.x;
+        x_hit_time = (ground.xPos() + ground.Width() - xPos()) / move_vector_.x;
     }
 
     if (y_hit_time > 0) {
-        if (moveVector_.x > 0) {
+        if (move_vector_.x > 0) {
             return utils::HitType::LEFT;
         } else {
             return utils::HitType::RIGHT;
@@ -124,7 +117,7 @@ utils::HitType MovingObject::CheckHitType(const Ground& ground) {
     }
 
     if (x_hit_time > 0) {
-        if (moveVector_.y > 0) {
+        if (move_vector_.y > 0) {
             return utils::HitType::UP;
         } else {
             return utils::HitType::DOWN;
@@ -132,13 +125,13 @@ utils::HitType MovingObject::CheckHitType(const Ground& ground) {
     }
 
     if (y_hit_time > x_hit_time) {
-        if (moveVector_.y < 0) {
+        if (move_vector_.y < 0) {
             return utils::HitType::DOWN;
         } else {
             return utils::HitType::UP;
         }
     } else {
-        if (moveVector_.x < 0) {
+        if (move_vector_.x < 0) {
             return utils::HitType::RIGHT;
         } else {
             return utils::HitType::LEFT;
@@ -148,13 +141,23 @@ utils::HitType MovingObject::CheckHitType(const Ground& ground) {
 
 
 double MovingObject::GetMoveVectorX() const {
-    return moveVector_.x;
+    return move_vector_.x;
+}
+
+double MovingObject::GetMoveVectorY() const
+{
+    return move_vector_.y;
+}
+
+void MovingObject::AccelerateX(double delta)
+{
+    move_vector_.x += delta;
 }
 
 void MovingObject::CheckBoundaries() {
-    if (position_.x >= kScreenWidth && moveVector_.x > 0) {
+    if (position_.x >= kScreenWidth && move_vector_.x > 0) {
         position_.x = -Width();
-    } else if (position_.x < -Width() && moveVector_.x < 0) {
+    } else if (position_.x < -Width() && move_vector_.x < 0) {
         position_.x = kScreenWidth;
     }
 
@@ -164,5 +167,5 @@ void MovingObject::CheckBoundaries() {
 }
 
 void MovingObject::UpdatePlatform(const std::vector<Ground>& ground) {
-    current_platform = HitsGround(ground);
+    current_platform_ = HitsGround(ground);
 }

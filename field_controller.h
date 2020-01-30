@@ -21,13 +21,13 @@ public:
     void AddPigs();
     void UpdateFreePigs();
     void UpdateFlyingPigs();
-    void onPaintingStarted(QPainter& p);
+    void OnPaintingStarted(QPainter& p);
     void ThrowPig(Person& player);
-    void onKeyPressed(QKeyEvent *event);
-    void onKeyReleased(QKeyEvent *event);
+    void OnKeyPressed(QKeyEvent *event);
+    void OnKeyReleased(QKeyEvent *event);
     void UpdateTimer();
-    void onPigThrown(int x, int y, int direction, const Person* sender);
-    void givePigsToPlayer(Person* player);
+    void OnPigThrown(int x, int y, int direction, const Person* sender);
+    void GivePigsToPlayer(Person* player);
     void PlayerWins(int name);
 
 private:

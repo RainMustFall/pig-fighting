@@ -15,27 +15,19 @@ FieldView::FieldView(QWidget *parent)
     : QMainWindow(parent),
       controller_(new FieldController(this)),
       parent_(dynamic_cast<MainWindow*>(parent)),
-      cur_theme(utils::TextureType::GRASS)
+      cur_theme_(utils::TextureType::GRASS)
 {
-    /*f_player->setPlaylist(f_playlist);
-    f_playlist->addMedia(QUrl("qrc:resources/sounds/background.mp3"));
-    f_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    f_player->setVolume(15);*/
-
     DrawBackground();
     setFocus();
-    qDebug() << "HERE! ";
-    //pig_caught.setSource(QUrl::fromLocalFile(":/resources/sounds/pig_caught.mp3"));
-    //pig_caught.setVolume(0.5f);
 }
 
 void FieldView::SetTimer() {
-    is_start = true;
-    timer_id = startTimer(9);
+    is_start_ = true;
+    timer_id_ = startTimer(9);
 }
 
 void FieldView::StopTimer() {
-    killTimer(timer_id);
+    killTimer(timer_id_);
 }
 
 void FieldView::GameOver(int player) {
@@ -43,7 +35,7 @@ void FieldView::GameOver(int player) {
 }
 
 void FieldView::NewGame(utils::TextureType type) {
-    cur_theme = type;
+    cur_theme_ = type;
     DrawBackground();
     setFocus();
     delete controller_;
@@ -63,7 +55,7 @@ void FieldView::timerEvent(QTimerEvent *) {
 void FieldView::paintEvent(QPaintEvent *) {
     QPainter p;
     p.begin(this);
-    controller_->onPaintingStarted(p);
+    controller_->OnPaintingStarted(p);
     p.end();
 }
 
@@ -81,7 +73,7 @@ void FieldView::DrawHint(QPainter& painter){
 }
 
 void FieldView::DrawBackground() {
-    QString bg_dir = bg_dirs_[static_cast<unsigned>(cur_theme)];
+    QString bg_dir = background_dirs_[static_cast<unsigned>(cur_theme_)];
     QPixmap bkgnd(kTexturesPath + bg_dir + "/background.png");
     bkgnd = bkgnd.scaled(kScreenWidth, kScreenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QPalette p(palette());
@@ -94,12 +86,12 @@ void FieldView::keyPressEvent(QKeyEvent *event) {
     if(event->key() == Qt::Key_Escape) {
       parent_->Pause(false);
     } else {
-        controller_->onKeyPressed(event);
+        controller_->OnKeyPressed(event);
     }
 }
 
 void FieldView::keyReleaseEvent(QKeyEvent *event) {
-    controller_->onKeyReleased(event);
+    controller_->OnKeyReleased(event);
 }
 
 FieldView::~FieldView()

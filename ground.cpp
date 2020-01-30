@@ -4,7 +4,7 @@
 
 Ground::Ground(int x, int y, int height, int width, utils::TextureType type)
     : GameObject (x, y, height, width),
-      texture(width, height)
+      texture_(width, height)
 {
     if (width % height != 0) {
         throw std::invalid_argument("The length of a ground must be divided by the height for correct rendering.");
@@ -15,10 +15,10 @@ Ground::Ground(int x, int y, int height, int width, utils::TextureType type)
                                         {"cave"},
                                         {"snow"}};
 
-    texture.fill(QColor(0, 0, 0, 0));
+    texture_.fill(QColor(0, 0, 0, 0));
     utils::TexturePack& cur_texture = textures[static_cast<size_t>(type)];
 
-    QPainter painter(&texture);
+    QPainter painter(&texture_);
     painter.drawPixmap(
             QRectF(0, 0, height, height),
             cur_texture.left_block.scaled(height, height, Qt::KeepAspectRatio, Qt::SmoothTransformation),
@@ -40,5 +40,5 @@ Ground::Ground(int x, int y, int height, int width, utils::TextureType type)
 void Ground::Draw(QPainter& painter) const {
     painter.drawPixmap(xPos(), yPos(),
                        bBox_.width_, bBox_.height_,
-                       texture);
+                       texture_);
 }

@@ -1,37 +1,38 @@
 #include "person.h"
 #include "free_pig.h"
 #include "field_view.h"
+#include "constants.h"
 #include <QDebug>
 #include <thread>
 #include <QSound>
 
 Person::Person(int x, int y, const QString& animation_dir, int id, FieldController* controller)
     : MovingObject (x, y, kPersonHeight, kPersonWidth),
-      state(utils::PersonState::FLYING),
+      name_(id),
+      state_(utils::PersonState::FLYING),
       animations_(animation_dir),
       handle_keys_(id == 1 ? kFirstPlayerKeys : kSecondPlayerKeys),
-      name_(id),
       controller_(controller) {}
 
 void Person::CatchPressedKey(int key) {
     if (key == handle_keys_.up_key) {
-        Up_pressed = true;
+        up_pressed_ = true;
     } else if (key == handle_keys_.left_key) {
-        Left_pressed = true;
+        left_pressed_ = true;
     } else if (key == handle_keys_.right_key) {
-        Right_pressed = true;
+        right_pressed_ = true;
     } else if (key == handle_keys_.down_key) {
-        Down_pressed = true;
-        if (current_platform != nullptr) {
-            ignored_platform = current_platform;
+        down_pressed_ = true;
+        if (current_platform_ != nullptr) {
+            ignored_platform_ = current_platform_;
         } else {
-            moveVector_.y += 10;
+            move_vector_.y += kDownAcceleration;
         }
     } else if (key == handle_keys_.shot_key && can_shoot_) {
         if (armed_) {
             ThrowPig();
         } else {
-            controller_->givePigsToPlayer(this);
+            controller_->GivePigsToPlayer(this);
         }
         can_shoot_ = false;
     }
@@ -39,56 +40,56 @@ void Person::CatchPressedKey(int key) {
 
 void Person::CatchReleasedKey(int key) {
     if (key == handle_keys_.left_key) {
-        Left_pressed = false;
+        left_pressed_ = false;
     } else if (key == handle_keys_.right_key) {
-        Right_pressed = false;
+        right_pressed_ = false;
     } else if (key == handle_keys_.up_key) {
-        Up_pressed = false;
+        up_pressed_ = false;
     } else if (key == handle_keys_.down_key) {
-        Down_pressed = false;
+        down_pressed_ = false;
     } else if (key == handle_keys_.shot_key) {
         can_shoot_ = true;
     }
 }
 
 void Person::ThrowPig() {
-    if (current_side == utils::Side::LEFT) {
-        controller_->onPigThrown(xPos() - kPigSize - 1,
+    if (current_side_ == utils::Side::LEFT) {
+        controller_->OnPigThrown(xPos() - kPigSize - 1,
                                  yPos() + Height() - kPigSize - kPigHeight, -1, this);
     } else {
-        controller_->onPigThrown(xPos() + Width() + 1,
+        controller_->OnPigThrown(xPos() + Width() + 1,
                                  yPos() + Height() - kPigSize - kPigHeight, 1, this);
     }
     armed_ = 0;
 }
 
 void Person::ProcessKeyboard() {
-    if (Left_pressed) {
-        if (last_hit != utils::HitType::RIGHT) {
-            moveVector_.x -= kSpeed;
-            moveVector_.x = std::max(-kSpeedLimit, moveVector_.x);
+    if (left_pressed_) {
+        if (last_hit_ != utils::HitType::RIGHT) {
+            move_vector_.x -= kSpeed;
+            move_vector_.x = std::max(-kSpeedLimit, move_vector_.x);
         }
     }
 
-    if (Right_pressed) {
-        if (last_hit != utils::HitType::LEFT) {
-            moveVector_.x += kSpeed;
-            moveVector_.x = std::min(kSpeedLimit, moveVector_.x);
+    if (right_pressed_) {
+        if (last_hit_ != utils::HitType::LEFT) {
+            move_vector_.x += kSpeed;
+            move_vector_.x = std::min(kSpeedLimit, move_vector_.x);
         }
     }
 
-    if (!Left_pressed && !Right_pressed) {
-        if (moveVector_.x < 0) {
-            moveVector_.x += kSpeedReduce;
-        } else if (moveVector_.x > 0) {
-            moveVector_.x -= kSpeedReduce;
+    if (!left_pressed_ && !right_pressed_) {
+        if (move_vector_.x < 0) {
+            move_vector_.x += kSpeedReduce;
+        } else if (move_vector_.x > 0) {
+            move_vector_.x -= kSpeedReduce;
         }
     }
 
-    if (Up_pressed) {
-        if (current_platform != nullptr) {
+    if (up_pressed_) {
+        if (current_platform_ != nullptr) {
             position_.y--;
-            moveVector_.y = kJumpPower;
+            move_vector_.y = kJumpPower;
         }
     }
 }
@@ -98,26 +99,26 @@ void Person::CatchPig() {
 }
 
 void Person::UpdateAnimation() {
-    if (current_platform != nullptr) {
-        if (Left_pressed || Right_pressed) {
-            state = utils::PersonState::RUNNING;
+    if (current_platform_ != nullptr) {
+        if (left_pressed_ || right_pressed_) {
+            state_ = utils::PersonState::RUNNING;
         } else {
-            auto& animation = animations_.GetAnimation(armed_, state, current_side);
-            if (animation.isOnFirstFrame()) {
-                state = utils::PersonState::STANDING;
+            auto& animation = animations_.GetAnimation(armed_, state_, current_side_);
+            if (animation.IsOnFirstFrame()) {
+                state_ = utils::PersonState::STANDING;
             }
         }
     } else {
         ResetRunAnimation();
-        state = utils::PersonState::FLYING;
+        state_ = utils::PersonState::FLYING;
     }
 
-    auto& animation = animations_.GetAnimation(armed_, state, current_side);
+    auto& animation = animations_.GetAnimation(armed_, state_, current_side_);
     animation.NextFrame();
 }
 
 void Person::Draw(QPainter& painter) const {
-    const auto& animation = animations_.GetAnimation(armed_, state, current_side);
+    const auto& animation = animations_.GetAnimation(armed_, state_, current_side_);
     painter.drawPixmap(xPos(), yPos(),
                        bBox_.width_, bBox_.height_,
                        animation.CurrentFrame());
@@ -135,15 +136,15 @@ void Person::DecreaseHealthLevel(){
 }
 
 void Person::ResetRunAnimation() {
-    animations_.run_l.goToFirstFrame();
-    animations_.run_r.goToFirstFrame();
-    animations_.run_l_pig.goToFirstFrame();
-    animations_.run_r_pig.goToFirstFrame();
+    animations_.run_l.GoToFirstFrame();
+    animations_.run_r.GoToFirstFrame();
+    animations_.run_l_pig.GoToFirstFrame();
+    animations_.run_r_pig.GoToFirstFrame();
 }
 
 void Person::IncreaseHelthLevel(){
-    if (health_level_ < 100){
-        health_level_ += 1;
+    if (health_level_ < kMaxHealthLevel){
+        ++health_level_;
     }
 
     if (health_level_ <= 0) {

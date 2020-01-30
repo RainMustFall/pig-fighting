@@ -5,19 +5,19 @@
 ShotPig::ShotPig(int x, int y, int direction, const Person* shooting_player,
                  const PigAnimationStorage* animations)
     : MovingObject(x, y, kPigSize, kPigSize),
-      shooting_player(shooting_player),
+      shooting_player_(shooting_player),
       animations_(animations) {
-    moveVector_.x = direction * kShotSpeed;
-    moveVector_.y = 0;
+    move_vector_.x = direction * kShotSpeed;
+    move_vector_.y = 0;
 }
 
 
-const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
+const GameObject* ShotPig::PigHits(std::vector<Person>& persons,
                       const std::vector<Ground>& ground) {
     for (auto& item : persons) {
-        if (&item != shooting_player){
+        if (&item != shooting_player_){
            if (Hits(&item)) {
-                item.moveVector_.x += moveVector_.x / 2;
+                item.AccelerateX(move_vector_.x / 2);
                 return &item;
             }
         }
@@ -31,16 +31,9 @@ const GameObject* ShotPig::Pig_Hits(std::vector<Person>& persons,
     return nullptr;
 }
 
-void ShotPig::PlayMusic(){
-    //h_player->play();
-}
-void ShotPig::PlayMusicFly(){
-    //f_player->play();
-}
-
 void ShotPig::Draw(QPainter& painter) const {
 
-    if (current_side == utils::Side::LEFT) {
+    if (current_side_ == utils::Side::LEFT) {
         painter.drawPixmap(xPos(), yPos(),
                            bBox_.width_, bBox_.height_,
                            animations_->fly_l.CurrentFrame());
@@ -51,6 +44,6 @@ void ShotPig::Draw(QPainter& painter) const {
     }
 }
 
-bool ShotPig::isOutOfScreen() {
+bool ShotPig::IsOutOfScreen() {
     return (position_.x >= kScreenWidth) || (position_.x < -Width());
 }

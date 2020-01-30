@@ -4,8 +4,8 @@
 #include <QMouseEvent>
 #include "utils.h"
 
-// Абстрактный класс объекта в игре, хранящий самую базовую
-// информацию, вроде положения, длины, ширины.
+// An abstract class of object in the game that stores
+// the most basic information, such as position, length, width.
 class GameObject
 {
 public:
@@ -16,7 +16,6 @@ public:
 
     virtual void Draw(QPainter& painter) const = 0;
 
-    // Геттеры (вдруг пригодятся)
     int Width() const;
     int Height() const;
     int xPos() const;

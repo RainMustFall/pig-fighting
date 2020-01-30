@@ -13,8 +13,8 @@ public:
 
     void NextFrame();
     void PreviousFrame();
-    void goToFirstFrame();
-    bool isOnFirstFrame() const;
+    void GoToFirstFrame();
+    bool IsOnFirstFrame() const;
     QPixmap CurrentFrame() const;
     Animation returnReflectedCopy() const;
 

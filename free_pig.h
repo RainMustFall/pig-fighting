@@ -8,8 +8,8 @@ class FreePig : public MovingObject
 public:
     FreePig(int x, int y, const PigAnimationStorage* animations);
     FreePig GeneratePig();
-    void setX (double x);
-    void setY (double y);
+    void SetX (double x);
+    void SetY (double y);
     void PositionGenerate();
     void Draw(QPainter& painter) const;
     void UpdateAnimation();

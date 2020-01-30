@@ -5,10 +5,10 @@
 
 HealthField::HealthField(int x, int y, Person* player)
     : GameObject (x, y, 20, 100),
-      player_ptr(player) {}
+      player_ptr_(player) {}
 
 void HealthField::Draw(QPainter& painter) const {
-    int level = player_ptr->Health();
+    int level = player_ptr_->Health();
     QColor color;
     if (level > 75){
         color = Qt::green;

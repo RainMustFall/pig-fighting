@@ -8,8 +8,9 @@ class HealthField : public GameObject {
 public:
     HealthField(int x, int y, Person* player);
     void Draw(QPainter& painter) const override;
+
 private:
-    Person* player_ptr;
+    const Person* player_ptr_;
 };
 
 #endif // HEALTH_FIELD_H

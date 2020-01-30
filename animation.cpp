@@ -42,11 +42,11 @@ void Animation::PreviousFrame() {
     cur_frame_--;
 }
 
-bool Animation::isOnFirstFrame() const {
+bool Animation::IsOnFirstFrame() const {
     return cur_frame_ == frames_.begin();
 }
 
-void Animation::goToFirstFrame() {
+void Animation::GoToFirstFrame() {
     cur_frame_ = frames_.begin();
 }
 
