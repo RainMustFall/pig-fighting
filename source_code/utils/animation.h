@@ -13,7 +13,6 @@ class Animation {
   Animation(const Animation& lhs);
 
   void NextFrame();
-  void PreviousFrame();
   void GoToFirstFrame();
   bool IsOnFirstFrame() const;
   QPixmap CurrentFrame() const;

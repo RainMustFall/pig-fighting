@@ -23,9 +23,6 @@ class MovingObject : public GameObject {
   void CheckBoundaries();
   void UpdatePlatform(const std::vector<Ground>& ground);
 
-  double GetMoveVectorX() const;
-  double GetMoveVectorY() const;
-
   void AccelerateX(double delta);
 
  protected:

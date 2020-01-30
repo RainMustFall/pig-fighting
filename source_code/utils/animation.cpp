@@ -35,13 +35,6 @@ void Animation::NextFrame() {
   }
 }
 
-void Animation::PreviousFrame() {
-  if (cur_frame_ == frames_.begin()) {
-    cur_frame_ = frames_.end();
-  }
-  cur_frame_--;
-}
-
 bool Animation::IsOnFirstFrame() const { return cur_frame_ == frames_.begin(); }
 
 void Animation::GoToFirstFrame() { cur_frame_ = frames_.begin(); }

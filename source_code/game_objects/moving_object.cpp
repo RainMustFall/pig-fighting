@@ -137,10 +137,6 @@ utils::HitType MovingObject::CheckHitType(const Ground& ground) {
   return utils::HitType::LEFT;
 }
 
-double MovingObject::GetMoveVectorX() const { return move_vector_.x; }
-
-double MovingObject::GetMoveVectorY() const { return move_vector_.y; }
-
 void MovingObject::AccelerateX(double delta) { move_vector_.x += delta; }
 
 void MovingObject::CheckBoundaries() {
