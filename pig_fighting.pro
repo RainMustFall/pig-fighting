@@ -29,38 +29,38 @@ CONFIG += c++11
 CONFIG+= static
 
 SOURCES += \
-        main.cpp \
-    ground.cpp \
-    person.cpp \
-    animation.cpp \
-    health_field.cpp \
-    utils.cpp \
-    main_window.cpp \
-    sound_player.cpp \
-    shot_pig.cpp \
-    resource_storage.cpp \
-    field_view.cpp \
-    free_pig.cpp \
-    game_object.cpp \
-    moving_object.cpp \
-    field_controller.cpp
+    source_code/game_objects/game_object.cpp \
+    source_code/game_objects/ground.cpp \
+    source_code/game_objects/health_field.cpp \
+    source_code/game_objects/moving_object.cpp \
+    source_code/game_objects/person.cpp \
+    source_code/game_objects/pig_classes/free_pig.cpp \
+    source_code/game_objects/pig_classes/shot_pig.cpp \
+    source_code/main.cpp \
+    source_code/utils/animation.cpp \
+    source_code/utils/resource_storage.cpp \
+    source_code/utils/sound_player.cpp \
+    source_code/utils/utils.cpp \
+    source_code/view_controller/field_controller.cpp \
+    source_code/view_controller/field_view.cpp \
+    source_code/view_controller/main_window.cpp \
 
 HEADERS += \
-    ground.h \
-    person.h \
-    constants.h \
-    animation.h \
-    health_field.h \
-    utils.h \
-    field_controller.h \
-    field_view.h \
-    main_window.h \
-    sound_player.h \
-    shot_pig.h \
-    free_pig.h \
-    game_object.h \
-    moving_object.h \
-    resource_storage.h
+    source_code/game_objects/game_object.h \
+    source_code/game_objects/ground.h \
+    source_code/game_objects/health_field.h \
+    source_code/game_objects/moving_object.h \
+    source_code/game_objects/person.h \
+    source_code/game_objects/pig_classes/free_pig.h \
+    source_code/game_objects/pig_classes/shot_pig.h \
+    source_code/utils/animation.h \
+    source_code/utils/constants.h \
+    source_code/utils/resource_storage.h \
+    source_code/utils/sound_player.h \
+    source_code/utils/utils.h \
+    source_code/view_controller/field_controller.h \
+    source_code/view_controller/field_view.h \
+    source_code/view_controller/main_window.h \
 
 FORMS += \
         mainwindow.ui
