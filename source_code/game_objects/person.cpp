@@ -56,12 +56,12 @@ void Person::CatchReleasedKey(int key) {
 
 void Person::ThrowPig() {
   if (current_side_ == utils::Side::LEFT) {
-    controller_->OnPigThrown(xPos() - kPigSize - 1,
-                             yPos() + Height() - kPigSize - kPigHeight, -1,
+    controller_->OnPigThrown(GetX() - kPigSize - 1,
+                             GetY() + Height() - kPigSize - kPigHeight, -1,
                              this);
   } else {
-    controller_->OnPigThrown(xPos() + Width() + 1,
-                             yPos() + Height() - kPigSize - kPigHeight, 1,
+    controller_->OnPigThrown(GetX() + Width() + 1,
+                             GetY() + Height() - kPigSize - kPigHeight, 1,
                              this);
   }
   armed_ = false;
@@ -122,7 +122,7 @@ void Person::UpdateAnimation() {
 void Person::Draw(QPainter* painter) const {
   const auto& animation =
       animations_.GetAnimation(armed_, state_, current_side_);
-  painter->drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
+  painter->drawPixmap(GetX(), GetY(), bBox_.width_, bBox_.height_,
                      animation.CurrentFrame());
 }
 

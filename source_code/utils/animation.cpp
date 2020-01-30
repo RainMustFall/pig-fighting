@@ -28,8 +28,14 @@ Animation::Animation(const QString& img_path, int frame_height, int frame_width,
 Animation::Animation(const Animation& lhs)
     : frames_(lhs.frames_), cur_frame_(frames_.begin()) {}
 
+Animation &Animation::operator=(const Animation &lhs) {
+  frames_ = lhs.frames_;
+  cur_frame_ = frames_.begin();
+  return *this;
+}
+
 void Animation::NextFrame() {
-  cur_frame_++;
+  ++cur_frame_;
   if (cur_frame_ == frames_.end()) {
     cur_frame_ = frames_.begin();
   }
@@ -39,4 +45,4 @@ bool Animation::IsOnFirstFrame() const { return cur_frame_ == frames_.begin(); }
 
 void Animation::GoToFirstFrame() { cur_frame_ = frames_.begin(); }
 
-QPixmap Animation::CurrentFrame() const { return *cur_frame_; }
+const QPixmap& Animation::CurrentFrame() const { return *cur_frame_; }

@@ -45,5 +45,5 @@ Ground::Ground(int x, int y, int height, int width, utils::TextureType type)
 }
 
 void Ground::Draw(QPainter* painter) const {
-  painter->drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_, texture_);
+  painter->drawPixmap(GetX(), GetY(), bBox_.width_, bBox_.height_, texture_);
 }

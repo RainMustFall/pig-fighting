@@ -11,11 +11,12 @@ class Animation {
   Animation(const QString& img_path, int frame_height, int frame_width,
             int dst_height, int dst_width);
   Animation(const Animation& lhs);
+  Animation& operator=(const Animation& lhs);
 
   void NextFrame();
   void GoToFirstFrame();
   bool IsOnFirstFrame() const;
-  QPixmap CurrentFrame() const;
+  const QPixmap& CurrentFrame() const;
   Animation returnReflectedCopy() const;
 
  private:

@@ -19,8 +19,8 @@ class GameObject {
 
   int Width() const;
   int Height() const;
-  int xPos() const;
-  int yPos() const;
+  int GetX() const;
+  int GetY() const;
 
   virtual bool Hits(const GameObject* obj) const;
   void UpdatePosition();

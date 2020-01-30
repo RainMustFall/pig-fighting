@@ -30,10 +30,10 @@ void FreePig::PositionGenerate() {
 
 void FreePig::Draw(QPainter* painter) const {
   if (current_side_ == utils::Side::LEFT) {
-    painter->drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
+    painter->drawPixmap(GetX(), GetY(), bBox_.width_, bBox_.height_,
                        animations_->run_l.CurrentFrame());
   } else {
-    painter->drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
+    painter->drawPixmap(GetX(), GetY(), bBox_.width_, bBox_.height_,
                        animations_->run_r.CurrentFrame());
   }
 }

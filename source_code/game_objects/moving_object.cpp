@@ -39,15 +39,15 @@ void MovingObject::StabilizePosition(const Ground& ground) {
       break;
     case utils::HitType::UP:
       move_vector_.y = 0;
-      position_.y = ground.yPos() - Height();
+      position_.y = ground.GetY() - Height();
       break;
     case utils::HitType::LEFT:
       move_vector_.x *= -1;
-      position_.x = ground.xPos() - Width();
+      position_.x = ground.GetX() - Width();
       break;
     case utils::HitType::RIGHT:
       move_vector_.x *= -1;
-      position_.x = ground.xPos() + ground.Width();
+      position_.x = ground.GetX() + ground.Width();
       break;
   }
 }
@@ -100,15 +100,15 @@ utils::HitType MovingObject::CheckHitType(const Ground& ground) {
   double y_hit_time;
   double x_hit_time;
   if (move_vector_.y > 0) {
-    y_hit_time = (ground.yPos() - yPos() - Height()) / move_vector_.y;
+    y_hit_time = (ground.GetY() - GetY() - Height()) / move_vector_.y;
   } else {
-    y_hit_time = (ground.yPos() + ground.Height() - yPos()) / move_vector_.y;
+    y_hit_time = (ground.GetY() + ground.Height() - GetY()) / move_vector_.y;
   }
 
   if (move_vector_.x > 0) {
-    x_hit_time = (ground.xPos() - xPos() - Width()) / move_vector_.x;
+    x_hit_time = (ground.GetX() - GetX() - Width()) / move_vector_.x;
   } else {
-    x_hit_time = (ground.xPos() + ground.Width() - xPos()) / move_vector_.x;
+    x_hit_time = (ground.GetX() + ground.Width() - GetX()) / move_vector_.x;
   }
 
   if (y_hit_time > 0) {

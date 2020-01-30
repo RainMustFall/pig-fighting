@@ -21,7 +21,7 @@ void HealthField::Draw(QPainter* painter) const {
     color = Qt::red;
   }
 
-  painter->drawRect(xPos(), yPos(), bBox_.width_, bBox_.height_);
-  painter->drawRect(xPos() + 1, yPos() + 1, level - 1, bBox_.height_ - 1);
-  painter->fillRect(xPos() + 1, yPos() + 1, level - 1, bBox_.height_ - 1, color);
+  painter->drawRect(GetX(), GetY(), bBox_.width_, bBox_.height_);
+  painter->drawRect(GetX() + 1, GetY() + 1, level - 1, bBox_.height_ - 1);
+  painter->fillRect(GetX() + 1, GetY() + 1, level - 1, bBox_.height_ - 1, color);
 }
