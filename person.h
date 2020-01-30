@@ -17,17 +17,17 @@ class Person: public MovingObject
 public:
     Person(int x, int y, const QString& animation_dir, int id, FieldController* controller);
 
+    void Draw(QPainter& painter) const override;
+
     void CatchPressedKey(int key);
     void CatchReleasedKey(int key);
     void ProcessKeyboard();
     void CatchPig(FreePig& pig);
     void UpdateAnimation();
-    void Draw(QPainter& painter) const override;
     void ThrowPig();
     void CatchPig();
     void DecreaseHealthLevel();
     void IncreaseHelthLevel();
-
     int Health() const;
 
 private:

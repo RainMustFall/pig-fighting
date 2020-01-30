@@ -45,8 +45,6 @@ private:
 
     FieldView* field_view_;
     PigAnimationStorage pig_animations_;
-
-    QSound* sound;
 };
 
 #endif // FIELDCONTROLLER_H

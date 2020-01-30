@@ -1,20 +1,17 @@
-#include "free_pig.h"
-#include "moving_object.h"
-#include "constants.h"
+#include "./free_pig.h"
+
 #include <QDebug>
 
-FreePig::FreePig(int x, int y, const PigAnimationStorage* animations)
-    : MovingObject(x, y, kPigSize, kPigSize),
-      animations_(animations) {
-  move_vector_.x = -1.0;
-};
+#include "./moving_object.h"
+#include "./constants.h"
 
-void FreePig::SetX(double x) {
-  position_.x = x;
+FreePig::FreePig(int x, int y, const PigAnimationStorage* animations)
+    : MovingObject(x, y, kPigSize, kPigSize), animations_(animations) {
+  move_vector_.x = -1.0;
 }
-void FreePig::SetY(double y) {
-  position_.y = y;
-}
+
+void FreePig::SetX(double x) { position_.x = x; }
+void FreePig::SetY(double y) { position_.y = y; }
 
 void FreePig::PositionGenerate() {
   int random_number = rand() % 1000;
@@ -34,12 +31,10 @@ void FreePig::PositionGenerate() {
 
 void FreePig::Draw(QPainter& painter) const {
   if (current_side_ == utils::Side::LEFT) {
-    painter.drawPixmap(xPos(), yPos(),
-                       bBox_.width_, bBox_.height_,
+    painter.drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
                        animations_->run_l.CurrentFrame());
   } else {
-    painter.drawPixmap(xPos(), yPos(),
-                       bBox_.width_, bBox_.height_,
+    painter.drawPixmap(xPos(), yPos(), bBox_.width_, bBox_.height_,
                        animations_->run_r.CurrentFrame());
   }
 }

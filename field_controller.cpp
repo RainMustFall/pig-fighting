@@ -1,28 +1,22 @@
-#include "field_controller.h"
-#include "constants.h"
-#include "shot_pig.h"
-#include "resource_storage.h"
-#include "main_window.h"
-#include "field_view.h"
+#include "./field_controller.h"
+
+#include <stdlib.h>
+
+#include "./constants.h"
+#include "./shot_pig.h"
+#include "./resource_storage.h"
+#include "./main_window.h"
+#include "./field_view.h"
 
 FieldController::FieldController(FieldView* view, utils::TextureType type)
-    : players{
-          {450, 120, "player_1", 1, this},
-          {800, 200, "player_2", 2, this}},
-      ground{
-          {-146, 160, 30, 420, type},
-          {587, 130, 30, 270, type},
-          {327, 327, 30, 270, type},
-          {935, 327, 30, 270, type},
-          {1193, 160, 30, 270, type},
-          {1068, 486, 30, 270, type},
-          {-52, 486, 30, 270, type},
-          {122, 656, 30, 1200, type}},
-      health_fields{
-          {10, 10, &players[0]},
-          {kScreenWidth - 110, 10, &players[1]}},
-      field_view_(view),
-      sound(new QSound(":/resources/sounds/pig_caught.wav")) {}
+    : players{{450, 120, "player_1", 1, this}, {800, 200, "player_2", 2, this}},
+      ground{{-146, 160, 30, 420, type}, {587, 130, 30, 270, type},
+             {327, 327, 30, 270, type},  {935, 327, 30, 270, type},
+             {1193, 160, 30, 270, type}, {1068, 486, 30, 270, type},
+             {-52, 486, 30, 270, type},  {122, 656, 30, 1200, type}},
+      health_fields{{10, 10, &players[0]},
+                    {kScreenWidth - 110, 10, &players[1]}},
+      field_view_(view) {}
 
 void FieldController::UpdatePlayers() {
   for (Person& player : players) {
@@ -44,8 +38,8 @@ void FieldController::UpdatePlayers() {
 void FieldController::AddPigs() {
   if (free_pigs.empty()) {
     free_pigs.insert(free_pigs.end(), GeneratePig());
-  } else if (rand() % kPigGeneraingFrequency == 0
-      && free_pigs.size() < kPigCount) {
+  } else if (rand() % kPigGeneraingFrequency == 0 &&
+             free_pigs.size() < kPigCount) {
     free_pigs.insert(free_pigs.end(), GeneratePig());
   }
 }
@@ -123,15 +117,15 @@ void FieldController::GivePigsToPlayer(Person* player) {
 }
 
 void FieldController::OnKeyPressed(QKeyEvent* event) {
-    for (auto& player : players) {
-        player.CatchPressedKey(event->key());
-    }
+  for (auto& player : players) {
+    player.CatchPressedKey(event->key());
+  }
 }
 
 void FieldController::OnKeyReleased(QKeyEvent* event) {
-    for (auto& player : players) {
-        player.CatchReleasedKey(event->key());
-    }
+  for (auto& player : players) {
+    player.CatchReleasedKey(event->key());
+  }
 }
 
 void FieldController::UpdateTimer() {
@@ -154,6 +148,4 @@ Person* FieldController::GetHitPerson(const GameObject* object) {
   return hitting_person;
 }
 
-void FieldController::PlayerWins(int player) {
-    field_view_->GameOver(player);
-}
+void FieldController::PlayerWins(int player) { field_view_->GameOver(player); }

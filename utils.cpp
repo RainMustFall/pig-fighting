@@ -1,5 +1,6 @@
-#include "utils.h"
-#include "constants.h"
+#include "./utils.h"
+
+#include "./constants.h"
 
 namespace utils {
 
@@ -8,4 +9,4 @@ TexturePack::TexturePack(const QString& path)
       middle_block(kTexturesPath + path + "/middle.png"),
       right_block(kTexturesPath + path + "/right.png") {}
 
-}
+}  // namespace utils
