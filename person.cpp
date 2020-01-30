@@ -60,7 +60,7 @@ void Person::ThrowPig() {
         controller_->OnPigThrown(xPos() + Width() + 1,
                                  yPos() + Height() - kPigSize - kPigHeight, 1, this);
     }
-    armed_ = 0;
+    armed_ = false;
 }
 
 void Person::ProcessKeyboard() {
@@ -95,7 +95,7 @@ void Person::ProcessKeyboard() {
 }
 
 void Person::CatchPig() {
-    armed_ = 1;
+    armed_ = true;
 }
 
 void Person::UpdateAnimation() {

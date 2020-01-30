@@ -45,7 +45,7 @@ class FieldView : public QMainWindow {
 
  private:
   QSoundEffect pig_caught_;
-  int timer_id_;
+  int timer_id_{};
 
   bool is_timer_active_ = true;
   bool is_start_ = true;

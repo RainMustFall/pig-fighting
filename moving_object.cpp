@@ -61,9 +61,9 @@ const Ground* MovingObject::HitsGround(const std::vector<Ground>& ground) {
 
                 if (CheckHitType(item) == utils::HitType::UP) {
                     return &item;
-                } else {
+                } 
                     return nullptr;
-                }
+                
             }
         }
     }
@@ -90,12 +90,12 @@ utils::HitType MovingObject::CheckHitType(const Ground& ground) {
     if (std::abs(move_vector_.x) < kEps) {
         if (move_vector_.y < 0) {
             return utils::HitType::DOWN;
-        } else {
+        } 
             return utils::HitType::UP;
-        }
+        
     }
 
-    double y_hit_time, x_hit_time;
+    double y_hit_time; double x_hit_time;
     if (move_vector_.y > 0) {
         y_hit_time = (ground.yPos() - yPos() - Height()) / move_vector_.y;
     } else {
@@ -111,32 +111,32 @@ utils::HitType MovingObject::CheckHitType(const Ground& ground) {
     if (y_hit_time > 0) {
         if (move_vector_.x > 0) {
             return utils::HitType::LEFT;
-        } else {
+        } 
             return utils::HitType::RIGHT;
-        }
+        
     }
 
     if (x_hit_time > 0) {
         if (move_vector_.y > 0) {
             return utils::HitType::UP;
-        } else {
+        } 
             return utils::HitType::DOWN;
-        }
+        
     }
 
     if (y_hit_time > x_hit_time) {
         if (move_vector_.y < 0) {
             return utils::HitType::DOWN;
-        } else {
+        } 
             return utils::HitType::UP;
-        }
-    } else {
+        
+    } 
         if (move_vector_.x < 0) {
             return utils::HitType::RIGHT;
-        } else {
+        } 
             return utils::HitType::LEFT;
-        }
-    }
+        
+    
 }
 
 

@@ -15,7 +15,7 @@ struct PigAnimationStorage {
     Animation fly_l;
     Animation fly_r;
 
-    QSound* hit_sound;
+    QSound* hit_sound{};
 };
 
 struct PersonAnimationStorage {

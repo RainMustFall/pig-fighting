@@ -43,7 +43,7 @@ enum class TextureType {
 };
 
 struct TexturePack {
-    TexturePack(const QString path);
+    TexturePack(const QString& path);
 
     QPixmap left_block;
     QPixmap middle_block;

@@ -28,7 +28,7 @@ public:
     void UpdateTimer();
     void OnPigThrown(int x, int y, int direction, const Person* sender);
     void GivePigsToPlayer(Person* player);
-    void PlayerWins(int name);
+    void PlayerWins(int player);
 
 private:
     FreePig GeneratePig();

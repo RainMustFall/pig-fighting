@@ -95,6 +95,4 @@ void FieldView::keyReleaseEvent(QKeyEvent *event) {
 }
 
 FieldView::~FieldView()
-{
-
-}
+= default;

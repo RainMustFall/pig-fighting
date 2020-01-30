@@ -11,7 +11,7 @@ Animation Animation::returnReflectedCopy() const {
     return result;
 }
 
-Animation::Animation(QString img_path, int frame_height, int frame_width, int dst_height, int dst_width)
+Animation::Animation(const QString& img_path, int frame_height, int frame_width, int dst_height, int dst_width)
 {
     QPixmap image(img_path);
     for (int x = 0; x + frame_width <= image.width(); x += frame_width) {

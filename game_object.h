@@ -11,7 +11,7 @@ class GameObject
 public:
     friend class MainWindow;
 
-    GameObject(int x, int y, int width, int height);
+    GameObject(int x, int y, int height, int width);
     virtual ~GameObject() = default;
 
     virtual void Draw(QPainter& painter) const = 0;

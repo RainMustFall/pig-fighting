@@ -77,7 +77,7 @@ void FieldController::UpdateFlyingPigs() {
       item = flying_pigs.erase(item);
       auto hitting_person = GetHitPerson(hitting_object);
       hitting_person->DecreaseHealthLevel();
-      SoundPlayer* s_player = new SoundPlayer(utils::Sounds::Hit);
+      auto* s_player = new SoundPlayer(utils::Sounds::Hit);
       s_player->start();
     } else {
       // if hits another object
@@ -104,7 +104,7 @@ void FieldController::OnPigThrown(int x, int y, int direction,
                                   const Person* sender) {
   flying_pigs.emplace_back(x, y, direction, sender, &pig_animations_);
   free_pigs.push_back(GeneratePig());
-  SoundPlayer* s_player = new SoundPlayer(utils::Sounds::Throw);
+  auto* s_player = new SoundPlayer(utils::Sounds::Throw);
   s_player->start();
 }
 
@@ -115,7 +115,7 @@ void FieldController::GivePigsToPlayer(Person* player) {
     if (player->Hits(item_obj)) {
       free_pigs.erase(pig);
       player->CatchPig();
-      SoundPlayer* s_player = new SoundPlayer(utils::Sounds::Take);
+      auto* s_player = new SoundPlayer(utils::Sounds::Take);
       s_player->start();
       break;
     }

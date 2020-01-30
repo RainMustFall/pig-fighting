@@ -11,7 +11,7 @@ public:
     virtual void ApplyPhysics();
 
     utils::HitType CheckHitType(const Ground& ground);
-    void StabilizePosition(const Ground& groung);
+    void StabilizePosition(const Ground& ground);
 
     // It checks whether the object touches the land and, if so,
     // stabilizes its position. If it also touches the top, it
