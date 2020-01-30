@@ -39,6 +39,7 @@ const double kEps = 1e-5;
 
 const QString kAnimationPath = ":/resources/animations/";
 const QString kTexturesPath = ":/resources/textures/";
+const QString kMapsPath = ":/resources/maps/";
 const QString kIconPath = ":/resources/textures/icon.ico";
 
 const utils::HandleKeys kFirstPlayerKeys = {Qt::Key_W, Qt::Key_A, Qt::Key_S,
@@ -48,5 +49,6 @@ const utils::HandleKeys kSecondPlayerKeys = {
     Qt::Key_Up, Qt::Key_Left, Qt::Key_Down, Qt::Key_Right, Qt::Key_Shift};
 
 const QString kBgPath = ":/resources/textures/background.png";
+const QString kDefaultMap = ":/resources/maps/Map 1.json";
 
 #endif  // CONSTANTS_H_

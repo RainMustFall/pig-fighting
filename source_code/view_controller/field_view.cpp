@@ -1,5 +1,4 @@
 #include "./field_view.h"
-#include "./main_window.h"
 
 #include <chrono>
 #include <cstdlib>
@@ -9,9 +8,12 @@
 #include <QDebug>
 #include <QSound>
 
+#include "./main_window.h"
+#include "source_code/utils/constants.h"
+
 FieldView::FieldView(QWidget *parent)
     : QMainWindow(parent),
-      controller_(new FieldController(this, ":/resources/maps/Map 1.json")),
+      controller_(new FieldController(this, kDefaultMap)),
       parent_(dynamic_cast<MainWindow *>(parent)),
       cur_theme_(utils::TextureType::GRASS) {
   DrawBackground();
@@ -32,7 +34,7 @@ void FieldView::NewGame(utils::TextureType type, const QString& map) {
   DrawBackground();
   setFocus();
   delete controller_;
-  controller_ = new FieldController(this, ":/resources/maps/" + map + ".json", type);
+  controller_ = new FieldController(this, kMapsPath + map + ".json", type);
   SetTimer();
 }
 

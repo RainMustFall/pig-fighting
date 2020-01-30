@@ -8,7 +8,8 @@
 #include "./main_window.h"
 #include "./field_view.h"
 
-FieldController::FieldController(FieldView* view, const QString& map_name, utils::TextureType type)
+FieldController::FieldController(FieldView* view, const QString& map_name,
+                                 utils::TextureType type)
     : field_view_(view) {
   QFile file;
   file.setFileName(map_name);
@@ -25,31 +26,24 @@ FieldController::FieldController(FieldView* view, const QString& map_name, utils
                     {kScreenWidth - 110, 10, &players_[1]}};
 }
 
-void FieldController::InitGround(const QJsonArray &ground, utils::TextureType type) {
-    for(int i = 0; i < ground.count(); i++){
-       QJsonObject platform = ground.at(i).toObject();
-       ground_.emplace_back(
-         platform.value("x").toInt(),
-         platform.value("y").toInt(),
-         platform.value("height").toInt(),
-         platform.value("width").toInt(),
-         type
-       );
-    }
+void FieldController::InitGround(const QJsonArray& ground,
+                                 utils::TextureType type) {
+  for (int i = 0; i < ground.count(); i++) {
+    QJsonObject platform = ground.at(i).toObject();
+    ground_.emplace_back(platform.value("x").toInt(),
+                         platform.value("y").toInt(),
+                         platform.value("height").toInt(),
+                         platform.value("width").toInt(), type);
+  }
 }
 
-void FieldController::InitPlayers(const QJsonArray &players)
-{
-    for(int i = 0; i < players.count(); i++){
-       QJsonObject player = players.at(i).toObject();
-       players_.emplace_back(
-         player.value("x").toInt(),
-         player.value("y").toInt(),
-         player.value("animation_dir").toString(),
-         player.value("id").toInt(),
-         this
-       );
-    }
+void FieldController::InitPlayers(const QJsonArray& players) {
+  for (int i = 0; i < players.count(); i++) {
+    QJsonObject player = players.at(i).toObject();
+    players_.emplace_back(player.value("x").toInt(), player.value("y").toInt(),
+                          player.value("animation_dir").toString(),
+                          player.value("id").toInt(), this);
+  }
 }
 
 void FieldController::UpdatePlayers() {
