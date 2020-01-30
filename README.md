@@ -1,4 +1,5 @@
 # Pig Fighting
+[![Build Status](https://travis-ci.com/RainMustFall/pig-fighting.svg?branch=master)](https://travis-ci.com/RainMustFall/pig-fighting)
 In this repository you will find my fork from our university team project, where I periodically make changes and train in writing and refactoring code and implementing design patterns. 
 
 The original version of our project can be found [here](https://github.com/KatsiarynaDzibrova/pig_fighting).
