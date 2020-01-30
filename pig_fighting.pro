@@ -63,8 +63,7 @@ HEADERS += \
     resource_storage.h
 
 FORMS += \
-        mainwindow.ui \
-    secondwindow.ui
+        mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

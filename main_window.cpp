@@ -28,7 +28,7 @@ void MainWindow::Pause(bool game_over) {
     ui_->comboBox->setEnabled(true);
     ui_->pause->setText("Continue");
     if (!game_over) {
-      ui_->label_2->setText("Pause");
+      ui_->state_label->setText("Pause");
     }
     field_view_->StopTimer();
   } else {
@@ -36,7 +36,7 @@ void MainWindow::Pause(bool game_over) {
     ui_->new_game->setEnabled(false);
     ui_->comboBox->setEnabled(false);
     ui_->pause->setText("Pause");
-    ui_->label_2->setText("");
+    ui_->state_label->setText("");
     field_view_->SetTimer();
   }
 
@@ -50,9 +50,9 @@ void MainWindow::Pause(bool game_over) {
 void MainWindow::GameOver(int player) {
   Pause(true);
   if (player == 1) {
-    ui_->label_2->setText("Player 2 won!");
+    ui_->state_label->setText("Player 2 won!");
   } else {
-    ui_->label_2->setText("Player 1 won!");
+    ui_->state_label->setText("Player 1 won!");
   }
 }
 
@@ -63,7 +63,7 @@ void MainWindow::on_new_game_clicked() {
   ui_->comboBox->setEnabled(false);
   ui_->pause->setEnabled(true);
   ui_->pause->setText("Pause");
-  ui_->label_2->setText("");
+  ui_->state_label->setText("");
   paused_ = false;
 }
 

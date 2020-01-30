@@ -18,13 +18,13 @@
     <property name="geometry">
      <rect>
       <x>1485</x>
-      <y>83</y>
+      <y>66</y>
       <width>131</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Новая игра</string>
+     <string>New game</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -51,7 +51,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Пауза</string>
+     <string>Pause</string>
     </property>
    </widget>
    <widget class="QPushButton" name="exit">
@@ -64,33 +64,33 @@
      </rect>
     </property>
     <property name="text">
-     <string>Выйти из игры</string>
+     <string>Exit</string>
     </property>
    </widget>
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
       <x>1485</x>
-      <y>133</y>
+      <y>130</y>
       <width>131</width>
       <height>22</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="background_label">
     <property name="geometry">
      <rect>
       <x>1485</x>
-      <y>113</y>
+      <y>110</y>
       <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Фон игры</string>
+     <string>Background</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="state_label">
     <property name="geometry">
      <rect>
       <x>1497</x>
@@ -121,7 +121,7 @@
      <x>0</x>
      <y>0</y>
      <width>1656</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
