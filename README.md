@@ -1,7 +1,10 @@
 # Pig Fighting
-University team project.
-2D platformer game for 2 players in Qt.
+In this repository you will find my fork from our university team project, where I periodically make changes and train in writing and refactoring code and implementing design patterns. 
 
-![Плюх](photo_2019-05-19_12-40-32.jpg)
-## Developers
-Диброва Екатерина, Игнатенко Петр, Коршакевич Дмитрий, Мороз Екатерина
+The original version of our project can be found [here](https://github.com/KatsiarynaDzibrova/pig_fighting).
+
+## The original version was developed by
+* @KatsiarynaDzibrova
+* @RainMustFall
+* @katyamoroz1
+* @Zipp1e
