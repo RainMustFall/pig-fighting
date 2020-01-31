@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/resources">
-        <file>animations/Fly.png</file>
-        <file>animations/Run.png</file>
-        <file>animations/Stand.png</file>
         <file>animations/pig_running.png</file>
         <file>animations/pig_flying.png</file>
         <file>textures/grass/left.png</file>
@@ -11,9 +8,38 @@
         <file>textures/sand/left.png</file>
         <file>textures/sand/middle.png</file>
         <file>textures/sand/right.png</file>
-        <file>sounds/pig_caught.mp3</file>
-        <file>sounds/pig_fly.mp3</file>
-        <file>sounds/hit.mp3</file>
-        <file>sounds/hit2.mp3</file>
+        <file>sounds/background.mp3</file>
+        <file>animations/player_1/Fly.png</file>
+        <file>animations/player_1/Fly_pig.png</file>
+        <file>animations/player_1/Run.png</file>
+        <file>animations/player_1/Run_pig.png</file>
+        <file>animations/player_1/Stand.png</file>
+        <file>animations/player_1/Stand_pig.png</file>
+        <file>animations/player_2/Fly.png</file>
+        <file>animations/player_2/Fly_pig.png</file>
+        <file>animations/player_2/Run.png</file>
+        <file>animations/player_2/Run_pig.png</file>
+        <file>animations/player_2/Stand.png</file>
+        <file>animations/player_2/Stand_pig.png</file>
+        <file>textures/instruction1.png</file>
+        <file>textures/instruction2.png</file>
+        <file>textures/cave/background.jpg</file>
+        <file>textures/cave/background.png</file>
+        <file>textures/cave/left.png</file>
+        <file>textures/cave/middle.png</file>
+        <file>textures/cave/right.png</file>
+        <file>textures/snow/background.jpg</file>
+        <file>textures/snow/background.png</file>
+        <file>textures/snow/left.png</file>
+        <file>textures/snow/middle.png</file>
+        <file>textures/snow/right.png</file>
+        <file>textures/sand/background.png</file>
+        <file>textures/grass/background.png</file>
+        <file>textures/icon.ico</file>
+        <file>sounds/hit.wav</file>
+        <file>sounds/hit2.wav</file>
+        <file>sounds/pig_caught.wav</file>
+        <file>sounds/pig_fly.wav</file>
+        <file>maps/Map 1.json</file>
     </qresource>
 </RCC>
