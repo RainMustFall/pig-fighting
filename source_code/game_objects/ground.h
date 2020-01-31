@@ -9,7 +9,6 @@ class Ground : public GameObject {
          utils::TextureType type = utils::TextureType::GRASS);
 
   void Draw(QPainter* painter) const override;
-
  private:
   QPixmap texture_;
 };

@@ -1,6 +1,6 @@
 #include "./field_controller.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -14,7 +14,7 @@ FieldController::FieldController(FieldView* view, const QString& map_name,
   QFile file;
   file.setFileName(map_name);
   file.open(QIODevice::ReadOnly | QIODevice::Text);
-  QJsonParseError jsonError;
+  QJsonParseError jsonError{};
   QJsonDocument document = QJsonDocument::fromJson(file.readAll(), &jsonError);
 
   QJsonObject root = document.object();
@@ -99,8 +99,9 @@ void FieldController::UpdateFlyingPigs() {
       item = flying_pigs_.erase(item);
       auto hitting_person = dynamic_cast<Person*>(hitting_object);
       hitting_person->DecreaseHealthLevel();
-      auto* s_player = new SoundPlayer(utils::Sounds::Hit);
-      s_player->start();
+      SoundPlayer::hit->play();
+      //auto* s_player = new SoundPlayer(utils::Sounds::Hit);
+      //s_player->start();
     } else {
       // if hits another object
       item = flying_pigs_.erase(item);
@@ -126,8 +127,9 @@ void FieldController::OnPigThrown(int x, int y, int direction,
                                   const Person* sender) {
   flying_pigs_.emplace_back(x, y, direction, sender, &pig_animations_);
   free_pigs_.push_back(GeneratePig());
-  auto* s_player = new SoundPlayer(utils::Sounds::Throw);
-  s_player->start();
+  SoundPlayer::take->play();
+  //auto* s_player = new SoundPlayer(utils::Sounds::Throw);
+  //s_player->start();
 }
 
 void FieldController::GivePigsToPlayer(Person* player) {
@@ -137,8 +139,9 @@ void FieldController::GivePigsToPlayer(Person* player) {
     if (player->Hits(item_obj)) {
       free_pigs_.erase(pig);
       player->CatchPig();
-      auto* s_player = new SoundPlayer(utils::Sounds::Take);
-      s_player->start();
+      SoundPlayer::take->play();
+      //auto* s_player = new SoundPlayer(utils::Sounds::Take);
+      //s_player->start();
       break;
     }
   }

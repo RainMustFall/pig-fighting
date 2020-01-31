@@ -11,6 +11,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
   explicit MainWindow(QWidget* parent = nullptr);
+  ~MainWindow();
   void Pause(bool game_over);
 
  private:

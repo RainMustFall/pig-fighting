@@ -88,4 +88,6 @@ void FieldView::keyReleaseEvent(QKeyEvent *event) {
   controller_->OnKeyReleased(event);
 }
 
-FieldView::~FieldView() = default;
+FieldView::~FieldView() {
+  delete controller_;
+}

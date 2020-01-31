@@ -72,3 +72,8 @@ void MainWindow::on_new_game_clicked() {
 void MainWindow::on_pause_clicked() { Pause(false); }
 
 void MainWindow::on_exit_clicked() { QApplication::exit(0); }
+
+MainWindow::~MainWindow() {
+  delete ui_;
+  delete field_view_;
+}
