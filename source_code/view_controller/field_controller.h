@@ -21,6 +21,7 @@ class FieldController : public QObject {
   FieldController(FieldView* view,
                   const QString& map_name,
                   utils::TextureType type = utils::TextureType::GRASS);
+  ~FieldController() override;
 
   void UpdatePlayers();
   void AddPigs();

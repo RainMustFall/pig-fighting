@@ -31,6 +31,12 @@ FieldController::FieldController(FieldView* view, const QString& map_name,
                     {kScreenWidth - 110, 10, &players_[1]}};
 }
 
+FieldController::~FieldController() {
+  delete catch_sound_;
+  delete throw_sound_;
+  delete hit_sound_;
+}
+
 void FieldController::InitGround(const QJsonArray& ground,
                                  utils::TextureType type) {
   for (int i = 0; i < ground.count(); i++) {
