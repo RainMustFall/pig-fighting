@@ -133,7 +133,6 @@ void FieldController::OnPaintingStarted(QPainter* p) {
   field_view_->DrawPlayingObject(p, health_fields_);
   field_view_->DrawPlayingObject(p, ground_);
 
-  qDebug() << cur_time_;
   if (is_start_) {
     field_view_->DrawHint(p);
   }
