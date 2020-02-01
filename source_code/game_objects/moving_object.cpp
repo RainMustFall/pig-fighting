@@ -8,7 +8,8 @@
 #include "source_code/utils/constants.h"
 
 MovingObject::MovingObject(int x, int y, int width, int height)
-    : GameObject(x, y, width, height) {}
+    : GameObject(x, y, width, height),
+      last_hit_(utils::HitType::UP) {}
 
 void MovingObject::UpdatePosition() {
   position_.x += move_vector_.x;

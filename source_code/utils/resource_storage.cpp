@@ -6,12 +6,13 @@
 #include "./constants.h"
 
 Animation createPersonAnimation(const QString& file) {
-  return Animation(kAnimationPath + file, 300, 180, kPersonWidth,
-                   kPersonHeight);
+  return Animation(kAnimationPath + file, kPersonImageHeight, kPersonImageWidth,
+                   kPersonWidth, kPersonHeight);
 }
 
 Animation createPigAnimation(const QString& file) {
-  return Animation(kAnimationPath + file, 400, 400, kPigSize, kPigSize);
+  return Animation(kAnimationPath + file, kPigImageHeight, kPigImageWidth,
+                   kPigSize, kPigSize);
 }
 
 PigAnimationStorage::PigAnimationStorage()
@@ -41,11 +42,9 @@ Animation& PersonAnimationStorage::GetAnimation(bool armed,
                                                 utils::PersonState state,
                                                 utils::Side side) {
   Animation* storage[2][2][3] = {
-      {{&run_r, &stand_r, &fly_r},
-       {&run_l, &stand_l, &fly_l}},
+      {{&run_r, &stand_r, &fly_r}, {&run_l, &stand_l, &fly_l}},
       {{&run_r_pig, &stand_r_pig, &fly_r_pig},
-       {&run_l_pig, &stand_l_pig, &fly_l_pig}}
-  };
+       {&run_l_pig, &stand_l_pig, &fly_l_pig}}};
 
   return *storage[int{armed}][static_cast<int>(side)][static_cast<int>(state)];
 }
@@ -54,11 +53,9 @@ const Animation& PersonAnimationStorage::GetAnimation(bool armed,
                                                       utils::PersonState state,
                                                       utils::Side side) const {
   const Animation* storage[2][2][3] = {
-      {{&run_r, &stand_r, &fly_r},
-       {&run_l, &stand_l, &fly_l}},
+      {{&run_r, &stand_r, &fly_r}, {&run_l, &stand_l, &fly_l}},
       {{&run_r_pig, &stand_r_pig, &fly_r_pig},
-       {&run_l_pig, &stand_l_pig, &fly_l_pig}}
-  };
+       {&run_l_pig, &stand_l_pig, &fly_l_pig}}};
 
   return *storage[int{armed}][static_cast<int>(side)][static_cast<int>(state)];
 }

@@ -10,8 +10,13 @@
 
 #include "./utils.h"
 
+const int kTimerInterval = 9;
 const int kScreenWidth = 1440;
 const int kScreenHeight = 810;
+const int kPersonImageHeight = 300;
+const int kPersonImageWidth = 180;
+const int kPigImageHeight = 400;
+const int kPigImageWidth = 400;
 
 const int kMaxHealthLevel = 100;
 const int kPigCount = 8;
@@ -31,10 +36,22 @@ const double kDownAcceleration = 10;
 // Pig flight altitude
 const int kPigHeight = 15;
 
+// Color thresholds for health bars
+const int kGreenBarThreshold = 75;
+const int kYellowBarThreshold = 50;
+const int kOrangeBarThreshold = 25;
+const int kRedBarThreshold = 5;
+
+const int kHealthBarIndent = 10;
+const int kHealthBarHeight = 20;
 const int kHealthDecrease = 20;
 const int kTimeHealthUp = 500;
 
+const QColor kOrangeColor = QColor(250, 100, 0);
+
+const int kHintShowThreshold = 200;
 const int kPigGeneraingFrequency = 500;
+const int kPigTurningFrequency = 1000;
 const double kEps = 1e-5;
 
 const QString kAnimationPath = ":/resources/animations/";

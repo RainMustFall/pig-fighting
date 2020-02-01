@@ -13,7 +13,7 @@ void FreePig::SetX(double x) { position_.x = x; }
 void FreePig::SetY(double y) { position_.y = y; }
 
 void FreePig::PositionGenerate() {
-  int random_number = rand() % 1000;
+  int random_number = rand() % kPigTurningFrequency;
   if (random_number == 0) {
     if (move_vector_.x + 2 * kSpeed >= 1) {
       move_vector_.x += 2 * kSpeed;

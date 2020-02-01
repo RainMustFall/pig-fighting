@@ -7,7 +7,7 @@
 
 #include "source_code/game_objects/person.h"
 #include "source_code/game_objects/pig_classes/free_pig.h"
-#include "source_code/game_objects//health_field.h"
+#include "source_code/game_objects/health_field.h"
 #include "source_code/game_objects/pig_classes/shot_pig.h"
 #include "source_code/utils/animation.h"
 #include "source_code/utils/constants.h"
@@ -58,9 +58,6 @@ class FieldController : public QObject {
 
   FieldView* field_view_;
   PigAnimationStorage pig_animations_;
-
-private slots:
-  void DeletePlayer(SoundPlayer* s_player);
 };
 
 #endif  // FIELD_CONTROLLER_H_

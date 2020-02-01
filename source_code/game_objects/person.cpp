@@ -127,11 +127,10 @@ void Person::Draw(QPainter* painter) const {
 }
 
 void Person::DecreaseHealthLevel() {
-  if (health_level_ > 1) {
-    health_level_ -= kHealthDecrease;
-  }
+  health_level_ -= kHealthDecrease;
+  health_level_ = std::max(health_level_, 0);
 
-  if (health_level_ <= 0) {
+  if (health_level_ == 0) {
     controller_->PlayerWins(name_);
   }
 }

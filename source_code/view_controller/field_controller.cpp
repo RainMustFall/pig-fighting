@@ -13,7 +13,7 @@
 FieldController::FieldController(FieldView* view, const QString& map_name,
                                  utils::TextureType type)
     : catch_sound_(new QSound(":/resources/sounds/pig_caught.wav")),
-      throw_sound_(new QSound(":/resources/sounds/pig_caught.wav")),
+      throw_sound_(new QSound(":/resources/sounds/pig_fly.wav")),
       hit_sound_(new QSound(":/resources/sounds/hit.wav")),
       field_view_(view) {
   QFile file;
@@ -27,8 +27,9 @@ FieldController::FieldController(FieldView* view, const QString& map_name,
   InitGround(root.value("ground").toArray(), type);
   InitPlayers(root.value("players").toArray());
 
-  health_fields_ = {{10, 10, &players_[0]},
-                    {kScreenWidth - 110, 10, &players_[1]}};
+  health_fields_ = {{kHealthBarIndent, kHealthBarIndent, &players_.front()},
+                    {kScreenWidth - kMaxHealthLevel - kHealthBarIndent,
+                     kHealthBarIndent, &players_.back()}};
 }
 
 FieldController::~FieldController() {
@@ -57,10 +58,10 @@ void FieldController::InitPlayers(const QJsonArray& players) {
   }
 }
 
-void FieldController::PlaySound(QSound *sound) {
-    auto* s_player = new SoundPlayer(sound);
-    connect(s_player, &SoundPlayer::finished, s_player, &QObject::deleteLater);
-    s_player->start();
+void FieldController::PlaySound(QSound* sound) {
+  auto* s_player = new SoundPlayer(sound);
+  connect(s_player, &SoundPlayer::finished, s_player, &QObject::deleteLater);
+  s_player->start();
 }
 
 void FieldController::UpdatePlayers() {
@@ -131,10 +132,9 @@ void FieldController::OnPaintingStarted(QPainter* p) {
   field_view_->DrawPlayingObject(p, health_fields_);
   field_view_->DrawPlayingObject(p, ground_);
 
+  qDebug() << cur_time_;
   if (is_start_) {
     field_view_->DrawHint(p);
-  } else if (cur_time_ == 2000) {
-    field_view_->DrawBackground();
   }
 }
 
@@ -172,7 +172,7 @@ void FieldController::OnKeyReleased(QKeyEvent* event) {
 
 void FieldController::UpdateTimer() {
   ++cur_time_;
-  if (cur_time_ > 200) {
+  if (cur_time_ > kHintShowThreshold) {
     is_start_ = false;
   }
 }
@@ -182,12 +182,6 @@ FreePig FieldController::GeneratePig() {
   new_pig.SetX(rand() % field_view_->geometry().width());
   new_pig.SetY(rand() % field_view_->geometry().height());
   return new_pig;
-}
-
-void FieldController::DeletePlayer(SoundPlayer* s_player)
-{
-    delete s_player;
-    qDebug() << "Deleted!";
 }
 
 void FieldController::PlayerWins(int player) { field_view_->GameOver(player); }

@@ -22,7 +22,7 @@ FieldView::FieldView(QWidget *parent)
 
 void FieldView::SetTimer() {
   is_start_ = true;
-  timer_id_ = startTimer(9);
+  timer_id_ = startTimer(kTimerInterval);
 }
 
 void FieldView::StopTimer() { killTimer(timer_id_); }
