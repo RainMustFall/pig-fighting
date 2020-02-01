@@ -1,10 +1,11 @@
 #include "./field_controller.h"
 
-#include <cstdlib>
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QObject>
+
+#include <cstdlib>
 
 #include "./main_window.h"
 #include "source_code/utils/sound_player.h"

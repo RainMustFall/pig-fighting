@@ -1,12 +1,11 @@
 #include "./field_view.h"
 
-#include <chrono>
-#include <cstdlib>
-
 #include <QPainter>
 #include <QMouseEvent>
 #include <QDebug>
 #include <QSound>
+
+#include <cstdlib>
 
 #include "./main_window.h"
 #include "source_code/utils/constants.h"
@@ -29,7 +28,7 @@ void FieldView::StopTimer() { killTimer(timer_id_); }
 
 void FieldView::GameOver(int player) { parent_->GameOver(player); }
 
-void FieldView::NewGame(utils::TextureType type, const QString& map) {
+void FieldView::NewGame(utils::TextureType type, const QString &map) {
   cur_theme_ = type;
   DrawBackground();
   setFocus();
@@ -55,14 +54,15 @@ void FieldView::paintEvent(QPaintEvent *) {
 }
 
 void FieldView::DrawHint(QPainter *painter) {
-  const QRectF rectangle2 = {kScreenWidth - 355, kScreenHeight - 180, 345, 122};
-  QImage image2;
-  image2.load(":/resources/textures/instruction2.png");
-  painter->drawImage(rectangle2, image2);
-  const QRectF rectangle1 = {10, kScreenHeight - 180, 345, 122};
-  QImage image1;
-  image1.load(":/resources/textures/instruction1.png");
-  painter->drawImage(rectangle1, image1);
+  QRectF rectangle = {kHintIndentX, kHintIndentY, kHintWidth, kHintHeight};
+  QImage image;
+  image.load(kTexturesPath + "instruction1.png");
+  painter->drawImage(rectangle, image);
+
+  rectangle = {kScreenWidth - kHintIndentX - kHintWidth, kHintIndentY,
+               kHintWidth, kHintHeight};
+  image.load(kTexturesPath + "instruction2.png");
+  painter->drawImage(rectangle, image);
 }
 
 void FieldView::DrawBackground() {
@@ -88,6 +88,4 @@ void FieldView::keyReleaseEvent(QKeyEvent *event) {
   controller_->OnKeyReleased(event);
 }
 
-FieldView::~FieldView() {
-  delete controller_;
-}
+FieldView::~FieldView() { delete controller_; }

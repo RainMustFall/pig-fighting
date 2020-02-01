@@ -17,6 +17,10 @@ const int kPersonImageHeight = 300;
 const int kPersonImageWidth = 180;
 const int kPigImageHeight = 400;
 const int kPigImageWidth = 400;
+const int kHintIndentX = 10;
+const int kHintIndentY = kScreenHeight - 180;
+const int kHintWidth = 345;
+const int kHintHeight = 122;
 
 const int kMaxHealthLevel = 100;
 const int kPigCount = 8;
