@@ -6,11 +6,14 @@
 
 #include "./utils.h"
 
-class SoundPlayer/* : public QThread*/ {
+class SoundPlayer : public QThread {
  public:
-  static QSound* pig_fly;
-  static QSound* hit;
-  static QSound* take;
+  explicit SoundPlayer(QSound* sound);
+
+  void run() override;
+
+ private:
+  QSound* sound_;
 };
 
 #endif  // SOUND_PLAYER_H_

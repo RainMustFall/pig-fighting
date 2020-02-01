@@ -3,6 +3,7 @@
 
 #include <list>
 #include <vector>
+#include <queue>
 
 #include "source_code/game_objects/person.h"
 #include "source_code/game_objects/pig_classes/free_pig.h"
@@ -11,10 +12,11 @@
 #include "source_code/utils/animation.h"
 #include "source_code/utils/constants.h"
 #include "source_code/utils/resource_storage.h"
+#include "source_code/utils/sound_player.h"
 
 class FieldView;
 
-class FieldController {
+class FieldController : public QObject {
  public:
   FieldController(FieldView* view,
                   const QString& map_name,
@@ -36,6 +38,7 @@ class FieldController {
  private:
   void InitGround(const QJsonArray& ground, utils::TextureType type);
   void InitPlayers(const QJsonArray& players);
+  void PlaySound(QSound* sound);
 
   FreePig GeneratePig();
 
@@ -48,8 +51,15 @@ class FieldController {
   std::vector<FreePig> free_pigs_;
   std::list<ShotPig> flying_pigs_;
 
+  QSound* catch_sound_;
+  QSound* throw_sound_;
+  QSound* hit_sound_;
+
   FieldView* field_view_;
   PigAnimationStorage pig_animations_;
+
+private slots:
+  void DeletePlayer(SoundPlayer* s_player);
 };
 
 #endif  // FIELD_CONTROLLER_H_

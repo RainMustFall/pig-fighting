@@ -4,13 +4,18 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QObject>
 
 #include "./main_window.h"
+#include "source_code/utils/sound_player.h"
 #include "./field_view.h"
 
 FieldController::FieldController(FieldView* view, const QString& map_name,
                                  utils::TextureType type)
-    : field_view_(view) {
+    : catch_sound_(new QSound(":/resources/sounds/pig_caught.wav")),
+      throw_sound_(new QSound(":/resources/sounds/pig_caught.wav")),
+      hit_sound_(new QSound(":/resources/sounds/hit.wav")),
+      field_view_(view) {
   QFile file;
   file.setFileName(map_name);
   file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -44,6 +49,12 @@ void FieldController::InitPlayers(const QJsonArray& players) {
                           player.value("animation_dir").toString(),
                           player.value("id").toInt(), this);
   }
+}
+
+void FieldController::PlaySound(QSound *sound) {
+    auto* s_player = new SoundPlayer(sound);
+    connect(s_player, &SoundPlayer::finished, s_player, &QObject::deleteLater);
+    s_player->start();
 }
 
 void FieldController::UpdatePlayers() {
@@ -99,9 +110,7 @@ void FieldController::UpdateFlyingPigs() {
       item = flying_pigs_.erase(item);
       auto hitting_person = dynamic_cast<Person*>(hitting_object);
       hitting_person->DecreaseHealthLevel();
-      SoundPlayer::hit->play();
-      //auto* s_player = new SoundPlayer(utils::Sounds::Hit);
-      //s_player->start();
+      PlaySound(hit_sound_);
     } else {
       // if hits another object
       item = flying_pigs_.erase(item);
@@ -127,9 +136,7 @@ void FieldController::OnPigThrown(int x, int y, int direction,
                                   const Person* sender) {
   flying_pigs_.emplace_back(x, y, direction, sender, &pig_animations_);
   free_pigs_.push_back(GeneratePig());
-  SoundPlayer::take->play();
-  //auto* s_player = new SoundPlayer(utils::Sounds::Throw);
-  //s_player->start();
+  PlaySound(throw_sound_);
 }
 
 void FieldController::GivePigsToPlayer(Person* player) {
@@ -139,9 +146,7 @@ void FieldController::GivePigsToPlayer(Person* player) {
     if (player->Hits(item_obj)) {
       free_pigs_.erase(pig);
       player->CatchPig();
-      SoundPlayer::take->play();
-      //auto* s_player = new SoundPlayer(utils::Sounds::Take);
-      //s_player->start();
+      PlaySound(catch_sound_);
       break;
     }
   }
@@ -171,6 +176,12 @@ FreePig FieldController::GeneratePig() {
   new_pig.SetX(rand() % field_view_->geometry().width());
   new_pig.SetY(rand() % field_view_->geometry().height());
   return new_pig;
+}
+
+void FieldController::DeletePlayer(SoundPlayer* s_player)
+{
+    delete s_player;
+    qDebug() << "Deleted!";
 }
 
 void FieldController::PlayerWins(int player) { field_view_->GameOver(player); }
